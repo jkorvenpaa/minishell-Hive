@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/06 15:58:17 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:42:08 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,8 +21,11 @@ static void	print_tokens(t_token *head) // for testing only!!!!
     }
 }
 
-int	main()
+int	main(int argc, char *argv[], char *const envp[])
 {
+	(void)argc; //Not sure if we need it
+	(void)argv; // Not sure if we need it
+	(void)envp; //Not using now
 	char	*input;
 	t_token	*tokens;
 
@@ -39,7 +42,7 @@ int	main()
 			free(input);
 			break;
 		}
-		tokens = split_commands(input);
+		tokens = tokenize_input(input);
 		if (!tokens)
 		{
 			printf("Error: failed to parse input\n");
@@ -48,7 +51,7 @@ int	main()
 		else
 		{
 			print_tokens(tokens); // here for testing only!!!
-			free_list_nodes(tokens);
+			free_token_list(tokens);
 			free(input);
 		}
 	}

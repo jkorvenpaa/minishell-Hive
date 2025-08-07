@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/06 15:55:27 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/07 16:52:53 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,11 +24,13 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
-t_token	*new_node(char *word);
-void	add_to_end(t_token **head, t_token *new_node);
-int	list_size(t_token *head);
-void	free_list_nodes(t_token *head);
-void	free_split(char **words);
-t_token	*split_commands(char *input);
+t_token	*create_token_node(char *word);
+void	append_token_to_list(t_token **head, t_token *new_node);
+void	free_token_list(t_token *head);
+int	is_token_boundary(char c, int single_quote, int double_quote);
+void	update_quote_flags(char c, int *single_quote, int *double_quote);
+t_token	*tokenize_input(char *input);
+int	is_separator_symbol(char c);
+
 
 #endif
