@@ -6,57 +6,28 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:51:27 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/07 16:50:49 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/08 14:58:02 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*create_token_node(char *word)
+/**
+ * Checks if a character is a separator symbol.
+ * Returns 1 if it is, 0 otherwise.
+ */
+int	is_separator_symbol(char c)
 {
-	t_token	*node;
-
-	node = malloc(sizeof(t_token));
-	if (!node)
-		return (NULL);
-	node->value = ft_strdup(word);
-	if (!node->value)
-	{
-		free(node);
-		return (NULL);
-	}
-	node->next = NULL;
-	return (node);
+	if (c == '|' || c == '<' || c == '>')
+		return (1);
+	return (0);
 }
 
-void	append_token_to_list(t_token **head, t_token *new_node)
-{
-	t_token	*temp;
-
-	if (!*head)
-	{
-		*head = new_node;
-		return ;
-	}
-	temp = *head;
-	while (temp->next)
-		temp = temp->next;
-	temp->next = new_node;
-}
-
-void	free_token_list(t_token *head)
-{
-	t_token	*temp;
-
-	while (head)
-	{
-		temp = head->next;
-		free(head->value);
-		free (head);
-		head = temp;
-	}
-}
-
+/**
+ * Checks if a character marks a token boundary (a space or 
+ * a separator symbol, and not inside single or double quotes)'
+ * Returns 1 if it is, 0 otherwise.
+ */
 int	is_token_boundary(char c, int single_quote, int double_quote)
 {
 	if (single_quote == 0 && double_quote == 0 && (c == ' ' || is_separator_symbol(c)))
@@ -64,6 +35,10 @@ int	is_token_boundary(char c, int single_quote, int double_quote)
 	return (0);
 }
 
+/**
+ * Toggles single or double quote flags if the character is a quote and 
+ * the opposite quote type is not active.
+ */
 void	update_quote_flags(char c, int *single_quote, int *double_quote)
 {
 	if (c == '\'' && *double_quote == 0)

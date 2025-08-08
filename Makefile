@@ -6,14 +6,15 @@
 #    By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/06 09:24:38 by nmascaro          #+#    #+#              #
-#    Updated: 2025/08/06 15:53:50 by nmascaro         ###   ########.fr        #
+#    Updated: 2025/08/08 10:08:39 by nmascaro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
-SRCS = src/main.c src/parser/tokenization.c src/parser/tokenization_utils.c
+SRCS = src/main.c src/parser/tokenization.c src/parser/tokenization_utils.c \
+		src/parser/linked_list_utils.c
 .SECONDARY: $(OBJS)
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = libft
