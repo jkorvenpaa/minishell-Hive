@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   linked_list_utils.c                                :+:      :+:    :+:   */
+/*   token_list_utils.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 09:39:28 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/08 11:51:18 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/11 16:39:33 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,62 @@ void	free_token_list(t_token *head)
 		free (head);
 		head = temp;
 	}
+}
+
+/**
+ * Creates a token from a substring of input starting at i with length len, 
+ * then append it to the token list. 
+ * On memory failure, frees the entire list and sets *list to NULL.
+ * Returns 1 on success, 0 on failure.
+ */
+int	add_operator_token_to_list(t_token **list, char *input, int i, int len)
+{
+	char	*token;
+	t_token	*new;
+
+	token = malloc(len + 1);
+	if (!token)
+	{
+		free_token_list(*list);
+		*list = NULL;
+		return (0);
+	}
+	ft_strlcpy(token, &input[i], len + 1);
+	new = create_token_node(token);
+	free(token);
+	if (!new)
+	{
+		free_token_list(*list);
+		*list = NULL;
+		return (0);
+	}
+	append_token_to_list(list, new);
+	return (1);
+}
+
+/**
+ * Creates a new token node from the current token string and appends it to the list. 
+ * On memory failure, frees list and token and sets them to NULL.
+ * Returns 1 on success, 0 failure.
+ */
+int	save_token_to_list(t_token **list, char **token)
+{
+	t_token	*new;
+
+	if (*token)
+	{
+		new = create_token_node(*token);
+		if (!new)
+		{
+			free_token_list(*list);
+			free(*token);
+			*list = NULL;
+			*token = NULL;
+			return (0);
+		}
+		append_token_to_list(list, new);
+		free(*token);
+		*token = NULL;
+	}
+	return (1);
 }
