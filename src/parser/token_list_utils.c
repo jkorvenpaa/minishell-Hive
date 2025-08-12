@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 09:39:28 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/11 16:39:33 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/12 15:57:38 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * and initializes it.
  * Returns a pointer to the new node, or NULL on failure.
  */
-t_token	*create_token_node(char *word)
+t_token	*create_token_node(char *word, t_token_type type)
 {
 	t_token	*node;
 
@@ -30,6 +30,7 @@ t_token	*create_token_node(char *word)
 		free(node);
 		return (NULL);
 	}
+	node->type = type;
 	node->next = NULL;
 	return (node);
 }
@@ -78,6 +79,7 @@ int	add_operator_token_to_list(t_token **list, char *input, int i, int len)
 {
 	char	*token;
 	t_token	*new;
+	t_token_type	type;
 
 	token = malloc(len + 1);
 	if (!token)
@@ -87,7 +89,8 @@ int	add_operator_token_to_list(t_token **list, char *input, int i, int len)
 		return (0);
 	}
 	ft_strlcpy(token, &input[i], len + 1);
-	new = create_token_node(token);
+	type = identify_token(token);
+	new = create_token_node(token, type);
 	free(token);
 	if (!new)
 	{
@@ -107,10 +110,12 @@ int	add_operator_token_to_list(t_token **list, char *input, int i, int len)
 int	save_token_to_list(t_token **list, char **token)
 {
 	t_token	*new;
+	t_token_type	type;
 
 	if (*token)
 	{
-		new = create_token_node(*token);
+		type = identify_token(*token);
+		new = create_token_node(*token, type);
 		if (!new)
 		{
 			free_token_list(*list);

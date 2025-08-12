@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/11 12:30:35 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/12 10:37:11 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,9 @@ static int	char_addition_cleanup(char **token, char c, t_token **list)
  * - number of chars to advance (1 or operator length)
  * - 0 if a token boundary is hit (token saved, but no skip)
  * - -1 on memory allocation failure
+ * The final return is a safety fallback to ensure not getting stuck
+ * in infinite loops and always advance, even though in normal cases earlier 
+ * conditions always return first.
  */
 static int	process_character(char *input, int i, t_token **token_list, char **token)
 {

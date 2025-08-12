@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:51:27 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/11 12:27:43 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/12 16:05:19 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,4 +73,21 @@ int	get_operator_len(char *input, int i)
 	if (is_separator_symbol(input[i]))
 		return (1);
 	return (0);	
+}
+/**
+ * 
+ */
+t_token_type	identify_token(char *value)
+{
+	if (ft_strncmp(value, "|", 2)  == 0)
+		return (PIPE);
+	if (ft_strncmp(value, ">", 2)  == 0)
+		return (REDIRECT_IN);
+	if (ft_strncmp(value, "<", 2)  == 0)
+		return (REDIRECT_OUT);
+	if (ft_strncmp(value, ">>", 2)  == 0)
+		return (HEREDOC);
+	if (ft_strncmp(value, "<<", 2)  == 0)
+		return (APPEND);
+	return (WORD);
 }
