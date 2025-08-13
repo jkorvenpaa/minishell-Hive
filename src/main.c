@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/13 11:25:32 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:27:15 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	main(int argc, char *argv[], char *const envp[])
 	t_token	*tokens;
 
 	// parsing();
+	//new parsing edit
 	// execution();
 	while (1)
 	{
