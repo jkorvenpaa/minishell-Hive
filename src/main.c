@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/12 16:00:20 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:25:32 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ int	main(int argc, char *argv[], char *const envp[])
 	char	*input;
 	t_token	*tokens;
 
+	// parsing();
+	// execution();
 	while (1)
 	{
 		input = readline("minishell$ ");
