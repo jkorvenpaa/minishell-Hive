@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/13 11:53:35 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/13 15:02:42 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,16 @@ typedef struct s_token
 	t_token_type	type;
 	struct s_token	*next;
 }	t_token;
+
+typedef struct s_command
+{
+	char	**argv;
+	char	*infile;
+	char	*outfile;
+	int	append;
+	int	heredoc;
+	struct s_command	*next;
+} t_command;
 
 // Linked list functions
 t_token	*create_token_node(char *word, t_token_type type);
