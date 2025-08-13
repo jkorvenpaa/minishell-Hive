@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/12 15:55:13 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/13 11:53:35 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,5 +48,7 @@ void	get_current_quote_state(char *input, int position, int *single_quotes, int 
 int	get_operator_len(char *input, int i);
 t_token_type	identify_token(char *value);
 t_token	*tokenize_input(char *input);
+
+void	run_parser(void); //main function in parsing branch
 
 #endif
