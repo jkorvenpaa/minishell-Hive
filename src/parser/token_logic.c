@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:51:27 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/12 16:05:19 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/13 09:36:09 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,20 @@ int	get_operator_len(char *input, int i)
 	return (0);	
 }
 /**
- * 
+ * Determines the type of token based on the input string
+ * and returns the corresponding enum value.
  */
 t_token_type	identify_token(char *value)
 {
 	if (ft_strncmp(value, "|", 2)  == 0)
 		return (PIPE);
-	if (ft_strncmp(value, ">", 2)  == 0)
-		return (REDIRECT_IN);
 	if (ft_strncmp(value, "<", 2)  == 0)
+		return (REDIRECT_IN);
+	if (ft_strncmp(value, ">", 2)  == 0)
 		return (REDIRECT_OUT);
 	if (ft_strncmp(value, ">>", 2)  == 0)
-		return (HEREDOC);
-	if (ft_strncmp(value, "<<", 2)  == 0)
 		return (APPEND);
+	if (ft_strncmp(value, "<<", 2)  == 0)
+		return (HEREDOC);
 	return (WORD);
 }
