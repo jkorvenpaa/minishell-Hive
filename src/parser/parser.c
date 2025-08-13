@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/13 11:52:54 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/13 13:11:05 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,5 +52,4 @@ void	run_parser(void) //"main" for parsing part
 			free(input);
 		}
 	}
-	return (0);
 }
