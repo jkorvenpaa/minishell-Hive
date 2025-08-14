@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 09:39:28 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/12 15:57:38 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/14 09:38:09 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_token	*create_token_node(char *word, t_token_type type)
 {
 	t_token	*node;
 
-	node = malloc(sizeof(t_token));
+	node = malloc(sizeof(t_token)); // TODO: MALLOC
 	if (!node)
 		return (NULL);
 	node->value = ft_strdup(word);
@@ -81,7 +81,7 @@ int	add_operator_token_to_list(t_token **list, char *input, int i, int len)
 	t_token	*new;
 	t_token_type	type;
 
-	token = malloc(len + 1);
+	token = malloc(len + 1); // TODO: MALLOC
 	if (!token)
 	{
 		free_token_list(*list);

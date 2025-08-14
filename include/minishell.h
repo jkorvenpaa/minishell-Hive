@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/13 15:02:42 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/14 11:23:23 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ typedef struct s_command
 	char	*infile;
 	char	*outfile;
 	int	append;
-	int	heredoc;
+	char	*heredoc;
 	struct s_command	*next;
 } t_command;
 

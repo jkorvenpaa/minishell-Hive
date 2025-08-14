@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/12 10:37:11 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/14 09:36:07 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,13 @@ static int	add_char_to_token(char **token, char c)
 	temp[1] = '\0';
 	if (!*token)
 	{
-		*token = ft_strdup(temp);
+		*token = ft_strdup(temp); // TODO: MALLOC
 		if (!*token)
 			return (0);
 	}
 	else
 	{
-		joined = ft_strjoin(*token, temp);
+		joined = ft_strjoin(*token, temp); // TODO: MALLOC
 		if (!joined)
 			return (0);
 		free(*token);
