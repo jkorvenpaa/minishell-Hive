@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/13 11:53:35 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/15 09:39:35 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,16 @@ typedef struct s_token
 	struct s_token	*next;
 }	t_token;
 
+typedef struct s_command
+{
+	char	**argv;
+	char	*infile;
+	char	*outfile;
+	int	append;
+	char	*heredoc;
+	struct s_command	*next;
+} t_command;
+
 // Linked list functions
 t_token	*create_token_node(char *word, t_token_type type);
 void	append_token_to_list(t_token **head, t_token *new_node);
@@ -48,6 +58,12 @@ void	get_current_quote_state(char *input, int position, int *single_quotes, int 
 int	get_operator_len(char *input, int i);
 t_token_type	identify_token(char *value);
 t_token	*tokenize_input(char *input);
+
+//Grouping the tokens into commands
+t_command	*create_command_node(void);
+void	append_command_to_list(t_command **head, t_command *new_cmd);
+void	*add_argument_to_argv(t_command *cmd, char *arg);
+t_command	*group_commands(t_token *tokens);
 
 void	run_parser(void); //main function in parsing branch
 
