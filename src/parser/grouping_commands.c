@@ -6,11 +6,10 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:44:09 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/15 10:50:43 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/15 15:00:21 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// IN PROCCESS! Need to: and add this logic to the rest of code
 #include "minishell.h"
 
 /**

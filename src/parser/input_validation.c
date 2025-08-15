@@ -3,12 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   input_validation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:43:28 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/15 11:44:03 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/15 15:00:56 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "minishell.h"
 
 /*  validate input and create history
 
@@ -21,7 +23,6 @@ Save only valid input to history?
 	history file location home?: ~/.minishell_history
 	save after each valid
 */
-#include "minishell.h"
 
 void	valid_command()
 {
