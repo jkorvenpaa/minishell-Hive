@@ -6,13 +6,17 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:49:33 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/14 15:55:05 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/15 10:51:16 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-// IN PROCCESS! Need to: add files to makefile, add comments, add functions in header file, and add this logic to the rest of code
+// IN PROCCESS! Need to: and add this logic to the rest of code
 #include "minishell.h"
 
+/**
+ * Allocates and initializes a new command struct.
+ * Returns a pointer to the allocated command or NULL on failure.
+ */
 t_command	*create_command_node(void)
 {
 	t_command	*node;
@@ -28,6 +32,13 @@ t_command	*create_command_node(void)
 	node->next = NULL;
 	return (node);
 }
+
+/**
+ * Adds a string argument to a command's argv array.
+ * Creates a new argv array one element larger (plus '\0'), copies old arguments,
+ * duplicates the new argument, and frees the old argv array.
+ * Returns the new argv array pointer or NULL on failure.
+ */
 void	*add_argument_to_argv(t_command *cmd, char *arg)
 {
 	int	count;
@@ -55,6 +66,12 @@ void	*add_argument_to_argv(t_command *cmd, char *arg)
 	cmd->argv = new_argv;
 	return (new_argv);
 }
+
+/**
+ * Adds a command node to the end of the list.
+ * If the list is empty, sets head to new_cmd,
+ * if not, traverses to the end and attaches new_cmd there.
+ */
 void	append_command_to_list(t_command **head, t_command *new_cmd)
 {
 	t_command	*temp;

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/14 11:23:23 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/15 09:39:35 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,12 @@ void	get_current_quote_state(char *input, int position, int *single_quotes, int 
 int	get_operator_len(char *input, int i);
 t_token_type	identify_token(char *value);
 t_token	*tokenize_input(char *input);
+
+//Grouping the tokens into commands
+t_command	*create_command_node(void);
+void	append_command_to_list(t_command **head, t_command *new_cmd);
+void	*add_argument_to_argv(t_command *cmd, char *arg);
+t_command	*group_commands(t_token *tokens);
 
 void	run_parser(void); //main function in parsing branch
 
