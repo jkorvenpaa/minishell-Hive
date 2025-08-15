@@ -6,14 +6,14 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 17:29:31 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/14 17:44:20 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/15 11:37:50 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef  ARENA_H
 # define ARENA_H
 
-#include <stdlib.h>
+# include "minishell.h"
 
 #  define A_SIZE (64 * 1024) // 64 KB
 
