@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:51:27 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/15 15:15:00 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:27:30 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,7 @@ void	get_current_quote_state(char *input, int position, int *single_quotes, int 
 	i = 0;
 	while (i <= position)
 	{
-		if (input[i] == '\'' && *double_quotes == 0)
-			*single_quotes = !(*single_quotes);
-		else if (input[i] == '"' && *single_quotes == 0)
-			*double_quotes = !(*double_quotes);
+		handle_quote_flags(input[i], single_quotes, double_quotes);
 		i++;
 	}
 }

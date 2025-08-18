@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/15 09:39:35 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/18 14:27:49 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ int	save_token_to_list(t_token **list, char **token);
 // Tokenization functions
 int	is_token_boundary(char c, int single_quote, int double_quote);
 int	is_separator_symbol(char c);
+void	handle_quote_flags(char c, int *single_quotes, int *double_quotes);
 void	get_current_quote_state(char *input, int position, int *single_quotes, int *double_quotes);
 int	get_operator_len(char *input, int i);
 t_token_type	identify_token(char *value);

@@ -6,47 +6,105 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:43:28 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/15 15:00:56 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:22:49 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*  validate input and create history
-
-valid command?
-	Command: '' not found
-
-unclosed pipes or quotes?
-
-Save only valid input to history?
-	history file location home?: ~/.minishell_history
-	save after each valid
-*/
-
-void	valid_command()
+void	handle_quote_flags(char c, int *single_quotes, int *double_quotes) //can't be static
 {
-	
+	if (c == '\'' && *double_quotes == 0)
+		*single_quotes = !(*single_quotes);
+	else if (c == '"' && *single_quotes == 0)
+		*double_quotes = !(*double_quotes);
+}
+int	handle_unclosed_quotes(t_token *tokens) //maybe static
+{
+	int	single_quotes;
+	int	double_quotes;
+	char	*str;
+	int	i;
 
+	single_quotes = 0;
+	double_quotes = 0;
+	while (tokens)
+	{
+		i = 0;
+		str = tokens->value;
+		while (str[i])
+		{
+			handle_quote_flags(str[i], &single_quotes, &double_quotes);
+			i++;
+		}
+		tokens = tokens->next;
+	}
+	if (single_quotes || double_quotes)
+	{
+		printf("syntax error: unclosed quotes\n");
+		return (0);
+	}
+	return (1);
 }
 
-bool	valid_token(t_token	**list)
+int	validate_pipes(t_token *tokens)
 {
-	char *token;
-	t_token node;
+	t_token	*current;
+	t_token	*prev;
 
-	token = (*list)->value;
-	//add loop through list
-	
-	if ((*list)->type = WORD)
+	current = tokens;
+	prev = NULL;
+	if (current && current->type == PIPE)
 	{
-		
-		if (token[0] == '"'|| token[0] == '\'')
-		{
-			if (token[ft_strlen(token)] == '"' || '\'')
-				return (true);
-			return (false);
-		}
-		else valid_command()
+		printf("syntax error near unexpected token `|'\n");
+		return (0);
 	}
+	while (current)
+	{
+		if (current->type == PIPE)
+		{
+			if (prev && prev->type == PIPE)
+			{
+				printf("syntax error near unexpected token `|'\n");
+				return (0);
+			}
+			if (!current->next)
+			{
+				printf("syntax error near unexpected token `|'\n");
+				return (0);
+			}
+			if (current->next && (current->next->type == PIPE || current->next->type == REDIRECT_IN
+			|| current->next->type  == REDIRECT_OUT || current->next->type == APPEND
+			|| current->next->type == HEREDOC))
+			{
+				printf("syntax error near unexpected token `|'\n");
+				return (0);
+			}
+		}
+		prev = current;
+		current = current->next;
+	}
+	return (1);
+}
+int	validate_redirections(t_token *tokens)
+{
+
+}
+int	validate_empty_commands(t_token *tokens)
+{
+
+}
+int	validate_syntax(t_token *tokens)
+{
+	if (!handle_unclosed_quotes(tokens))
+		return (0);
+	if (!tokens) //empty input is valid
+		return (1);
+	if (!validate_pipes(tokens))
+		return (0);
+	if (!validate_redirections(tokens))
+		return (0);
+	if (!validate_empty_commands)
+		return (0);
+	return (1);	
 }
