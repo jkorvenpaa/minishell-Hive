@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/18 11:21:44 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/19 11:34:23 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,14 @@ void	run_parser(void) //"main" for parsing part
 		tokens = tokenize_input(input);
 		if (!tokens)
 		{
-			printf("Error: failed to parse input\n");
 			free(input);
+			continue;
+		}
+		if (!validate_syntax(tokens))
+		{
+			free_token_list(tokens);
+			free(input);
+			continue;
 		}
 		else
 		{

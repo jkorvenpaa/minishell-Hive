@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:44:09 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/15 15:00:21 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/19 11:36:07 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,6 @@ static void	assign_redirect_file(char **field, const char *value)
  */
 static void	handle_redirection(t_command *cmd, t_token *redir_token)
 {
-	if (!redir_token->next)
-		return ; // syntax error here: missing filename
 	if (redir_token->type == REDIRECT_IN)
 		assign_redirect_file(&cmd->infile, redir_token->next->value);
 	else if (redir_token->type == REDIRECT_OUT)

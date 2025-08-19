@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/18 14:27:49 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/19 11:02:20 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ t_command	*create_command_node(void);
 void	append_command_to_list(t_command **head, t_command *new_cmd);
 void	*add_argument_to_argv(t_command *cmd, char *arg);
 t_command	*group_commands(t_token *tokens);
+
+int	validate_syntax(t_token *tokens);
 
 void	run_parser(void); //main function in parsing branch
 
