@@ -6,22 +6,23 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/19 12:24:21 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/19 16:27:21 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	*init_shell(mem_arena arena, t_shell *shell)
+void	*init_shell(mem_arena *arena, t_shell *shell, t_env **env)
 {
 	shell = arena_alloc(arena, sizeof(t_shell));
 	if (!shell)
 		return (NULL); // free arena +?
 	shell->exit_status = 0;
-	shell->env_list = init_env_list(arena);
+	shell->env_list = env;
 	return (shell);
 }
-
+/*
+move this to parsing
 void	*init_env_list(mem_arena arena)
 {
 	t_env	*env_node;
@@ -32,12 +33,19 @@ void	*init_env_list(mem_arena arena)
 	bzero(env_node, sizeof(t_env));
 	return (env_node);
 }
+	*/
 
-void	execution(mem_arena arena, t_command *command)
+void	execution(mem_arena *arena, t_command *command, t_env **env)
 {
 	t_shell	*shell;
 
-	shell = init_shell(arena, shell);
+	shell = init_shell(arena, shell, env);
 	// if(!shell) ??
-	command_validation(command, shell);
+	while (command)
+	{
+		command_validation(command, env, shell);
+		command = command->next;
+	}
+	free_arena(arena);
+	return ;
 }
