@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/19 16:47:00 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:43:39 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ char	*arena_strdup(mem_arena arena, const char *str) //we need this in arena.c a
 	return (dest);
 }
 
-char	*ar_substr(mem_arena arena, char const *s, unsigned int st, size_t len)
+char	*ar_substr(mem_arena arena, char const *s, unsigned int st, size_t len) //maybe also needed in arena.c
 {
 	size_t	i;
 	size_t	j;
@@ -61,6 +61,7 @@ char	*ar_substr(mem_arena arena, char const *s, unsigned int st, size_t len)
 	substr[j] = '\0';
 	return (substr);
 }
+
 t_env	*init_env_list(mem_arena arena, char **envp)
 {
 	int	i;
@@ -79,13 +80,38 @@ t_env	*init_env_list(mem_arena arena, char **envp)
 		equal_sign = ft_strchr(envp[i], '=');  //search for = and sets pointer there
 		if (equal_sign)
 		{
-			new_env->name = ar_substr(arena, envp[i], 0, equal_sign - envp[i]); //before = (p.ex: USER) copies before (but its always set what its before)
+			new_env->name = ar_substr(arena, envp[i], 0, equal_sign - envp[i]); //before = (p.ex: USER) copies before (but its always set to before the =))
 			new_env->value = arena_strdup(arena, equal_sign + 1); // after = (p.ex.: guest) copies everything after equal sign
 		}
 		new_env->expanded = 0;
 		new_env->next = head;
-		head = node;
+		head = new_env;
 		i++;
 	}
 	return (head);
+}
+t_env	*get_env_node(t_env *env_ist, cons char *name)
+{
+	size_t	name_len;
+
+	name_len = ft_strlen(name);
+	while (env_list)
+	{
+		if (ft_strncmp(env_list->name, name, name_len) == 0
+		&& env_list->name[name_len] == '\0') // second check ensures exact match
+			return (env_list);
+	env_list = env_list->next;
+	}
+	return (NULL);
+}
+t_token	expand_tokens(t_token *tokens, t_env *env)
+{
+	t_token	*current;
+
+	current = tokens;
+	if (current->type == WORD)
+	{
+		
+	}
+	current = current->next;
 }
