@@ -6,19 +6,20 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/19 16:27:21 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/20 10:39:29 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	*init_shell(mem_arena *arena, t_shell *shell, t_env **env)
+void	*init_shell(mem_arena *arena, t_shell *shell, t_env *env)
 {
 	shell = arena_alloc(arena, sizeof(t_shell));
 	if (!shell)
 		return (NULL); // free arena +?
 	shell->exit_status = 0;
 	shell->env_list = env;
+	shell->arena = arena;
 	return (shell);
 }
 /*
@@ -35,7 +36,7 @@ void	*init_env_list(mem_arena arena)
 }
 	*/
 
-void	execution(mem_arena *arena, t_command *command, t_env **env)
+void	execution(mem_arena *arena, t_command *command, t_env *env)
 {
 	t_shell	*shell;
 

@@ -6,13 +6,13 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/19 16:26:42 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:53:35 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	check_if_builtin(t_command *command, t_shell *shell, t_env **env)
+void	check_if_builtin(t_command *command, t_shell *shell)
 {
 	char	*cmd;
 	char	*next_cmd;
@@ -29,8 +29,10 @@ void	check_if_builtin(t_command *command, t_shell *shell, t_env **env)
 		shell->exit_status = export(next_cmd, shell);
 	else if (ft_strncmp(cmd, "unset", 5) == 0)
 		shell->exit_status = unset(next_cmd, shell);
+	else if (ft_strncmp(cmd, "env", 3) == 0)
+		shell->exit_status = env_builtin(shell);
 	else if (ft_strncmp(cmd, "exit", 4) == 0)
-		exit(shell);
+		exit_builtin(shell);
 		
 }
 
