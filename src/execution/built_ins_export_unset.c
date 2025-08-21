@@ -1,77 +1,105 @@
-
 #include "execution.h"
 
-int	env_builtin(t_shell shell)
-{
-	return (0);
-}
-
-int unset(char *next_cmd, t_shell shell)
-{
-	return (0);
-}
-
-bool	env_exists()
-{
-	while(temp)
-	{
-		if (ft_strncmp(temp->name, next_cmd, ) == 0)
-		unset();
-	}
-
-}
-
-int	new_env(t_shell *shell, char *next_cmd)
+int	env_builtin(t_shell *shell)
 {
 	t_env	*temp;
-	t_env *new;
-	int	i;
-	int	j;
 
 	temp = shell->env_list;
-	i = 0;
-	j = 0;
-	new = arena_alloc(shell->arena, sizeof(t_env));
-	while (next_cmd)
+	while (temp)
 	{
-		if (j == 0 && next_cmd[i] == '=')
-			j = i;
-		i++;
+		printf("%s=%s\n", temp->name, temp->value);
+		temp = temp->next;
 	}
-	new->name = arena_alloc(shell->arena, j);
-	ft_strlcpy(new->name, next_cmd, j);
-	//if (!new->name)
-	new->value = arena_alloc(shell->arena, i-j);
-	ft_strlcpy(new->name, next_cmd, i-j);
-	//if (!new->value)
+	return (0);
+}
+
+int	unset(char *next_cmd, t_shell *shell)
+{
+	t_env	*node;
+	t_env	*temp;
+
+	node = get_env_node(shell->env_list, next_cmd);
+	if (!node)
+		return (0);
+	temp = shell->env_list;
+	if (temp == node)
+	{
+		shell->env_list = temp->next;
+		node = ft_memset(node, 0, sizeof(t_env));
+		return (0);
+	}
+	while (temp->next != node)
+		temp = temp->next;
+	temp->next = node->next;
+	node = ft_memset(node, 0, sizeof(t_env));
+	return (0);
+}
+
+t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd)
+{
+	char	*equal;
+	int		i;
+	int		e;
+
+	i = ft_strlen(next_cmd);
+	equal = ft_strchr(next_cmd, '=');
+	e = equal - next_cmd; //position of = sign
+	new->value = ar_substr(shell->arena, next_cmd, e + 1, i - e);
+	if (!new->value)
+		return (NULL);
+}
+
+t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd)
+{
+	t_env	*temp;
+	char	*equal;
+	int		i;
+	int		e;
+
+	temp = shell->env_list;
+	i = ft_strlen(next_cmd);
+	equal = ft_strchr(next_cmd, '=');
+	e = equal - next_cmd; //position of = sign
+	new = arena_alloc(shell->arena, sizeof(t_env));
+	if (!new)
+		return (NULL);
+	new->name = ar_substr(shell->arena, next_cmd, 0, e);
+	if (!new->name)
+		return (NULL);
+	new->value = ar_substr(shell->arena, next_cmd, e + 1, i - e);
+	if (!new->value)
+		return (NULL);
 	new->expanded = 1;
 	new->next = NULL;
-	while(temp->next)
+	while (temp->next)
 		temp = temp->next;
 	temp->next = new;
-	return (0);
+	return (new);
 }
 
 int	export(char	*next_cmd, t_shell *shell)
 {
 	t_env	*temp;
+	t_env	*new;
 
 	temp = shell->env_list;
-	if (!next_cmd)
+	if (!next_cmd) // just print the list
 	{
-		while(temp)
+		while (temp)
 		{
 			printf("declare -x %s=\"%s\"\n", temp->name, temp->value);
 			temp = temp->next;
 		}
-		return(0);
+		return (0);
 	}
-	if(ft_strchr(next_cmd, '=') == NULL)
+	if (ft_strchr(next_cmd, '=') == NULL) // invalid input for export
 		return (1);
-	env_exists(shell->env_list, next_cmd) == true;
-		return(0); 
-	if (new_env(shell, next_cmd) != 0)
-		return(1);
+	new = get_env_node(shell->env_list, next_cmd); // if already in env list
+	if (new == NULL)
+		new = new_env(new, shell, next_cmd); //if not make a new
 	else
-		return(0);
+		new = update_env(new, shell, next_cmd); // if yes, update value
+	if (!new)
+		return (1);
+	return (0);
 }

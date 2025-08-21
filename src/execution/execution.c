@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/20 10:39:29 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/21 17:10:19 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,28 +18,15 @@ void	*init_shell(mem_arena *arena, t_shell *shell, t_env *env)
 	if (!shell)
 		return (NULL); // free arena +?
 	shell->exit_status = 0;
-	shell->env_list = env;
+	shell->env_list = init_env_list(arena, env);
+	//shell->history_list = history;
 	shell->arena = arena;
 	return (shell);
 }
-/*
-move this to parsing
-void	*init_env_list(mem_arena arena)
-{
-	t_env	*env_node;
-
-	env_node = arena_alloc(arena, sizeof(t_env));
-	if (!env_node)
-		return (NULL); //free arena +?
-	bzero(env_node, sizeof(t_env));
-	return (env_node);
-}
-	*/
-
 void	execution(mem_arena *arena, t_command *command, t_env *env)
 {
 	t_shell	*shell;
-
+	//init_history
 	shell = init_shell(arena, shell, env);
 	// if(!shell) ??
 	while (command)
@@ -50,3 +37,16 @@ void	execution(mem_arena *arena, t_command *command, t_env *env)
 	free_arena(arena);
 	return ;
 }
+/*
+init history, shell first time or in the main,
+consider which arena shell should use.
+loop user inputs;
+{
+	command validation, action, history.
+	after executing command:
+		Free arenas used for tokens, commands.
+	Loop back to prompt.
+}
+free arenas for env and history only in exit
+
+*/

@@ -1,19 +1,19 @@
-
 #include "arena.h"
 
 //init area before using, returns arena
-mem_arena	*arena_init()
+mem_arena	*arena_init(void)
 {
 	mem_arena	*arena;
+
 	arena = malloc(sizeof(mem_arena));
 	if (!arena)
-		return(NULL);
+		return (NULL);
 	arena->size = A_SIZE;
 	arena->buffer = malloc(arena->size);
 	if (!arena->buffer)
 	{
 		free (arena);
-		return(NULL);
+		return (NULL);
 	}
 	arena->offset = 0;
 	return (arena);
@@ -26,7 +26,12 @@ void	*arena_alloc(mem_arena *arena, size_t bytes)
 	void	*ptr;
 
 	if (arena->offset + bytes > arena->size)
-		return(NULL);
+	{
+		arena->next = arena_init();
+		if (!arena->next)
+			return (NULL);
+		arena_alloc(arena->next, bytes);
+	}
 	ptr = arena->buffer + arena->offset;
 	arena->offset = arena->offset + bytes;
 	return (ptr);
@@ -34,6 +39,13 @@ void	*arena_alloc(mem_arena *arena, size_t bytes)
 
 void	free_arena(mem_arena *arena)
 {
-	free(arena->buffer);
-	free(arena);
+	mem_arena	*temp;
+
+	while (arena)
+	{
+		temp = arena->next;
+		free (arena->buffer);
+		free (arena);
+		arena = temp;
+	}
 }
