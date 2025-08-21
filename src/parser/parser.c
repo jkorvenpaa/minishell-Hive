@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/19 11:34:23 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:13:58 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,11 +63,13 @@ static void	print_commands(t_command *cmd_list) // for testing only!!!
 	}
 }
 
-void	run_parser(void) //"main" for parsing part
+void	run_parser(mem_arena *arena, t_env *env, int exit_status) //"main" for parsing part
 {
 	char	*input;
 	t_token	*tokens;
 	t_command	*cmd_list;
+
+	arena_init(&arena);
 
 	while (1)
 	{
@@ -94,14 +96,12 @@ void	run_parser(void) //"main" for parsing part
 			free(input);
 			continue;
 		}
-		else
-		{
-			cmd_list = group_commands(tokens);
-			print_tokens(tokens); // here for testing only!!!
-			print_commands(cmd_list); // here for testing only!!
-			free_token_list(tokens);
-			free_command_list(cmd_list);
-			free(input);
-		}
+		tokens = expand_tokens(&arena, tokens, env, exit_status);
+		cmd_list = group_commands(tokens);
+		print_tokens(tokens); // here for testing only!!!
+		print_commands(cmd_list); // here for testing only!!
+		free_token_list(tokens);
+		free_command_list(cmd_list);
+		free(input);
 	}
 }

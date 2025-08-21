@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/14 09:36:07 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:15:21 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,27 +18,14 @@
  * the character to the exiting string.
  * Returns 1 on success, 0 on memory allocation failure. 
  */
-static int	add_char_to_token(char **token, char c)
+static int	add_char_to_token(mem_arena arena, char **token, char c)
 {
-	char	temp[2];
-	char	*joined;
+	char *new_token;
 
-	temp[0] = c;
-	temp[1] = '\0';
-	if (!*token)
-	{
-		*token = ft_strdup(temp); // TODO: MALLOC
-		if (!*token)
-			return (0);
-	}
-	else
-	{
-		joined = ft_strjoin(*token, temp); // TODO: MALLOC
-		if (!joined)
-			return (0);
-		free(*token);
-		*token = joined;
-	}
+	new_token = ar_add_char_to_str(arena, *token, c);
+	if (!new_token)
+		return (0);
+	*token = new_token;
 	return (1);
 }
 
@@ -63,7 +50,7 @@ static int	handle_operator_token(char *input, int i, t_token **list, char **toke
  * Adds current char to the token, handling memory errors by freeing 
  * the token list and token itself. Returns 1 on success, -1 on failure.
  */
-static int	char_addition_cleanup(char **token, char c, t_token **list)
+static int	char_addition_cleanup(char **token, char c, t_token **list) //probably dont need this function anymore!
 {
 	if (!add_char_to_token(token, c))
 	{
