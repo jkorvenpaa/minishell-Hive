@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/20 15:43:39 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/21 09:49:30 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,21 @@ char	*ar_substr(mem_arena arena, char const *s, unsigned int st, size_t len) //m
 	return (substr);
 }
 
+void	append_env_to_list(t_env **head, t_env *new_node) //maybe static?
+{
+	t_env	*temp;
+
+	if (!*head)
+	{
+		*head = new_node;
+		return ;
+	}
+	temp = *head;
+	while (temp->next)
+		temp = temp->next;
+	temp->next = new_node;	
+}
+
 t_env	*init_env_list(mem_arena arena, char **envp)
 {
 	int	i;
@@ -84,23 +99,25 @@ t_env	*init_env_list(mem_arena arena, char **envp)
 			new_env->value = arena_strdup(arena, equal_sign + 1); // after = (p.ex.: guest) copies everything after equal sign
 		}
 		new_env->expanded = 0;
-		new_env->next = head;
-		head = new_env;
+		new_env->next = NULL;
+		append_env_to_list(&head, new_env);
 		i++;
 	}
 	return (head);
 }
-t_env	*get_env_node(t_env *env_ist, cons char *name)
+t_env	*get_env_node(t_env *env_list, const char *name) //USEFUL IN EXECUTION TOO (for like export, unset, env because it loops through our t_env list and looks for match and returns pointer to the node that contains that)
 {
 	size_t	name_len;
 
+	if (!name)
+		return (NULL);
 	name_len = ft_strlen(name);
 	while (env_list)
 	{
 		if (ft_strncmp(env_list->name, name, name_len) == 0
 		&& env_list->name[name_len] == '\0') // second check ensures exact match
 			return (env_list);
-	env_list = env_list->next;
+		env_list = env_list->next;
 	}
 	return (NULL);
 }
