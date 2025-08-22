@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/13 14:00:05 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/22 10:16:10 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int main(void)
 {
-	run_parser();
+	mem_arena *arena;
+
+	arena = arena_init();
+	run_parser(arena);
 	return (0);
 }

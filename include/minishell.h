@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/19 11:02:20 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/22 10:44:51 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define MINISHELL_H
 
 # include "libft.h"
+# include "arena.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdio.h>
@@ -45,11 +46,11 @@ typedef struct s_command
 } t_command;
 
 // Linked list functions
-t_token	*create_token_node(char *word, t_token_type type);
+t_token	*create_token_node(mem_arena *arena, char *word, t_token_type type);
 void	append_token_to_list(t_token **head, t_token *new_node);
-void	free_token_list(t_token *head);
-int	add_operator_token_to_list(t_token **list, char *input, int i, int len);
-int	save_token_to_list(t_token **list, char **token);
+void	free_token_list(mem_arena *arena, t_token *head);
+int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *input, int i, int len);
+int	save_token_to_list(mem_arena *arena, t_token **list, char **token);
 
 // Tokenization functions
 int	is_token_boundary(char c, int single_quote, int double_quote);
@@ -58,16 +59,19 @@ void	handle_quote_flags(char c, int *single_quotes, int *double_quotes);
 void	get_current_quote_state(char *input, int position, int *single_quotes, int *double_quotes);
 int	get_operator_len(char *input, int i);
 t_token_type	identify_token(char *value);
-t_token	*tokenize_input(char *input);
+t_token	*tokenize_input(mem_arena *arena, char *input);
+char	*ar_add_char_to_str(mem_arena *arena, char *s, char c); 
 
 //Grouping the tokens into commands
-t_command	*create_command_node(void);
+t_command	*create_command_node(mem_arena *arena);
 void	append_command_to_list(t_command **head, t_command *new_cmd);
-void	*add_argument_to_argv(t_command *cmd, char *arg);
-t_command	*group_commands(t_token *tokens);
+void	*add_argument_to_argv(mem_arena *arena, t_command *cmd, char *arg);
+t_command	*group_commands(mem_arena *arena, t_token *tokens);
 
 int	validate_syntax(t_token *tokens);
-
-void	run_parser(void); //main function in parsing branch
+char	*arena_strdup(mem_arena *arena, const char *str);
+char	*ar_substr(mem_arena *arena, char const *s, unsigned int st, size_t len);
+char	*ar_strjoin(mem_arena *arena, char const *s1, char const *s2);
+void	run_parser(mem_arena *arena); //main function in parsing branch
 
 #endif

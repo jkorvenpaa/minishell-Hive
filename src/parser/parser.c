@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/21 14:13:58 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/22 10:58:31 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static void	print_tokens(t_token *head) // for testing only!!!!
     }
 }
 
-static void free_command_list(t_command *head) // not sure if i need it since we have arena (i'd  need to put it in grouping command utils)
+/* static void free_command_list(t_command *head) // not sure if i need it since we have arena (i'd  need to put it in grouping command utils)
 {
     t_command *tmp;
 
@@ -32,6 +32,7 @@ static void free_command_list(t_command *head) // not sure if i need it since we
         head = tmp;
     }
 }
+*/
 
 static void	print_commands(t_command *cmd_list) // for testing only!!!
 {
@@ -63,13 +64,12 @@ static void	print_commands(t_command *cmd_list) // for testing only!!!
 	}
 }
 
-void	run_parser(mem_arena *arena, t_env *env, int exit_status) //"main" for parsing part
+void	run_parser(mem_arena *arena) //"main" for parsing part
 {
 	char	*input;
 	t_token	*tokens;
 	t_command	*cmd_list;
 
-	arena_init(&arena);
 
 	while (1)
 	{
@@ -84,7 +84,7 @@ void	run_parser(mem_arena *arena, t_env *env, int exit_status) //"main" for pars
 			free(input);
 			break;
 		}
-		tokens = tokenize_input(input);
+		tokens = tokenize_input(arena, input);
 		if (!tokens)
 		{
 			free(input);
@@ -92,16 +92,16 @@ void	run_parser(mem_arena *arena, t_env *env, int exit_status) //"main" for pars
 		}
 		if (!validate_syntax(tokens))
 		{
-			free_token_list(tokens);
+			//free_token_list(tokens);
 			free(input);
 			continue;
 		}
-		tokens = expand_tokens(&arena, tokens, env, exit_status);
-		cmd_list = group_commands(tokens);
+		// tokens = expand_tokens(&arena, tokens, env, exit_status);
+		cmd_list = group_commands(arena, tokens);
 		print_tokens(tokens); // here for testing only!!!
 		print_commands(cmd_list); // here for testing only!!
-		free_token_list(tokens);
-		free_command_list(cmd_list);
+		//free_token_list(tokens);
+		//free_command_list(cmd_list);
 		free(input);
 	}
 }
