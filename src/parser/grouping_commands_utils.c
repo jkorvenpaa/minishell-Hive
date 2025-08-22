@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:49:33 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/22 10:42:16 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:53:11 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_command	*create_command_node(mem_arena *arena)
 {
 	t_command	*node;
 
-	node = arena_alloc(arena, sizeof(t_command)); // TODO: MALLOC
+	node = arena_alloc(arena, sizeof(t_command));
 	if (!node)
 		return (NULL);
 	node->argv = NULL;
@@ -35,7 +35,7 @@ t_command	*create_command_node(mem_arena *arena)
 /**
  * Adds a string argument to a command's argv array.
  * Creates a new argv array one element larger (plus '\0'), copies old arguments,
- * duplicates the new argument, and frees the old argv array.
+ * and duplicates the new argument.
  * Returns the new argv array pointer or NULL on failure.
  */
 void	*add_argument_to_argv(mem_arena *arena, t_command *cmd, char *arg)
@@ -50,7 +50,7 @@ void	*add_argument_to_argv(mem_arena *arena, t_command *cmd, char *arg)
 		while (cmd->argv[count])
 			count++;
 	}
-	new_argv = arena_alloc(arena, (sizeof(char *) * (count +  2))); // TODO: MALLOC
+	new_argv = arena_alloc(arena, sizeof(char *) * (count +  2));
 	if (!new_argv)
 		return (NULL);
 	i = 0;
@@ -60,8 +60,9 @@ void	*add_argument_to_argv(mem_arena *arena, t_command *cmd, char *arg)
 		i++;
 	}
 	new_argv[count] = arena_strdup(arena, arg);
+	if (!new_argv[count])
+		return (NULL);
 	new_argv[count + 1] = NULL;
-	//free(cmd->argv);
 	cmd->argv = new_argv;
 	return (new_argv);
 }

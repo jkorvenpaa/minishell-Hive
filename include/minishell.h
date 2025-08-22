@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/22 13:22:37 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:54:54 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int	env_builtin(t_shell *shell);
 // Linked list functions
 t_token	*create_token_node(mem_arena *arena, char *word, t_token_type type);
 void	append_token_to_list(t_token **head, t_token *new_node);
-void	free_token_list(mem_arena *arena, t_token *head);
 int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *input, int i, int len);
 int	save_token_to_list(mem_arena *arena, t_token **list, char **token);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/22 12:59:29 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:58:26 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,6 @@ static void	print_tokens(t_token *head) // for testing only!!!!
         head = head->next;
     }
 }
-
-/* static void free_command_list(t_command *head) // not sure if i need it since we have arena (i'd  need to put it in grouping command utils)
-{
-    t_command *tmp;
-
-    while (head)
-    {
-        tmp = head->next;
-        free(head);
-        head = tmp;
-    }
-}
-*/
 
 static void	print_commands(t_command *cmd_list) // for testing only!!!
 {
@@ -92,7 +79,6 @@ t_command	*run_parser(mem_arena *arena, mem_arena *env_arena) //"main" for parsi
 		}
 		if (!validate_syntax(tokens))
 		{
-			//free_token_list(tokens);
 			free(input);
 			continue;
 		}
@@ -100,8 +86,6 @@ t_command	*run_parser(mem_arena *arena, mem_arena *env_arena) //"main" for parsi
 		cmd_list = group_commands(arena, tokens);
 		print_tokens(tokens); // here for testing only!!!
 		print_commands(cmd_list); // here for testing only!!
-		//free_token_list(tokens);
-		//free_command_list(cmd_list);
 		free(input);
 	}
 	return (cmd_list);

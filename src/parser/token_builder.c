@@ -6,13 +6,13 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/22 10:52:31 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:32:57 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ar_add_char_to_str(mem_arena *arena, char *s, char c) //also used in expansions.c (need to move it somewhere else)
+char	*ar_add_char_to_str(mem_arena *arena, char *s, char c) //also used in expansions.c
 {
 	size_t	len;
 	char	*result;
@@ -64,23 +64,6 @@ static int	handle_operator_token(mem_arena *arena, char *input, int i, t_token *
 	return (operator_len);
 }
 
-/**
- * Adds current char to the token, handling memory errors by freeing 
- * the token list and token itself. Returns 1 on success, -1 on failure.
- */
-/* static int	char_addition_cleanup(mem_arena *arena, char **token, char c, t_token **list) //probably dont need this function anymore!
-{
-	if (!add_char_to_token(arena, token, c))
-	{
-		free_token_list(*list);
-		*list = NULL;
-		free(*token);
-		*token = NULL;
-		return (-1);
-	}
-	return (1);
-}
-*/ 
 /**
  * Processes a char from input at index i with respect to quoting and operators.
  * - If an operator is detected and not inside quotes,
@@ -137,23 +120,18 @@ t_token	*tokenize_input(mem_arena *arena, char *input)
 	i = 0;
 	current_token = NULL;
 	token_list = NULL;
+	if (!input || !*input)
+    	return (NULL);
 	while (input[i])
 	{
 		skip = process_character(arena, input, i, &token_list, &current_token);
 		if (skip == -1)
-		{
-			//free_token_list(token_list);
-			//free(current_token);
 			return (NULL);
-		}
 		if (skip == 0)
 			skip = 1;
 		i += skip;
 	}
 	if (!save_token_to_list(arena, &token_list, &current_token))
-	{
-		//free_token_list(token_list);
 		return (NULL);
-	}
 	return (token_list);
 }

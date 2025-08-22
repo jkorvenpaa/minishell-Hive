@@ -1,7 +1,7 @@
 
 #include "minishell.h"
 
-char	*arena_strdup(mem_arena *arena, const char *str) //we need this in arena.c and need to call this version everywhere where currently is ft_strdup
+char	*arena_strdup(mem_arena *arena, const char *str)
 {
 	char	*dest;
 	size_t	i;
@@ -21,7 +21,7 @@ char	*arena_strdup(mem_arena *arena, const char *str) //we need this in arena.c 
 	return (dest);
 }
 
-char	*ar_substr(mem_arena *arena, char const *s, unsigned int st, size_t len) //maybe also needed in arena.c
+char	*ar_substr(mem_arena *arena, char const *s, unsigned int st, size_t len)
 {
 	size_t	i;
 	size_t	j;
@@ -50,7 +50,7 @@ char	*ar_substr(mem_arena *arena, char const *s, unsigned int st, size_t len) //
 	return (substr);
 }
 
-char	*ar_strjoin(mem_arena *arena, char const *s1, char const *s2) //in arena .c too probably
+char	*ar_strjoin(mem_arena *arena, char const *s1, char const *s2)
 {
 	char	*joinedstr;
 	size_t	i;
@@ -74,4 +74,30 @@ char	*ar_strjoin(mem_arena *arena, char const *s1, char const *s2) //in arena .c
 		joinedstr[j++] = s2[i++];
 	joinedstr[j] = '\0';
 	return (joinedstr);
+}
+char	*arena_itoa(mem_arena *env_arena, int n)
+{
+	size_t	len;
+	char	*result;
+	long	num;
+
+	num = n;
+	len = ft_count_digits(n);
+	result = arena_alloc(env_arena, sizeof(char) * (len + 1));
+	if (!result)
+		return (NULL);
+	result[len] = '\0';
+	if (num == 0)
+		result[0] = '0';
+	else if (num < 0)
+	{
+		result[0] = '-';
+		num = -num;
+	}
+	while (num > 0)
+	{
+		result[--len] = (num % 10) + '0';
+		num /= 10;
+	}
+	return (result);
 }
