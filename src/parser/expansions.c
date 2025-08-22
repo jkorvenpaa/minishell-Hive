@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/21 14:37:44 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/22 09:23:53 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,6 @@ t_env	*init_env_list(mem_arena arena, char **envp)
 			new_env->name = ar_substr(arena, envp[i], 0, equal_sign - envp[i]); //before = (p.ex: USER) copies before (but its always set to before the =))
 			new_env->value = arena_strdup(arena, equal_sign + 1); // after = (p.ex.: guest) copies everything after equal sign
 		}
-		new_env->expanded = 0;
 		new_env->next = NULL;
 		append_env_to_list(&head, new_env);
 		i++;

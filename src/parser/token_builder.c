@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/21 14:15:21 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/22 09:25:28 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	handle_operator_token(char *input, int i, t_token **list, char **toke
  */
 static int	char_addition_cleanup(char **token, char c, t_token **list) //probably dont need this function anymore!
 {
-	if (!add_char_to_token(token, c))
+	if (!ar_add_char_to_str(token, c))
 	{
 		free_token_list(*list);
 		*list = NULL;
