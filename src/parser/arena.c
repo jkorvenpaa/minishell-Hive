@@ -1,4 +1,5 @@
-#include "arena.h"
+
+#include "minishell.h"
 
 //init area before using, returns arena
 mem_arena	*arena_init(void)

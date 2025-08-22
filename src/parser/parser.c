@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/13 13:11:05 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/22 10:58:31 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,55 @@ static void	print_tokens(t_token *head) // for testing only!!!!
     }
 }
 
-void	run_parser(void) //"main" for parsing part
+/* static void free_command_list(t_command *head) // not sure if i need it since we have arena (i'd  need to put it in grouping command utils)
+{
+    t_command *tmp;
+
+    while (head)
+    {
+        tmp = head->next;
+        free(head);
+        head = tmp;
+    }
+}
+*/
+
+static void	print_commands(t_command *cmd_list) // for testing only!!!
+{
+	while (cmd_list)
+	{
+		int	i;
+		i = 0;
+		printf("COMMAND:\n");
+		if (cmd_list->argv)
+		{
+			while (cmd_list->argv[i])
+			{
+				printf("Arg[%d]: %s\n", i, cmd_list->argv[i]);
+				i++;
+			}
+		}
+		if (cmd_list->infile)
+			printf("Infile: %s\n", cmd_list->infile);
+		if (cmd_list->outfile)
+		{
+			printf("Outfile: %s", cmd_list->outfile);
+			if (cmd_list->append)
+				printf("(append)");
+			printf("\n");
+		}
+		if (cmd_list->heredoc)
+			printf("Heredoc: %s\n", cmd_list->heredoc);
+		cmd_list = cmd_list->next;
+	}
+}
+
+void	run_parser(mem_arena *arena) //"main" for parsing part
 {
 	char	*input;
 	t_token	*tokens;
+	t_command	*cmd_list;
+
 
 	while (1)
 	{
@@ -39,17 +84,24 @@ void	run_parser(void) //"main" for parsing part
 			free(input);
 			break;
 		}
-		tokens = tokenize_input(input);
+		tokens = tokenize_input(arena, input);
 		if (!tokens)
 		{
-			printf("Error: failed to parse input\n");
 			free(input);
+			continue;
 		}
-		else
+		if (!validate_syntax(tokens))
 		{
-			print_tokens(tokens); // here for testing only!!!
-			free_token_list(tokens);
+			//free_token_list(tokens);
 			free(input);
+			continue;
 		}
+		// tokens = expand_tokens(&arena, tokens, env, exit_status);
+		cmd_list = group_commands(arena, tokens);
+		print_tokens(tokens); // here for testing only!!!
+		print_commands(cmd_list); // here for testing only!!
+		//free_token_list(tokens);
+		//free_command_list(cmd_list);
+		free(input);
 	}
 }

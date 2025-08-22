@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 09:39:28 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/14 09:38:09 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/22 10:37:39 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,17 +17,17 @@
  * and initializes it.
  * Returns a pointer to the new node, or NULL on failure.
  */
-t_token	*create_token_node(char *word, t_token_type type)
+t_token	*create_token_node(mem_arena *arena, char *word, t_token_type type)
 {
 	t_token	*node;
 
-	node = malloc(sizeof(t_token)); // TODO: MALLOC
+	node = arena_alloc(arena, sizeof(t_token)); // TODO: MALLOC
 	if (!node)
 		return (NULL);
-	node->value = ft_strdup(word);
+	node->value = arena_strdup(arena, word);
 	if (!node->value)
 	{
-		free(node);
+		// free(node);
 		return (NULL);
 	}
 	node->type = type;
@@ -56,7 +56,7 @@ void	append_token_to_list(t_token **head, t_token *new_node)
 /**
  * Frees the entire token list and its contents.
  */
-void	free_token_list(t_token *head)
+/* void	free_token_list(t_token *head)
 {
 	t_token	*temp;
 
@@ -68,6 +68,7 @@ void	free_token_list(t_token *head)
 		head = temp;
 	}
 }
+*/
 
 /**
  * Creates a token from a substring of input starting at i with length len, 
@@ -75,26 +76,26 @@ void	free_token_list(t_token *head)
  * On memory failure, frees the entire list and sets *list to NULL.
  * Returns 1 on success, 0 on failure.
  */
-int	add_operator_token_to_list(t_token **list, char *input, int i, int len)
+int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *input, int i, int len)
 {
 	char	*token;
 	t_token	*new;
 	t_token_type	type;
 
-	token = malloc(len + 1); // TODO: MALLOC
+	token = arena_alloc(arena, len + 1); // TODO: MALLOC
 	if (!token)
 	{
-		free_token_list(*list);
+		//free_token_list(*list);
 		*list = NULL;
 		return (0);
 	}
 	ft_strlcpy(token, &input[i], len + 1);
 	type = identify_token(token);
-	new = create_token_node(token, type);
-	free(token);
+	new = create_token_node(arena, token, type);
+	//free(token);
 	if (!new)
 	{
-		free_token_list(*list);
+		//free_token_list(*list);
 		*list = NULL;
 		return (0);
 	}
@@ -107,7 +108,7 @@ int	add_operator_token_to_list(t_token **list, char *input, int i, int len)
  * On memory failure, frees list and token and sets them to NULL.
  * Returns 1 on success, 0 failure.
  */
-int	save_token_to_list(t_token **list, char **token)
+int	save_token_to_list(mem_arena *arena, t_token **list, char **token)
 {
 	t_token	*new;
 	t_token_type	type;
@@ -115,17 +116,17 @@ int	save_token_to_list(t_token **list, char **token)
 	if (*token)
 	{
 		type = identify_token(*token);
-		new = create_token_node(*token, type);
+		new = create_token_node(arena, *token, type);
 		if (!new)
 		{
-			free_token_list(*list);
-			free(*token);
+			//free_token_list(*list);
+			//free(*token);
 			*list = NULL;
 			*token = NULL;
 			return (0);
 		}
 		append_token_to_list(list, new);
-		free(*token);
+		//free(*token);
 		*token = NULL;
 	}
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/19 14:10:37 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:34:03 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 
 int main(void)
 {
-	run_parser();
+	mem_arena *arena;
+
+	arena = arena_init();
+	run_parser(arena);
 	return (0);
 }
