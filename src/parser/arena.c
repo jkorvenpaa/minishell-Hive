@@ -1,6 +1,8 @@
 
 #include "minishell.h"
 
+//EXIT PROGRAM GRACEFULLY IF NULL;
+
 //init area before using, returns arena
 mem_arena	*arena_init(void)
 {

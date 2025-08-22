@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/22 10:44:51 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:22:37 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "libft.h"
 # include "arena.h"
+# include "execution.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdio.h>
@@ -45,6 +46,24 @@ typedef struct s_command
 	struct s_command	*next;
 } t_command;
 
+//execution transfer
+t_shell	*init_shell(mem_arena *arena, mem_arena *env_arena, char **envp);
+void	execution(t_shell *shell, t_command	*command_list);
+
+void	check_if_builtin(t_command *command, t_shell *shell);
+
+int		echo(t_command *command);
+int		cd(char *next_cmd);
+int 	pwd(char *cmd);
+
+int		export(char	*next_cmd, t_shell *shell);
+t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd);
+t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd);
+int		unset(char *next_cmd, t_shell *shell);
+int	env_builtin(t_shell *shell);
+
+
+
 // Linked list functions
 t_token	*create_token_node(mem_arena *arena, char *word, t_token_type type);
 void	append_token_to_list(t_token **head, t_token *new_node);
@@ -72,6 +91,6 @@ int	validate_syntax(t_token *tokens);
 char	*arena_strdup(mem_arena *arena, const char *str);
 char	*ar_substr(mem_arena *arena, char const *s, unsigned int st, size_t len);
 char	*ar_strjoin(mem_arena *arena, char const *s1, char const *s2);
-void	run_parser(mem_arena *arena); //main function in parsing branch
+t_command	*run_parser(mem_arena *arena, mem_arena *env_arena); //main function in parsing branch
 
 #endif

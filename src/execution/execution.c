@@ -6,40 +6,26 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/21 17:10:19 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:24:37 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "minishell.h"
 
-void	*init_shell(mem_arena *arena, t_shell *shell, t_env *env)
+
+void	execution(t_shell *shell, t_command	*command_list)
 {
-	shell = arena_alloc(arena, sizeof(t_shell));
-	if (!shell)
-		return (NULL); // free arena +?
-	shell->exit_status = 0;
-	shell->env_list = init_env_list(arena, env);
-	//shell->history_list = history;
-	shell->arena = arena;
-	return (shell);
-}
-void	execution(mem_arena *arena, t_command *command, t_env *env)
-{
-	t_shell	*shell;
 	//init_history
-	shell = init_shell(arena, shell, env);
 	// if(!shell) ??
-	while (command)
+	while (command_list)
 	{
-		command_validation(command, env, shell);
-		command = command->next;
+		command_validation(command_list, shell);
+		command_list = command_list->next;
 	}
-	free_arena(arena);
+	//free_arena(shell->arena);
 	return ;
 }
 /*
-init history, shell first time or in the main,
-consider which arena shell should use.
 loop user inputs;
 {
 	command validation, action, history.

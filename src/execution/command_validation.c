@@ -6,11 +6,12 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/21 17:04:03 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/22 13:11:40 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "minishell.h"
+# include "execution.h"
 
 void	check_if_builtin(t_command *command, t_shell *shell)
 {

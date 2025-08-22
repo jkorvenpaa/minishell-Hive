@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansions.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/22 10:58:02 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/22 12:37:47 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,9 @@ t_env	*init_env_list(char **envp)
 	t_env *head;
 	t_env *new_env;
 	char *equal_sign;
-	mem_arena *env_arena;
+	//mem_arena *env_arena;
 
-	env_arena = arena_init();
+	//env_arena = arena_init();
 	i = 0;
 	head = NULL;
 	while (envp[i])
