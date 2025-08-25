@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/22 13:22:17 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/25 16:32:02 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,9 @@
 # define EXECUTION_H
 
 # include "minishell.h"
+# include <fcntl.h>
+# include <unistd.h> 
+# include <stdbool.h>
 
 //this struct should move to parsing
 typedef struct s_env
