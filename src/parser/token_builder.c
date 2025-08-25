@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/22 14:32:57 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 10:02:05 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ static int	process_character(mem_arena	*arena, char *input, int i, t_token **tok
 			return (-1);
 		return (0);
 	}
-	if (input[i] != ' ' || single_quote || double_quote)
+	if (!ft_isspace(input[i]) || single_quote || double_quote)
 	{
 		ret_val = add_char_to_token(arena, token, input[i]);
 		return (ret_val);

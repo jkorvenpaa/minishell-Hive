@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:51:27 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/20 10:44:28 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:56:57 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ int	is_separator_symbol(char c)
 }
 
 /**
- * Checks if a character marks a token boundary (a space or 
+ * Checks if a character marks a token boundary (a white-space char or 
  * a separator symbol, and not inside single or double quotes).
  * Returns 1 if it is, 0 otherwise.
  */
 int	is_token_boundary(char c, int single_quote, int double_quote)
 {
-	if (single_quote == 0 && double_quote == 0 && (c == ' ' || is_separator_symbol(c)))
+	if (single_quote == 0 && double_quote == 0 && (ft_isspace(c) || is_separator_symbol(c)))
 		return (1);
 	return (0);
 }
