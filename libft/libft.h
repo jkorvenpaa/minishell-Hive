@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 12:02:07 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/28 12:17:38 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:42:26 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ int		ft_isdigit(int c);
 int		ft_isalnum(int c);
 int		ft_isascii(int c);
 int		ft_isprint(int c);
+int		ft_isspace(int c);
 size_t	ft_strlen(const char *str);
 int		ft_tolower(int c);
 int		ft_toupper(int c);

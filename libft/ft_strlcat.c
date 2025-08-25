@@ -6,9 +6,10 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 09:16:26 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/21 11:04:01 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:49:30 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 size_t	ft_strlcat(char *dst, const char *src, size_t size)

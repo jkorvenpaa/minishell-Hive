@@ -6,9 +6,10 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 09:03:35 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/17 09:30:37 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:48:37 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 void	*ft_memmove(void *dest, const void *src, size_t n)

@@ -6,9 +6,12 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 17:28:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/14 17:28:43 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:47:50 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
+
 int	ft_isascii(int c)
 {
 	if (c >= 0 && c <= 127)

@@ -6,9 +6,10 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 15:29:33 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/21 16:11:01 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:47:25 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 void	*ft_calloc(size_t nmemb, size_t size)

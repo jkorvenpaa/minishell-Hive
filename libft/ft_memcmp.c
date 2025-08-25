@@ -6,9 +6,10 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 11:56:14 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/21 12:51:44 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:48:29 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 int	ft_memcmp(const void *s1, const void *s2, size_t n)
