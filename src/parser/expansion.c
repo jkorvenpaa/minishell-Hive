@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/26 14:02:38 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/26 14:13:47 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,10 @@ static char *remove_quotes(mem_arena *env_arena, char *input)
 	if (!input || !env_arena)
 		return (NULL);
 	i = 0;
-    result = arena_strdup(env_arena, "");
-    if (!result)
-        return (NULL);
+    result = NULL;
     while (input[i])
     {
-        if (input[i] != '\'' || input[i] != '"')
+        if (input[i] != '\'' && input[i] != '"')
 		{
         	result = ar_add_char_to_str(env_arena, result, input[i]);
         	if (!result)

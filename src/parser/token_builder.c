@@ -6,13 +6,13 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/25 10:02:05 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/26 14:18:18 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*ar_add_char_to_str(mem_arena *arena, char *s, char c) //also used in expansions.c
+char	*ar_add_char_to_str(mem_arena *arena, char *s, char c)
 {
 	size_t	len;
 	char	*result;
