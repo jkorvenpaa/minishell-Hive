@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/26 11:36:57 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/26 14:02:38 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,38 +31,20 @@ char	*get_variable_name(mem_arena *env_arena, const char *input, int *len)
 	return (ar_substr(env_arena, input, 0, i));
 }
 
-static int	skip_quote(char c, int *single_quotes, int *double_quotes)
-{
-	if (c == '\'' && !(*double_quotes))
-	{
-		*single_quotes = !(*single_quotes);
-		return (1);
-	}
-	if (c == '"' && !(*single_quotes))
-	{
-		*double_quotes = !(*double_quotes);
-		return (1);
-	}
-	return (0);
-}
 static char *remove_quotes(mem_arena *env_arena, char *input)
 {
 	int i;
-	int single_quotes;
-	int double_quotes;
 	char *result;
 
 	if (!input || !env_arena)
 		return (NULL);
 	i = 0;
-    single_quotes = 0;
-    double_quotes = 0;
     result = arena_strdup(env_arena, "");
     if (!result)
         return (NULL);
     while (input[i])
     {
-        if (!skip_quote(input[i], &single_quotes, &double_quotes))
+        if (input[i] != '\'' || input[i] != '"')
 		{
         	result = ar_add_char_to_str(env_arena, result, input[i]);
         	if (!result)
