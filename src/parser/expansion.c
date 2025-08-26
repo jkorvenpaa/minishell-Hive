@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/26 11:16:11 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/26 11:36:57 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ char	*get_variable_name(mem_arena *env_arena, const char *input, int *len)
 	*len = i;
 	return (ar_substr(env_arena, input, 0, i));
 }
+
 static int	skip_quote(char c, int *single_quotes, int *double_quotes)
 {
 	if (c == '\'' && !(*double_quotes))

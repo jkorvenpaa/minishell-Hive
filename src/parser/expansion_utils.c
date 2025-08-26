@@ -92,6 +92,3 @@ char *expand_value(char *token_val, t_expansion *data)
     result = expansion_loop(token_val, data);
     return (result);
 }
-
-
-
