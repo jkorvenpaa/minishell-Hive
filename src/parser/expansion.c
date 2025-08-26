@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/26 14:13:47 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/26 15:44:32 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,19 +30,31 @@ char	*get_variable_name(mem_arena *env_arena, const char *input, int *len)
 	*len = i;
 	return (ar_substr(env_arena, input, 0, i));
 }
-
+static int	is_quote(char c, int *single_quotes, int *double_quotes)
+{
+	if (c == '\'' || c == '"')
+	{
+		handle_quote_flags(c, single_quotes, double_quotes);
+		return (1);
+	}
+	return (0);
+}
 static char *remove_quotes(mem_arena *env_arena, char *input)
 {
 	int i;
 	char *result;
+	int	*single_quotes;
+	int	*double_quotes;
 
 	if (!input || !env_arena)
 		return (NULL);
 	i = 0;
     result = NULL;
+	single_quotes = 0;
+	double_quotes = 0;
     while (input[i])
     {
-        if (input[i] != '\'' && input[i] != '"')
+        if (!is_quote(input[i], &single_quotes, &double_quotes))
 		{
         	result = ar_add_char_to_str(env_arena, result, input[i]);
         	if (!result)

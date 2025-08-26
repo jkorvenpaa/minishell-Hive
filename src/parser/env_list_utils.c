@@ -22,7 +22,7 @@ static int	process_env_variable(mem_arena *env_arena, t_env *new_env, char *env_
 	equal_sign = ft_strchr(env_str, '='); //search for = and set pointer there
 	if (equal_sign)
 	{
-		new_env->name = ar_substr(env_arena, env_str, 0, equal_sign - env_str); //before = (p.ex: USER) copies before (but its always set to before the =))
+		new_env->name = ar_substr(env_arena, env_str, 0, equal_sign - env_str); //before = (p.ex: USER)
 		new_env->value = arena_strdup(env_arena, equal_sign + 1); // after = (p.ex.: guest) copies everything after equal sign
 	}
 	else //if no value is assigned, the environment variable still exists but just with empty value

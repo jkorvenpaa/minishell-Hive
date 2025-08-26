@@ -64,9 +64,7 @@ static char    *expansion_loop(char *token_value, t_expansion *data)
     i = 0;
     single_quotes = 0;
     double_quotes = 0;
-    result = arena_strdup(data->env_arena, "");  //initialize it to empty string
-    if (!result)
-        return (NULL);
+    result = NULL;
     while (token_value[i])
     {
         handle_quote_flags(token_value[i], &single_quotes, &double_quotes);
