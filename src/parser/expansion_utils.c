@@ -1,71 +1,95 @@
 
 #include "minishell.h"
 
-char *expand_value(mem_arena *env_arena, char *token_val, t_env *env, int exit_status)
+static char *handle_exit_status(t_expansion *data, int *i)
 {
-    int	i;
-	int	single_quotes;
-	int	double_quotes;
-    char *result;
-	char	*status;
-	char	*var_name;
-	int	len;
-	t_env *node;
+    char    *result;
 
-	if (!token_val || !env_arena)
-		return (NULL);
-	i = 0;
-	single_quotes = 0;
-	double_quotes = 0;
-	result = arena_strdup(env_arena, ""); //initialize it to empty string
-	if (!result)
-		return (NULL);
-    while (token_val[i])
+    result = arena_itoa(data->env_arena, data->exit_status); //needs to be a string to be able to append to result
+    if (result)
+        (*i)++;
+    return (result);
+}
+
+static char    *resolve_variable(char *token_value, int *i, t_expansion *data)
+{
+    char    *result;
+    int len;
+    char *var_name;
+    t_env   *node;
+
+    result = NULL;
+    (*i)++;
+    if (token_value[*i] == '?') // exit status variable we get it in the main loop of the program after executing commands
+        result = handle_exit_status(data, i);
+    else
     {
-        handle_quote_flags(token_val[i], &single_quotes, &double_quotes);
-        if (token_val[i] == '$' && !single_quotes)
+        var_name = get_variable_name(data->env_arena, &token_value[*i], &len);
+        if (var_name) //variable name is valid
         {
-            i++;
-            if (token_val[i] == '?') //exit status variable we get it in the main loop of the program after executing commands
-            {
-                status = arena_itoa(env_arena, exit_status); //needs to be a string to be able to append to result
-				if (!status)
-					return (NULL);
-                result = ar_strjoin(env_arena, result, status);
-                if (!result)
-                    return (NULL);
-                i++;
-            }
+            node = get_env_node(data->env, var_name);
+            if (node && node->value)
+                result = node->value; //append value: $USER becomes $nuria
             else
-            {
-                var_name = get_variable_name(env_arena, &token_val[i], &len);
-                if (var_name) //variable name is valid
-                {
-                    node = get_env_node(env, var_name);
-                    if (node && node->value)
-                        result = ar_strjoin(env_arena, result, node->value); //append value: $USER becomes $nuria
-                    else
-                        result = ar_strjoin(env_arena, result, ""); // $NOTDEFINED becomes $ (mimics bash behaviour prints nothing, not an error)
-				    if (!result)
-					    return (NULL);
-                    i += len; //skip chars of variable name
-                }
-                else //invalid variable name, string kept literally
-                {
-                    result = ar_add_char_to_str(env_arena, result, '$'); // manually append $ so it stays in the result
-			        if (!result)
-				        return (NULL);
-			    }
-            }
+                result = ""; // $NOTDEFINED becomes $ (mimics bash behaviour prints nothing, not an error)
+            (*i) += len; //skip chars of variable name
         }
+        else //invalid variable name, string kept literally
+            result = "$";
+    }
+    return (result);
+}
+
+static char *handle_expansion_char(t_expansion *data, char *result, char *token_value, int *i)
+{
+    char    *new_result;
+    char    *exp_value;
+
+    exp_value = resolve_variable(token_value, i, data);
+    if (!exp_value)
+        return (NULL);
+    new_result = ar_strjoin(data->env_arena, result, exp_value);
+    if (!new_result)
+        return (NULL);
+    return (new_result);
+}
+
+static char    *expansion_loop(char *token_value, t_expansion *data)
+{
+    int i;
+    int single_quotes;
+    int double_quotes;
+    char    *result;
+
+    i = 0;
+    single_quotes = 0;
+    double_quotes = 0;
+    result = arena_strdup(data->env_arena, "");  //initialize it to empty string
+    if (!result)
+        return (NULL);
+    while (token_value[i])
+    {
+        handle_quote_flags(token_value[i], &single_quotes, &double_quotes);
+        if (token_value[i] == '$' && !single_quotes)
+            result = handle_expansion_char(data, result, token_value, &i);
         else
         {
-            result = ar_add_char_to_str(env_arena, result, token_val[i]); // append normal characters if the token contains something like "Hello $USER"
-		    if (!result)
-			    return (NULL);
+            result = ar_add_char_to_str(data->env_arena, result, token_value[i]); // append normal characters 
+            if (!result)
+                return (NULL);
             i++;
         }
     }
+    return (result);
+}
+
+char *expand_value(char *token_val, t_expansion *data)
+{
+    char *result;
+
+	if (!data || !data->env_arena || !token_val)
+		return (NULL);
+    result = expansion_loop(token_val, data);
     return (result);
 }
 

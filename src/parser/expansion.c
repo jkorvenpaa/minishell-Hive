@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/25 11:57:04 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/26 11:16:11 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,21 @@ char	*get_variable_name(mem_arena *env_arena, const char *input, int *len)
 	*len = i;
 	return (ar_substr(env_arena, input, 0, i));
 }
-
-char *remove_quotes(mem_arena *env_arena, char *input)
+static int	skip_quote(char c, int *single_quotes, int *double_quotes)
+{
+	if (c == '\'' && !(*double_quotes))
+	{
+		*single_quotes = !(*single_quotes);
+		return (1);
+	}
+	if (c == '"' && !(*single_quotes))
+	{
+		*double_quotes = !(*double_quotes);
+		return (1);
+	}
+	return (0);
+}
+static char *remove_quotes(mem_arena *env_arena, char *input)
 {
 	int i;
 	int single_quotes;
@@ -48,22 +61,13 @@ char *remove_quotes(mem_arena *env_arena, char *input)
         return (NULL);
     while (input[i])
     {
-        if (input[i] == '\'' && !double_quotes)
-        {
-            single_quotes = !single_quotes;
-            i++;
-            continue;
-        }
-        if (input[i] == '"' && !single_quotes)
-        {
-            double_quotes = !double_quotes;
-            i++;
-            continue;
-        }
-        result = ar_add_char_to_str(env_arena, result, input[i]);
-        if (!result)
-            return (NULL);
-        i++;
+        if (!skip_quote(input[i], &single_quotes, &double_quotes))
+		{
+        	result = ar_add_char_to_str(env_arena, result, input[i]);
+        	if (!result)
+            	return (NULL);
+		}
+		i++;
     }
     return (result);
 }
@@ -71,13 +75,17 @@ char *remove_quotes(mem_arena *env_arena, char *input)
 t_token	*expand_tokens(mem_arena *env_arena, t_token *tokens, t_env *env, int exit_status)
 {
 	t_token	*current;
+	t_expansion data;
 
+	data.env_arena = env_arena;
+	data.env = env;
+	data.exit_status = exit_status;
 	current = tokens;
 	while (current)
 	{
 		if (current->type == WORD && current->value)
 		{
-			current->value = expand_value(env_arena, current->value, env, exit_status);
+			current->value = expand_value(current->value, &data);
 			if (!current->value)
 				return (NULL);
 			current->value = remove_quotes(env_arena, current->value);
