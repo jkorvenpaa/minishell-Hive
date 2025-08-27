@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:44:09 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/22 14:42:13 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 11:11:29 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,12 @@ static void	handle_redirection(mem_arena *arena, t_command *cmd, t_token *redir_
 		cmd->outfile = arena_strdup(arena, redir_token->next->value);
 		cmd->append = 0;
 	}
-	else if(redir_token->type == APPEND)
+	else if (redir_token->type == APPEND)
 	{
 		cmd->outfile = arena_strdup(arena, redir_token->next->value);
 		cmd->append = 1;
 	}
-	else if(redir_token->type == HEREDOC)
+	else if (redir_token->type == HEREDOC)
 		cmd->heredoc = arena_strdup(arena, redir_token->next->value);
 }
 
@@ -72,7 +72,7 @@ t_command	*group_commands(mem_arena *arena, t_token *tokens)
 {
 	t_command	*cmd_list;
 	t_command	*current_cmd;
-	t_token	*token_iterator;
+	t_token		*token_iterator;
 
 	cmd_list = NULL;
 	current_cmd = NULL;

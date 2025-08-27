@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/26 10:35:06 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 10:31:21 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,6 @@ t_command	*run_parser(mem_arena *arena, mem_arena *env_arena, t_env *env, int ex
 	char	*input;
 	t_token	*tokens;
 	t_command	*cmd_list;
-
 
 	while (1)
 	{

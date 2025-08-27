@@ -75,6 +75,7 @@ char	*ar_strjoin(mem_arena *arena, char const *s1, char const *s2)
 	joinedstr[j] = '\0';
 	return (joinedstr);
 }
+
 char	*arena_itoa(mem_arena *env_arena, int n)
 {
 	size_t	len;

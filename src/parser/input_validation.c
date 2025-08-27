@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:43:28 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/27 10:28:46 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 11:15:23 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	handle_unclosed_quotes(t_token *tokens)
 {
 	int	single_quotes;
 	int	double_quotes;
-	char	*str;
+	char		*str;
 	int	i;
 
 	single_quotes = 0;
@@ -56,6 +56,7 @@ static int	handle_unclosed_quotes(t_token *tokens)
 	}
 	return (1);
 }
+
 /**
  * Validates correct pipe usage.
  * Ensures that:
@@ -78,8 +79,8 @@ static int	validate_pipes(t_token *tokens)
 		if (current->type == PIPE)
 		{
 			if (!current->next || current->next->type == PIPE
-			|| current->next->type == REDIRECT_IN || current->next->type == REDIRECT_OUT
-			|| current->next->type == APPEND || current->next->type == HEREDOC)
+				|| current->next->type == REDIRECT_IN || current->next->type == REDIRECT_OUT
+				|| current->next->type == APPEND || current->next->type == HEREDOC)
 			{
 				printf("syntax error near unexpected token `|'\n");
 				return (0);
@@ -89,6 +90,7 @@ static int	validate_pipes(t_token *tokens)
 	}
 	return (1);
 }
+
 /**
  * Validates correct redirection operator usage.
  * Ensures every redirection token is followed by a valid WORD
@@ -103,7 +105,7 @@ static int	validate_redirections(t_token *tokens)
 	while (current)
 	{
 		if (current->type == REDIRECT_IN || current->type == REDIRECT_OUT
-		|| current->type == APPEND || current->type == HEREDOC)
+			|| current->type == APPEND || current->type == HEREDOC)
 		{
 			if (!current->next || current->next->type != WORD)
 			{
@@ -116,6 +118,7 @@ static int	validate_redirections(t_token *tokens)
 	}
 	return (1);
 }
+
 /**
  * Main function that validates syntax on the token list.
  * Ensures that:

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:49:33 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/22 14:53:11 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 11:13:00 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ t_command	*create_command_node(mem_arena *arena)
 	if (!node)
 		return (NULL);
 	node->argv = NULL;
-	node->infile  = NULL;
+	node->infile = NULL;
 	node->outfile = NULL;
 	node->append = 0;
 	node->heredoc = NULL;
@@ -40,8 +40,8 @@ t_command	*create_command_node(mem_arena *arena)
  */
 void	*add_argument_to_argv(mem_arena *arena, t_command *cmd, char *arg)
 {
-	int	count;
-	int	i;
+	int		count;
+	int		i;
 	char	**new_argv;
 
 	count = 0;
@@ -50,7 +50,7 @@ void	*add_argument_to_argv(mem_arena *arena, t_command *cmd, char *arg)
 		while (cmd->argv[count])
 			count++;
 	}
-	new_argv = arena_alloc(arena, sizeof(char *) * (count +  2));
+	new_argv = arena_alloc(arena, sizeof(char *) * (count + 2));
 	if (!new_argv)
 		return (NULL);
 	i = 0;
@@ -75,7 +75,7 @@ void	*add_argument_to_argv(mem_arena *arena, t_command *cmd, char *arg)
 void	append_command_to_list(t_command **head, t_command *new_cmd)
 {
 	t_command	*temp;
-	
+
 	if (!*head)
 	{
 		*head = new_cmd;
