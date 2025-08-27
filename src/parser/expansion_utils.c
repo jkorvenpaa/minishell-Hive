@@ -1,6 +1,10 @@
 
 #include "minishell.h"
 
+/**
+ * Converts the last command's exit status to a string.
+ * Returns the exit status as a newly allocated string, NULL on failure.
+ */
 static char *handle_exit_status(t_expansion *data, int *i)
 {
     char    *result;
@@ -10,7 +14,11 @@ static char *handle_exit_status(t_expansion *data, int *i)
         (*i)++;
     return (result);
 }
-
+/**
+ * Handles '$?' (exit status), normal variables like '$USER',
+ * undefined variables (expanded to an empty string), and invalid
+ * variable names (kept literally).
+ */
 static char    *resolve_variable(char *token_value, int *i, t_expansion *data)
 {
     char    *result;
@@ -39,7 +47,11 @@ static char    *resolve_variable(char *token_value, int *i, t_expansion *data)
     }
     return (result);
 }
-
+/**
+ * Expands a variable and appends its value to the current result.
+ * Returns the updated result string with expansion applied, NULL
+ * on failure.
+ */
 static char *handle_expansion_char(t_expansion *data, char *result, char *token_value, int *i)
 {
     char    *new_result;
@@ -53,7 +65,11 @@ static char *handle_expansion_char(t_expansion *data, char *result, char *token_
         return (NULL);
     return (new_result);
 }
-
+/**
+ * Main function for the loop that handles the expansion
+ * of all the variables iterating through the token string.
+ * Returns the expanded string or NULL on failure.
+ */
 static char    *expansion_loop(char *token_value, t_expansion *data)
 {
     int i;
@@ -80,7 +96,11 @@ static char    *expansion_loop(char *token_value, t_expansion *data)
     }
     return (result);
 }
-
+/**
+ * Entry point for expansion: checks inputs and then processes
+ * the string with expansion_loop().
+ * Returns the expanded string, NULL on failure.
+ */
 char *expand_value(char *token_val, t_expansion *data)
 {
     char *result;

@@ -6,14 +6,15 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:43:28 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/19 13:52:27 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 10:28:46 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * 
+ * Toggles quote flags based on the current character,
+ * ensures quotes inside quotes are ignored.
  */
 void	handle_quote_flags(char c, int *single_quotes, int *double_quotes)
 {
@@ -24,7 +25,9 @@ void	handle_quote_flags(char c, int *single_quotes, int *double_quotes)
 }
 
 /**
- * 
+ * Iterates through all tokens and toggles quote states accordingly.
+ * If any quotes remain unclosed by the end, an error message is printed.
+ * Returns 1 if all quotes are closed, 0 otherwise.
  */
 static int	handle_unclosed_quotes(t_token *tokens)
 {
@@ -54,7 +57,11 @@ static int	handle_unclosed_quotes(t_token *tokens)
 	return (1);
 }
 /**
- * 
+ * Validates correct pipe usage.
+ * Ensures that:
+ * - Input doesn't start or end with a pipe.
+ * - Pipes aren't followed by another pipe or a redirection operator.
+ * Returns 1 if pipe usage is valid, 0 otherwise.
  */
 static int	validate_pipes(t_token *tokens)
 {
@@ -83,7 +90,10 @@ static int	validate_pipes(t_token *tokens)
 	return (1);
 }
 /**
- * 
+ * Validates correct redirection operator usage.
+ * Ensures every redirection token is followed by a valid WORD
+ * token (filename).
+ * Returns 1 if all redirections are valid, 0 otherwise.
  */
 static int	validate_redirections(t_token *tokens)
 {
@@ -107,11 +117,17 @@ static int	validate_redirections(t_token *tokens)
 	return (1);
 }
 /**
- * 
+ * Main function that validates syntax on the token list.
+ * Ensures that:
+ * - Quotes are closed.
+ * - Pipes are used correctly.
+ * - Redirections are valid.
+ * Takes into account that empty input (pressing Enter) is valid.
+ * Returns 1 if syntax is valid, 0 otherwise.
  */
 int	validate_syntax(t_token *tokens)
 {
-	if (!tokens) //empty input is valid, exits early
+	if (!tokens)
 		return (1);
 	if (!handle_unclosed_quotes(tokens))
 		return (0);

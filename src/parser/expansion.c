@@ -6,12 +6,19 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/26 15:44:32 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 09:58:17 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * Extracts a valid variable name from a string.
+ * A variable name has to start with a letter or underscore, 
+ * and can contain alphanumeric characters or underscores.
+ * The length of the name is returned via 'len'.
+ * Returns the newly allocated variable name or NULL if invalid.
+ */
 char	*get_variable_name(mem_arena *env_arena, const char *input, int *len)
 {
 	int	i;
@@ -30,6 +37,12 @@ char	*get_variable_name(mem_arena *env_arena, const char *input, int *len)
 	*len = i;
 	return (ar_substr(env_arena, input, 0, i));
 }
+
+/**
+ * Checks if a character is a quote and updates its quote state,
+ * ignoring quotes inside quotes.
+ * Returns 1 if it's a quote, 0 otherwise.
+ */
 static int	is_quote(char c, int *single_quotes, int *double_quotes)
 {
 	if (c == '\'' || c == '"')
@@ -39,6 +52,12 @@ static int	is_quote(char c, int *single_quotes, int *double_quotes)
 	}
 	return (0);
 }
+
+/**
+ * Removes quotes from a string. Traverses the input string, 
+ * skipping single and double quotes but preserving all other chars.
+ * Returns new string without quotes, NULL on error.
+ */
 static char *remove_quotes(mem_arena *env_arena, char *input)
 {
 	int i;
@@ -64,7 +83,12 @@ static char *remove_quotes(mem_arena *env_arena, char *input)
     }
     return (result);
 }
-
+/**
+ * Main function for expansion of the tokens.
+ * Iterates over all tokens, and focuses on tokens which have the type WORD
+ * expanding variables and the special exit status, then removes quotes.
+ * Returns updated token list, NULL on failure.
+ */
 t_token	*expand_tokens(mem_arena *env_arena, t_token *tokens, t_env *env, int exit_status)
 {
 	t_token	*current;

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:51:27 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/25 09:56:57 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 09:34:09 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	get_operator_len(char *input, int i)
 		return (1);
 	return (0);	
 }
+
 /**
  * Determines the type of token based on the input string
  * and returns the corresponding enum value.

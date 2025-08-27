@@ -1,6 +1,11 @@
 
 #include "minishell.h"
 
+/**
+ * Adds a new environment node to the list. If the list is empty,
+ * the new node becomes the head. Otherwise, it's appended to the
+ * end of the list.
+ */
 static void	append_env_to_list(t_env **head, t_env *new_node)
 {
 	t_env	*temp;
@@ -15,6 +20,13 @@ static void	append_env_to_list(t_env **head, t_env *new_node)
 		temp = temp->next;
 	temp->next = new_node;	
 }
+
+/**
+ * Fills a t_env node with a name and value from a string.
+ * Splits "NAME=VALUE" into name and value and if '=' isn't found,
+ * the variable is created with an empty value.
+ * Returns 1 on success, 0 if allocation failed.
+ */
 static int	process_env_variable(mem_arena *env_arena, t_env *new_env, char *env_str)
 {
 	char *equal_sign;
@@ -34,6 +46,13 @@ static int	process_env_variable(mem_arena *env_arena, t_env *new_env, char *env_
 		return (0);
 	return (1);
 }
+
+/**
+ * Builds a linked list of environment variables from envp.
+ * Iterates through envp, creates a t_env node for each string
+ * and appends to the list.
+ * Returns head of the linked list or NULL or error.
+ */
 t_env	*init_env_list(mem_arena *env_arena, char **envp)
 {
 	int	i;
@@ -56,6 +75,12 @@ t_env	*init_env_list(mem_arena *env_arena, char **envp)
 	}
 	return (head);
 }
+
+/**
+ * Finds an environment variable node by name.
+ * Compares each node's name with the given one until an exact match is found.
+ * Returns matching node or NULL if not found.
+ */
 t_env	*get_env_node(t_env *env_list, const char *name)
 {
 	size_t	name_len;

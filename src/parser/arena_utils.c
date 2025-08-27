@@ -59,7 +59,7 @@ char	*ar_strjoin(mem_arena *arena, char const *s1, char const *s2)
 	if (!s1 && !s2)
 		return (NULL);
 	if (!s1)
-		return (arena_strdup(arena, s2)); //return a copy for safety so we dont modify the original environment variable
+		return (arena_strdup(arena, s2));
 	if (!s2)
 		return (arena_strdup(arena, s1));
 	joinedstr = arena_alloc(arena, ft_strlen(s1) + ft_strlen(s2) + 1);
