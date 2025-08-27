@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 10:50:23 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/27 12:42:35 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:11:46 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,11 @@ int	echo(t_command *command)
 {
 	int	i;
 
+	if (!command->argv[1])
+	{
+		printf("\n");
+		return (0);
+	}
 	if (ft_strncmp(command->argv[1], "-n", 2) == 0)
 		i = 2;
 	else
@@ -24,6 +29,8 @@ int	echo(t_command *command)
 	while (command->argv[i])
 	{
 		printf("%s", command->argv[i]);
+		if (command->argv[i+1])
+			printf(" ");
 		i++;
 	}
 	if (ft_strncmp(command->argv[1], "-n", 2) != 0)
@@ -43,8 +50,10 @@ int	cd(char *next_cmd)
 	return (0);
 }
 
-int	pwd(char *cmd)
+int	pwd()
 {
+	char	*cmd;
+	
 	cmd = getcwd(NULL, 0);
 	if (!cmd)
 		return (1); //check status

@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/27 15:00:56 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/27 15:56:02 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,14 @@ t_command	*run_parser(char *input, mem_arena *arena, mem_arena *env_arena, t_env
 		tokens = tokenize_input(arena, input);
 		if (!tokens)
 		{
-			free(input);
+			return (NULL);
+			//free(input);
 			//continue;
 		}
 		if (!validate_syntax(tokens))
 		{
-			free(input);
+			return (NULL);
+			//free(input);
 			//continue;
 		}
 		tokens = expand_tokens(env_arena, tokens, env, exit_status);
