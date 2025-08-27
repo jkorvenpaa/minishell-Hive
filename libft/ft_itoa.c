@@ -6,13 +6,13 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 14:21:59 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/25 09:48:22 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 11:27:30 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	ft_count_digits(int n)
+size_t	ft_count_digits(int n)
 {
 	size_t	counter;
 

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/27 09:58:17 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 12:01:10 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,21 +39,6 @@ char	*get_variable_name(mem_arena *env_arena, const char *input, int *len)
 }
 
 /**
- * Checks if a character is a quote and updates its quote state,
- * ignoring quotes inside quotes.
- * Returns 1 if it's a quote, 0 otherwise.
- */
-static int	is_quote(char c, int *single_quotes, int *double_quotes)
-{
-	if (c == '\'' || c == '"')
-	{
-		handle_quote_flags(c, single_quotes, double_quotes);
-		return (1);
-	}
-	return (0);
-}
-
-/**
  * Removes quotes from a string. Traverses the input string, 
  * skipping single and double quotes but preserving all other chars.
  * Returns new string without quotes, NULL on error.
@@ -62,8 +47,8 @@ static char *remove_quotes(mem_arena *env_arena, char *input)
 {
 	int i;
 	char *result;
-	int	*single_quotes;
-	int	*double_quotes;
+	int	single_quotes;
+	int	double_quotes;
 
 	if (!input || !env_arena)
 		return (NULL);
@@ -73,7 +58,10 @@ static char *remove_quotes(mem_arena *env_arena, char *input)
 	double_quotes = 0;
     while (input[i])
     {
-        if (!is_quote(input[i], &single_quotes, &double_quotes))
+        if ((input[i] == '\'' && double_quotes == 0)
+			|| (input[i] == '"' && single_quotes == 0))
+			handle_quote_flags(input[i], &single_quotes, &double_quotes);
+		else
 		{
         	result = ar_add_char_to_str(env_arena, result, input[i]);
         	if (!result)

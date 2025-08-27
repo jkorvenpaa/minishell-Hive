@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/26 14:28:56 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 11:39:23 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_shell	*init_shell(mem_arena *arena, mem_arena *env_arena, char **envp)
 	if (!shell)
 		return (NULL);
 	shell->exit_status = 0;
-	shell->env_list = init_env_list(env_arena, *envp);
+	shell->env_list = init_env_list(env_arena, envp);
 	//shell->history_list = history;
 	shell->arena = arena;
 	shell->env_arena = env_arena;
@@ -40,8 +40,8 @@ int main(int argc, char **argv, char **envp)
 	arena = arena_init();
 	env_arena = arena_init();
 	shell = init_shell(arena, env_arena, envp);
-	command_list = run_parser(arena, env_arena);
-	execution(shell, command_list);
+	command_list = run_parser(arena, env_arena, shell->env_list, shell->exit_status);
+	// execution(shell, command_list);
 	//free arenas for env and history only in exit
 	return (0);
 }

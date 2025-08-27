@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/26 11:04:45 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 11:21:01 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,6 @@ char	*ar_strjoin(mem_arena *arena, char const *s1, char const *s2);
 char	*arena_itoa(mem_arena *env_arena, int n);
 
 //main function in parsing branch
-t_command	*run_parser(mem_arena *arena, mem_arena *env_arena); 
+t_command	*run_parser(mem_arena *arena, mem_arena *env_arena, t_env *env, int exit_status); 
 
 #endif
