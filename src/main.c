@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/27 11:39:23 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 12:18:13 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int main(int argc, char **argv, char **envp)
 	env_arena = arena_init();
 	shell = init_shell(arena, env_arena, envp);
 	command_list = run_parser(arena, env_arena, shell->env_list, shell->exit_status);
-	// execution(shell, command_list);
+	execution(shell, command_list);
 	//free arenas for env and history only in exit
 	return (0);
 }

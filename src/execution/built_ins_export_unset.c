@@ -1,4 +1,5 @@
 #include "minishell.h"
+#include "execution.h"
 
 int	env_builtin(t_shell *shell)
 {
@@ -47,6 +48,7 @@ t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd)
 	new->value = ar_substr(shell->arena, next_cmd, e + 1, i - e);
 	if (!new->value)
 		return (NULL);
+	return (new);
 }
 
 t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/27 11:21:01 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 12:41:57 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "libft.h"
 # include "arena.h"
-# include "execution.h"
+//# include "execution.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdio.h>
@@ -29,6 +29,7 @@ typedef	enum e_token_type
 	HEREDOC,
 	WORD,
 }	t_token_type;
+
 typedef struct s_token
 {
 	char	*value;
@@ -45,6 +46,14 @@ typedef struct s_command
 	char	*heredoc;
 	struct s_command	*next;
 } t_command;
+
+typedef struct s_env
+{
+	char	*name;
+	char	*value;
+	struct s_env	*next;
+}	t_env;
+
 typedef struct s_expansion
 {
     mem_arena   *env_arena;
@@ -52,22 +61,25 @@ typedef struct s_expansion
     int exit_status;
 }   t_expansion;
 
-//execution transfer
-t_shell	*init_shell(mem_arena *arena, mem_arena *env_arena, char **envp);
+typedef struct s_history
+{
+	char 	*history; //command made
+	int		nbr; //number of  history commands
+	struct s_history	*next;
+}	t_history;
+
+
+typedef struct s_shell
+{
+	int			exit_status; // $? fetches this
+	mem_arena	*arena;
+	mem_arena	*env_arena;
+	t_env		*env_list;
+//	t_history	*history_list;
+}	t_shell;
+
+
 void	execution(t_shell *shell, t_command	*command_list);
-
-void	check_if_builtin(t_command *command, t_shell *shell);
-
-int		echo(t_command *command);
-int		cd(char *next_cmd);
-int 	pwd(char *cmd);
-
-int		export(char	*next_cmd, t_shell *shell);
-t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd);
-t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd);
-int		unset(char *next_cmd, t_shell *shell);
-int	env_builtin(t_shell *shell);
-
 
 
 // Linked list functions

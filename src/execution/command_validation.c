@@ -6,11 +6,12 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/25 17:07:26 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/27 12:43:45 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include "execution.h"
 
 bool	check_if_built_in(t_command *command)
 {
@@ -53,8 +54,8 @@ void	execute_built_in(t_command *command, t_shell *shell)
 		shell->exit_status = unset(next_cmd, shell);
 	else if (ft_strncmp(cmd, "env", 3) == 0)
 		shell->exit_status = env_builtin(shell);
-	else if (ft_strncmp(cmd, "exit", 4) == 0)
-		exit_builtin(shell);
+	//else if (ft_strncmp(cmd, "exit", 4) == 0)
+	//	exit_builtin(shell);
 }
 
 char	*find_command_path(t_command *command, t_shell *shell)
@@ -83,7 +84,7 @@ char	*find_command_path(t_command *command, t_shell *shell)
 	return (NULL);//path not found
 }
 
-void	prepare_files(t_command	*command, t_shell *shell)
+void	prepare_files(t_command	*command) // t_shell *shell
 {
 	int	fd;
 
