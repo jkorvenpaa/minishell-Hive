@@ -6,9 +6,12 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 09:06:53 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/15 09:38:25 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:50:19 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
+
 int	ft_toupper(int c)
 {
 	if (c >= 'a' && c <= 'z')

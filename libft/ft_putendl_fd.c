@@ -6,9 +6,10 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:28:04 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/28 12:31:28 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:48:49 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 void	ft_putendl_fd(char *s, int fd)

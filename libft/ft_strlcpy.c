@@ -6,9 +6,10 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 10:44:37 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/18 16:00:13 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:49:33 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)

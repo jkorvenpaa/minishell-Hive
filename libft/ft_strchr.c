@@ -6,9 +6,10 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/17 15:12:04 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/17 15:58:51 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:49:14 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 char	*ft_strchr(const char *s, int c)

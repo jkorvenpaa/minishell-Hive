@@ -6,14 +6,11 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 09:10:16 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/25 13:20:57 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:49:58 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-static int		in_set(const char *set, char c);
-static size_t	find_start(const char *s1, const char *set);
-static size_t	find_end(const char *s1, const char *set);
+#include "libft.h"
 
 static int	in_set(const char *set, char c)
 {

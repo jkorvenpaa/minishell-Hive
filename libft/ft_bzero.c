@@ -6,9 +6,10 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:00:47 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/15 15:34:39 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:47:22 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 void	ft_bzero(void *s, size_t n)

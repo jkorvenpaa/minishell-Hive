@@ -6,15 +6,11 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/25 13:21:52 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/28 08:40:04 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:49:10 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-static size_t	ft_count_words(char const *s, char c);
-static size_t	ft_wordlen(char const *s, char c);
-static char		**ft_free(char **array);
-static char		**ft_words(char **result, size_t words, char const *s, char c);
+#include "libft.h"
 
 static size_t	ft_count_words(char const *s, char c)
 {

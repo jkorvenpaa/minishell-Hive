@@ -6,9 +6,12 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/14 17:09:51 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/14 17:13:08 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:47:58 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
+
 int	ft_isdigit(int c)
 {
 	if (c >= '0' && c <= '9')

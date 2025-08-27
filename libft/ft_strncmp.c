@@ -6,9 +6,10 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/18 10:05:39 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/18 10:31:34 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:49:43 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 int	ft_strncmp(const char *s1, const char *s2, size_t n)

@@ -6,22 +6,11 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:44:09 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/22 10:48:01 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 11:11:29 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/**
- * Ensures that old file names are freed before setting a new one.
- * It duplicates the provided value to avoid using token memory directly.
- */
-static void	assign_redirect_file(mem_arena *arena, char **field, const char *value)
-{
-	//if (*field)
-		// free(*field);
-	*field = arena_strdup(arena, value);
-}
 
 /**
  * Processes a redirection token and updates the command.
@@ -30,19 +19,19 @@ static void	assign_redirect_file(mem_arena *arena, char **field, const char *val
 static void	handle_redirection(mem_arena *arena, t_command *cmd, t_token *redir_token)
 {
 	if (redir_token->type == REDIRECT_IN)
-		assign_redirect_file(arena, &cmd->infile, redir_token->next->value);
+		cmd->infile = arena_strdup(arena, redir_token->next->value);
 	else if (redir_token->type == REDIRECT_OUT)
 	{
-		assign_redirect_file(arena, &cmd->outfile, redir_token->next->value);
+		cmd->outfile = arena_strdup(arena, redir_token->next->value);
 		cmd->append = 0;
 	}
-	else if(redir_token->type == APPEND)
+	else if (redir_token->type == APPEND)
 	{
-		assign_redirect_file(arena, &cmd->outfile, redir_token->next->value);
+		cmd->outfile = arena_strdup(arena, redir_token->next->value);
 		cmd->append = 1;
 	}
-	else if(redir_token->type == HEREDOC)
-		assign_redirect_file(arena, &cmd->heredoc, redir_token->next->value);
+	else if (redir_token->type == HEREDOC)
+		cmd->heredoc = arena_strdup(arena, redir_token->next->value);
 }
 
 /**
@@ -83,12 +72,11 @@ t_command	*group_commands(mem_arena *arena, t_token *tokens)
 {
 	t_command	*cmd_list;
 	t_command	*current_cmd;
-	t_token	*token_iterator;
+	t_token		*token_iterator;
 
 	cmd_list = NULL;
 	current_cmd = NULL;
 	token_iterator = tokens;
-
 	while (token_iterator)
 	{
 		if (token_iterator->type == WORD)

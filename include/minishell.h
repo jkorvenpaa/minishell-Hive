@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/22 13:22:37 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/27 11:21:01 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,12 @@ typedef struct s_command
 	char	*heredoc;
 	struct s_command	*next;
 } t_command;
+typedef struct s_expansion
+{
+    mem_arena   *env_arena;
+    t_env   *env;
+    int exit_status;
+}   t_expansion;
 
 //execution transfer
 t_shell	*init_shell(mem_arena *arena, mem_arena *env_arena, char **envp);
@@ -67,7 +73,6 @@ int	env_builtin(t_shell *shell);
 // Linked list functions
 t_token	*create_token_node(mem_arena *arena, char *word, t_token_type type);
 void	append_token_to_list(t_token **head, t_token *new_node);
-void	free_token_list(mem_arena *arena, t_token *head);
 int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *input, int i, int len);
 int	save_token_to_list(mem_arena *arena, t_token **list, char **token);
 
@@ -88,9 +93,23 @@ void	*add_argument_to_argv(mem_arena *arena, t_command *cmd, char *arg);
 t_command	*group_commands(mem_arena *arena, t_token *tokens);
 
 int	validate_syntax(t_token *tokens);
+
+// Expansion functions
+t_token	*expand_tokens(mem_arena *env_arena, t_token *tokens, t_env *env, int exit_status);
+char	*get_variable_name(mem_arena *env_arena, const char *input, int *len);
+char *expand_value(char *token_val, t_expansion *data);
+
+// Environment list functions
+t_env	*get_env_node(t_env *env_list, const char *name);
+t_env	*init_env_list(mem_arena *env_arena, char **envp);
+
+// Arena functions (maybe in arena.h???)
 char	*arena_strdup(mem_arena *arena, const char *str);
 char	*ar_substr(mem_arena *arena, char const *s, unsigned int st, size_t len);
 char	*ar_strjoin(mem_arena *arena, char const *s1, char const *s2);
-t_command	*run_parser(mem_arena *arena, mem_arena *env_arena); //main function in parsing branch
+char	*arena_itoa(mem_arena *env_arena, int n);
+
+//main function in parsing branch
+t_command	*run_parser(mem_arena *arena, mem_arena *env_arena, t_env *env, int exit_status); 
 
 #endif

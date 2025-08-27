@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/25 16:32:02 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/27 12:08:15 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ typedef struct s_env
 {
 	char	*name;// NAME
 	char	*value;// nuria
-	struct t_env	*next; //
+	struct s_env	*next; //
 }	t_env;
 
 typedef struct s_history

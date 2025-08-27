@@ -6,9 +6,10 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/15 15:42:31 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/15 16:15:32 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:48:33 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 void	*ft_memcpy(void *dst, const void *src, size_t n)

@@ -6,9 +6,10 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/28 12:15:06 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/04/28 12:22:14 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/25 09:48:45 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "libft.h"
 
 void	ft_putchar_fd(char c, int fd)
