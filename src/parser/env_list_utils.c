@@ -27,7 +27,7 @@ static void	append_env_to_list(t_env **head, t_env *new_node)
  * the variable is created with an empty value.
  * Returns 1 on success, 0 if allocation failed.
  */
-static int	process_env_variable(mem_arena *env_arena, t_env *new_env, char *env_str)
+static int	process_env_variable(mem_arena *env_arena, t_env *new_env, const char *env_str)
 {
 	char *equal_sign;
 
@@ -53,7 +53,7 @@ static int	process_env_variable(mem_arena *env_arena, t_env *new_env, char *env_
  * and appends to the list.
  * Returns head of the linked list or NULL or error.
  */
-t_env	*init_env_list(mem_arena *env_arena, char **envp)
+t_env	*init_env_list(mem_arena *env_arena, const char **envp)
 {
 	int	i;
 	t_env *head;

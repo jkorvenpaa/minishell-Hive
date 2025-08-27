@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/27 12:42:26 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/27 15:23:07 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ void	command_loop(t_command *command, t_shell *shell)
 {
 	pid_t	pid;
 	char	*path;
+	char *const	*env;
+	env = (char *const *)shell->env_list;
 
 	if (check_if_built_in(command) == true)
 	{
@@ -28,12 +30,12 @@ void	command_loop(t_command *command, t_shell *shell)
 		pid = fork();
 		if (pid == 0)
 		{
-			prepare_files(command, shell);
+			prepare_files(command);
 			if (check_if_built_in(command) == true)
 				execute_built_in(command, shell);
 			path = find_command_path(command, shell);
-			//if (execve(path, command->argv, shell->env_list) == -1)
-				//exit_built_in();
+			//if (execve(path, command->argv, env) == -1)
+				//return;//exit_built_in();
 		}
 		//waitpid
 	}
