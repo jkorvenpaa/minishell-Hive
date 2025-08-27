@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/27 15:13:44 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:16:26 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int main(int argc, char **argv, char const **envp)
 		if (input == NULL)
 			break; //exit_builtin
 		command_list = run_parser(input, arena, env_arena, shell->env_list, shell->exit_status);
-		execution(shell, command_list);
+		// execution(shell, command_list);
 	}
 	//free arenas for env and history only in exit
 	return (0);

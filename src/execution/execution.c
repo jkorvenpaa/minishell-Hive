@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/27 15:23:07 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/27 15:36:07 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,8 @@
 
 void	command_loop(t_command *command, t_shell *shell)
 {
-	pid_t	pid;
-	char	*path;
+	//pid_t	pid;
+	//char	*path;
 	char *const	*env;
 	env = (char *const *)shell->env_list;
 
@@ -27,13 +27,13 @@ void	command_loop(t_command *command, t_shell *shell)
 	}
 	else
 	{
-		pid = fork();
-		if (pid == 0)
+		//pid = fork();
+		//if (pid == 0)
 		{
-			prepare_files(command);
-			if (check_if_built_in(command) == true)
-				execute_built_in(command, shell);
-			path = find_command_path(command, shell);
+			//prepare_files(command);
+			//if (check_if_built_in(command) == true)
+				//execute_built_in(command, shell);
+			//path = find_command_path(command, shell);
 			//if (execve(path, command->argv, env) == -1)
 				//return;//exit_built_in();
 		}

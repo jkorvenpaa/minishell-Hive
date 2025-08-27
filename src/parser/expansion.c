@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/27 12:01:10 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:50:06 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ static char *remove_quotes(mem_arena *env_arena, char *input)
 		}
 		i++;
     }
+	if (!result)
+		result = arena_strdup(env_arena, ""); // result is an empty string but still a valid token
     return (result);
 }
 /**
