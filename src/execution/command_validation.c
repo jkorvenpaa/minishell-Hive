@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/27 16:46:39 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:26:37 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*find_command_path(t_command *command, t_shell *shell)
 		final_path = arena_alloc(shell->arena, len);
 		if (!final_path)
 			return (NULL); //+mem_error
-		final_path = ft_strjoin(folder[i], "/");
+		final_path = ft_strjoin(folder[i], "/"); //SWITCH TO ARENA VERSION
 		final_path = ft_strjoin(final_path, command->argv[0]);
 		if (access(final_path, X_OK) == 0)
 			return (final_path);//found the command path
@@ -87,33 +87,51 @@ char	*find_command_path(t_command *command, t_shell *shell)
 	}
 	return (NULL);//path not found
 }
+/*
+char **env_to_array(env_arena, shell->env_list)
+{
+	
+}
+*/
 
-void	prepare_files(t_command	*command) // t_shell *shell
+int	prepare_files(t_command	*command) // t_shell *shell
 {
 	int	fd;
 
-	if (command->outfile)
+	if (command->outfile && command->append == 1)
 	{
-		fd = open(command->outfile, O_RDONLY);
+		fd = open(command->outfile, O_WRONLY | O_APPEND);
 		if (fd < 0)
 		{
-			// erno + exit
+			 perror("outfile open failed");
+			 return (1);
 		}
 		dup2(fd, STDOUT_FILENO);
 		close(fd);
 	}
-	//if (command->heredoc) need to be added
-	if (command->infile)
+	else if (command->outfile)
 	{
-		if (command->append == 1)
-			open(command->infile, O_APPEND);
-		else
-			open(command->infile, O_RDWR);
+		fd = open(command->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd < 0)
 		{
-			// erno + exit
+			 perror("outfile open failed");
+			 return (1);
+		}
+		dup2(fd, STDOUT_FILENO);
+		close(fd);
+	}
+	//if (command->heredoc) needs to be added
+	if (command->infile)
+	{
+		fd = open(command->infile, O_RDONLY);
+		if (fd < 0)
+		{
+			    perror("infile open failed");
+				return (2);
 		}
 		dup2(fd, STDIN_FILENO);
 		close(fd);
 	}
+	return (0);
 }
+

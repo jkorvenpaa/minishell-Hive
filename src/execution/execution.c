@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/27 16:32:28 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/28 16:30:06 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,41 +17,50 @@ void	command_loop(t_command *command, t_shell *shell)
 {
 	pid_t	pid;
 	char	*path;
-	char *const	*env;
-	env = (char *const *)shell->env_list;
+	char **env_array;
 
 	if (check_if_built_in(command) == true)
 	{
-		if (!command->next) //&& !command->prev)
+		if (!command->next && !command->infile && !command->outfile) //heredoc??&& !command->prev)
 			execute_built_in(command, shell);
+		else
+		{
+			pid = fork();
+			if (pid == 0)
+			{
+				if (prepare_files(command) != 0)
+					exit(EXIT_FAILURE);
+				execute_built_in(command, shell);
+				exit(EXIT_SUCCESS);
+			}
+			else if (pid > 0)
+				waitpid(pid, NULL, 0);
+		}
 	}
 	else
 	{
 		pid = fork();
 		if (pid == 0)
 		{
-			prepare_files(command);
-			if (check_if_built_in(command) == true)
-			{
-				execute_built_in(command, shell);
-				return;
-			}
+			if (prepare_files(command) != 0)
+				exit(EXIT_FAILURE);
 			path = find_command_path(command, shell);
-			printf("%s\n", path);
-			execve(path, command->argv, env);
+			//printf("%s\n", path);
+
+			//env_array = env_to_array(env_arena, shell->env_list);
+			execve(path, command->argv, env_array);
+			exit(EXIT_SUCCESS);
 			//if (execve(path, command->argv, env) == -1)
 			//	return;//exit_built_in();
 		}
 	else if (pid > 0)
 		waitpid(pid, NULL, 0);
-
 	}
 }
 
 void	execution(t_shell *shell, t_command	*command_list)
 {
 	//init_history
-	// if(!shell) ??
 	while (command_list)
 	{
 		command_loop(command_list, shell);
@@ -60,19 +69,12 @@ void	execution(t_shell *shell, t_command	*command_list)
 	//free_arena(shell->arena);
 	return ;
 }
-/*
-loop user inputs;
-{
-	command validation, action, history.
-	after executing command:
-		Free arenas used for tokens, commands.
-	Loop back to prompt.
-}
-free arenas for env and history only in exit
-
-*/
 
 /*
+
+1. Arena split and strjoin
+2. env_to_array function
+3. outfile + heredoc
 ----------------------
 
 HISTORYYYYY
@@ -96,6 +98,11 @@ Execve 🔹 Uses execve() to run the actual command (like cat, grep, etc.)
 Close 🔹 Uses close() to shut unused pipe ends and file descriptors
 
 Waitpid 🔹 Uses waitpid() to wait for all child processes to finish
+
+	after executing command:
+		Free arenas used for tokens, commands.
+
+free arenas for env and history only in exit
 
 
 */

@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/27 16:29:07 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/28 11:45:38 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	command_loop(t_command *command, t_shell *shell);
 bool	check_if_built_in(t_command *command);
 void	execute_built_in(t_command *command, t_shell *shell);
 char	*find_command_path(t_command *command, t_shell *shell);
-void	prepare_files(t_command	*command);
+int		prepare_files(t_command	*command);
 
 int		echo(t_command *command);
 int		cd(char *next_cmd);
@@ -63,7 +63,7 @@ int		export(char	*next_cmd, t_shell *shell);
 t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd);
 t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd);
 int		unset(char *next_cmd, t_shell *shell);
-int	env_builtin(t_shell *shell);
+int		env_builtin(t_shell *shell);
 
 
 
