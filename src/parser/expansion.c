@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/27 16:50:06 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/28 14:55:39 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@
 char	*get_variable_name(mem_arena *env_arena, const char *input, int *len)
 {
 	int	i;
-	
+
 	i = 0;
 	if (!input || !len)
 		return (NULL);
@@ -39,54 +39,67 @@ char	*get_variable_name(mem_arena *env_arena, const char *input, int *len)
 }
 
 /**
- * Removes quotes from a string. Traverses the input string, 
+ * Main loop for the quote removal. Traverses the input string, 
  * skipping single and double quotes but preserving all other chars.
  * Returns new string without quotes, NULL on error.
  */
-static char *remove_quotes(mem_arena *env_arena, char *input)
+static char	*stripped_string(mem_arena *env_arena, char *input)
 {
-	int i;
-	char *result;
-	int	single_quotes;
-	int	double_quotes;
+	int		i;
+	char	*result;
+	int		single_quotes;
+	int		double_quotes;
 
-	if (!input || !env_arena)
-		return (NULL);
 	i = 0;
-    result = NULL;
+	result = NULL;
 	single_quotes = 0;
 	double_quotes = 0;
-    while (input[i])
-    {
-        if ((input[i] == '\'' && double_quotes == 0)
+	while (input[i])
+	{
+		if ((input[i] == '\'' && double_quotes == 0)
 			|| (input[i] == '"' && single_quotes == 0))
 			handle_quote_flags(input[i], &single_quotes, &double_quotes);
 		else
 		{
-        	result = ar_add_char_to_str(env_arena, result, input[i]);
-        	if (!result)
-            	return (NULL);
+			result = ar_add_char_to_str(env_arena, result, input[i]);
+			if (!result)
+				return (NULL);
 		}
 		i++;
-    }
+	}
+	return (result);
+}
+
+/**
+ * Removes quotes from a string. 
+ * Entry point for the stripped_string() function.
+ */
+static char	*remove_quotes(mem_arena *env_arena, char *input)
+{
+	char	*result;
+
+	if (!input || !env_arena)
+		return (NULL);
+	result = stripped_string(env_arena, input);
 	if (!result)
 		result = arena_strdup(env_arena, ""); // result is an empty string but still a valid token
-    return (result);
+	return (result);
 }
+
 /**
  * Main function for expansion of the tokens.
  * Iterates over all tokens, and focuses on tokens which have the type WORD
  * expanding variables and the special exit status, then removes quotes.
  * Returns updated token list, NULL on failure.
  */
-t_token	*expand_tokens(mem_arena *env_arena, t_token *tokens, t_env *env, int exit_status)
+t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status)
 {
-	t_token	*current;
-	t_expansion data;
+	t_token		*current;
+	t_expansion	data;
 
 	data.env_arena = env_arena;
 	data.env = env;
-	data.exit_status = exit_status;
+	data.exit_status = status;
 	current = tokens;
 	while (current)
 	{
@@ -103,4 +116,3 @@ t_token	*expand_tokens(mem_arena *env_arena, t_token *tokens, t_env *env, int ex
 	}
 	return (tokens);
 }
-

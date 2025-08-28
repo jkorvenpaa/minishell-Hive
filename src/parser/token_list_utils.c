@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 09:39:28 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/22 14:11:15 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/28 15:13:55 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ t_token	*create_token_node(mem_arena *arena, char *word, t_token_type type)
 	node->next = NULL;
 	return (node);
 }
+
 /**
  * Appends a token node to the end of a linked list.
  * If the list is empty, new node becomes the  head.
@@ -58,8 +59,8 @@ void	append_token_to_list(t_token **head, t_token *new_node)
  */
 int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *input, int i, int len)
 {
-	char	*token;
-	t_token	*new;
+	char			*token;
+	t_token			*new;
 	t_token_type	type;
 
 	token = ar_substr(arena, input, i, len);
@@ -74,12 +75,13 @@ int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *input, in
 }
 
 /**
- * Creates a new token node from the current token string and appends it to the list. 
+ * Creates a new token node from the current token string,
+ * and appends it to the list. 
  * Returns 1 on success, 0 on memory failure.
  */
 int	save_token_to_list(mem_arena *arena, t_token **list, char **token)
 {
-	t_token	*new;
+	t_token			*new;
 	t_token_type	type;
 
 	if (*token)

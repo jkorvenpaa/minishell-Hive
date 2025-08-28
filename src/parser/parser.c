@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/28 09:57:16 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/28 14:18:12 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ t_command	*run_parser(char *input, mem_arena *arena, mem_arena *env_arena, t_env
 			//free(input);
 			//continue;
 		}
-		tokens = expand_tokens(env_arena, tokens, env, exit_status);
+		tokens = exp_toks(env_arena, tokens, env, exit_status);
 		cmd_list = group_commands(arena, tokens);
 		print_tokens(tokens); // here for testing only!!!
 		print_commands(cmd_list); // here for testing only!!

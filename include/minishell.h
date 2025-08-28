@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/27 15:14:34 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/28 14:19:38 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 typedef	enum e_token_type
 {
 	PIPE,
-	REDIRECT_IN,
-	REDIRECT_OUT,
+	RED_IN,
+	RED_OUT,
 	APPEND,
 	HEREDOC,
 	WORD,
@@ -92,7 +92,7 @@ int	save_token_to_list(mem_arena *arena, t_token **list, char **token);
 int	is_token_boundary(char c, int single_quote, int double_quote);
 int	is_separator_symbol(char c);
 void	handle_quote_flags(char c, int *single_quotes, int *double_quotes);
-void	get_current_quote_state(char *input, int position, int *single_quotes, int *double_quotes);
+void	get_curr_quote_state(char *input, int pos, int *single_q, int *double_q);
 int	get_operator_len(char *input, int i);
 t_token_type	identify_token(char *value);
 t_token	*tokenize_input(mem_arena *arena, char *input);
@@ -107,7 +107,7 @@ t_command	*group_commands(mem_arena *arena, t_token *tokens);
 int	validate_syntax(t_token *tokens);
 
 // Expansion functions
-t_token	*expand_tokens(mem_arena *env_arena, t_token *tokens, t_env *env, int exit_status);
+t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status);
 char	*get_variable_name(mem_arena *env_arena, const char *input, int *len);
 char *expand_value(char *token_val, t_expansion *data);
 

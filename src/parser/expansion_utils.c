@@ -14,6 +14,7 @@ static char *handle_exit_status(t_expansion *data, int *i)
         (*i)++;
     return (result);
 }
+
 /**
  * Handles '$?' (exit status), normal variables like '$USER',
  * undefined variables (expanded to an empty string), and invalid
