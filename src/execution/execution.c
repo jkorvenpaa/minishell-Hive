@@ -6,7 +6,11 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/08/28 09:44:08 by nmascaro         ###   ########.fr       */
+=======
+/*   Updated: 2025/08/27 16:32:28 by jkorvenp         ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +36,19 @@ void	command_loop(t_command *command, t_shell *shell)
 		{
 			prepare_files(command);
 			if (check_if_built_in(command) == true)
+			{
 				execute_built_in(command, shell);
+				return;
+			}
 			path = find_command_path(command, shell);
-			if (execve(path, command->argv, env) == -1)
-				return;//exit_built_in();
+			printf("%s\n", path);
+			execve(path, command->argv, env);
+			//if (execve(path, command->argv, env) == -1)
+			//	return;//exit_built_in();
 		}
-		//waitpid
+	else if (pid > 0)
+		waitpid(pid, NULL, 0);
+
 	}
 }
 

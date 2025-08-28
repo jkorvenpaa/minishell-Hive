@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/27 12:43:53 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/27 16:29:07 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <fcntl.h>
 # include <unistd.h> 
 # include <stdbool.h>
+# include <sys/wait.h>
 
 /*
 //this struct should move to parsing
@@ -56,7 +57,7 @@ void	prepare_files(t_command	*command);
 
 int		echo(t_command *command);
 int		cd(char *next_cmd);
-int 	pwd(char *cmd);
+int 	pwd();
 
 int		export(char	*next_cmd, t_shell *shell);
 t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd);

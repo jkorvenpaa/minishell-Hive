@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/28 09:44:12 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/28 09:51:19 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int main(int argc, char **argv, char const **envp)
 		if (input == NULL)
 			break; //exit_builtin
 		command_list = run_parser(input, arena, env_arena, shell->env_list, shell->exit_status);
+	//	if (command_list == NULL)
+			//free(input); // +something else?
 		execution(shell, command_list);
 	}
 	//free arenas for env and history only in exit

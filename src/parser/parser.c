@@ -6,7 +6,11 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2025/08/27 16:51:35 by nmascaro         ###   ########.fr       */
+=======
+/*   Updated: 2025/08/27 15:56:02 by jkorvenp         ###   ########.fr       */
+>>>>>>> main
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,11 +79,13 @@ t_command	*run_parser(char *input, mem_arena *arena, mem_arena *env_arena, t_env
 		tokens = tokenize_input(arena, input);
 		if (!tokens)
 		{
+			return (NULL);
 			//free(input);
 			//continue;
 		}
 		if (!validate_syntax(tokens))
 		{
+			return (NULL);
 			//free(input);
 			//continue;
 		}
