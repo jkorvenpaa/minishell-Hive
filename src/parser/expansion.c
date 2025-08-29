@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/28 14:55:39 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 16:22:35 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,4 +115,23 @@ t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status)
 		current = current->next;
 	}
 	return (tokens);
+}
+
+/**
+ * function to be called when dealing with heredoc in execution!!!
+ */
+char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted)
+{
+	char	*result;
+
+	result = NULL;
+	if (hdoc_quoted)
+	{
+		result = arena_strdup(ar, line); //no expansion, line as it is 
+	}
+	else
+	{
+		result = expand_value(line, data); //and in this case we dont remove quotes
+	}
+	return (result);
 }

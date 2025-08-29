@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/29 15:41:07 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 16:23:09 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ int	validate_syntax(t_token *tokens);
 t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status);
 char	*get_variable_name(mem_arena *env_arena, const char *input, int *len);
 char *expand_value(char *token_val, t_expansion *data);
+char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted);
 
 // Environment list functions
 t_env	*get_env_node(t_env *env_list, const char *name);
