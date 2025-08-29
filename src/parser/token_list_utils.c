@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 09:39:28 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/29 10:57:43 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 14:01:50 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * Allocates memory for a new token node, duplicates the word,
- * and initializes it.
+ * assigns its type, and initializes fields.
  * Returns a pointer to the new node, or NULL on failure.
  */
 t_token	*create_token_node(mem_arena *arena, char *word, t_token_type type)
@@ -54,8 +54,8 @@ void	append_token_to_list(t_token **head, t_token *new_node)
 }
 
 /**
- * Takes an already extracted substring and identifies its type,
- * creates a token node and appends it to the token list. 
+ * Creates a token node from an operator substring
+ * and appends it to the token list. 
  * Returns 1 on success, 0 on memory failure.
  */
 int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *substr)
@@ -74,8 +74,8 @@ int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *substr)
 }
 
 /**
- * Creates a new token node from the current token string,
- * and appends it to the list. 
+ * Finalizes the current token string by creating a node and
+ * and appending it to the list. Resets token and was_quoted flag.
  * Returns 1 on success, 0 on memory failure.
  */
 int	save_token_to_list(mem_arena *arena, t_token **list, char **token, int *was_quoted)

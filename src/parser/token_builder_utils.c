@@ -6,14 +6,15 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 10:57:01 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/29 11:37:43 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 14:03:22 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 /**
- * 
+ * Checks if an operator starts at index i and is outside quotes.
+ * Returns 1 if true, 0 otherwise.
  */
 int	is_operator_outside_quotes(char *input, int i)
 {
@@ -29,7 +30,9 @@ int	is_operator_outside_quotes(char *input, int i)
 }
 
 /**
- * 
+ * Checks if the character at index i as a token boundary and 
+ * outside quotes.
+ * Returns 1 if true, 0 otherwise.
  */
 int	is_token_boundary_outside_quotes(char *input, int i)
 {
@@ -43,8 +46,9 @@ int	is_token_boundary_outside_quotes(char *input, int i)
 }
 
 /**
- * Extracts a substring from input starting at i with length len,
+ * Extracts an operator substring from input starting at i with length len,
  * and allocates it in the arena.
+ * Returns the substring, NULL if failure.
  */
 char	*extract_operator_str(mem_arena *arena, char *input, int i, int len)
 {

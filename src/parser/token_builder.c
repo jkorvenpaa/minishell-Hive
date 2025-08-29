@@ -6,12 +6,17 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/29 13:39:39 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 13:59:35 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+/**
+ * Adds a character to the end of the current token string.
+ * If string is NULL, allocates a new one with the character.
+ * Returns a new string on success, NULL if failure.
+ */
 char	*ar_add_char_to_str(mem_arena *arena, char *s, char c)
 {
 	size_t	len;
@@ -32,9 +37,8 @@ char	*ar_add_char_to_str(mem_arena *arena, char *s, char c)
 }
 
 /**
- * Adds a character to the end of the current token string. If string
- * is NULL, allocates a new string with the character. Otherwise, appends 
- * the character to the exiting string.
+ * Adds a character to the end of the current token string,
+ * calling ar_add_char_to_str().
  * Returns 1 on success, 0 on memory allocation failure. 
  */
 static int	add_char_to_token(mem_arena *arena, char **token, char c)
@@ -49,9 +53,9 @@ static int	add_char_to_token(mem_arena *arena, char **token, char c)
 }
 
 /**
- * Saves any existing token to the list, then adds the operator token.
- * Returns the length of the operator token on success, or -1 on
- * memory allocation failure. CHANGE COMMENT!!!!
+ * Saves any existing token to the list, then extracts and saves
+ * an operator token from the input.
+ * Returns length of the operator on success, -1 on failure.
  */
 static int	handle_operator_token(mem_arena *arena, char *input, int i, t_tokenizer *data)
 {
@@ -70,18 +74,19 @@ static int	handle_operator_token(mem_arena *arena, char *input, int i, t_tokeniz
 }
 
 /**
- * Processes a char from input at index i with respect to quoting and operators.
- * - If an operator is detected and not inside quotes,
- * handles it and returns operator length.
- * - If a char is a token boundary, saves current token and returns 0.
+ * Processes a char from input at index i:
+ * - If an operator is found outside quotes, saves current token
+ * and adds operator, returns operator length.
+ * - If a token boundary is found outside quotes, saves current
+ *  token and returns 0.
  * - Otherwise, adds the char to the current token.
  * Returns:
- * - number of chars to advance (1 or operator length)
- * - 0 if a token boundary is hit (token saved, but no skip)
+ * - number of chars to advance (1 or 2: operator len)
+ * - 0 when token is saved but no skip is needed
  * - -1 on memory allocation failure
  * The final return is a safety fallback to ensure not getting stuck
  * in infinite loops and always advance, even though in normal cases earlier 
- * conditions always return first. CHANGE COMMENT!!!
+ * conditions always return first.
  */
 static int	process_character(mem_arena	*arena, char *input, int i, t_tokenizer *data)
 {
@@ -114,9 +119,9 @@ static int	process_character(mem_arena	*arena, char *input, int i, t_tokenizer *
 }
 
 /**
- * Iterates through each character of the input, respecting quote
- * rules and token boundaries.
- * Returns a pointer to the head of the token list on success, NULL on failure. CHANGE COMMENT!!!
+ * Iterates through each character of the input and tokenizes it
+ * into a linked list, respecting quote rules, operators and token boundaries.
+ * Returns a pointer to the head of the token list on success, NULL on failure.
  */
 t_token	*tokenize_input(mem_arena *arena, char *input)
 {
