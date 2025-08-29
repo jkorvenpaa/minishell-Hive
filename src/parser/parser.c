@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/29 10:00:24 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 15:43:39 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static void	print_commands(t_command *cmd_list) // for testing only!!!
 		}
 		if (cmd_list->heredoc)
 			printf("Heredoc: %s\n", cmd_list->heredoc);
+		printf("Heredoc was quoted: %d\n", cmd_list->heredoc_quoted);
 		cmd_list = cmd_list->next;
 	}
 }

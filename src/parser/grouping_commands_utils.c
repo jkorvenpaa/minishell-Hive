@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:49:33 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/27 11:13:00 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 15:41:23 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ t_command	*create_command_node(mem_arena *arena)
 	node->outfile = NULL;
 	node->append = 0;
 	node->heredoc = NULL;
+	node->heredoc_quoted = 0;
 	node->next = NULL;
 	return (node);
 }
