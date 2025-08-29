@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 10:57:01 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/29 14:03:22 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 15:00:19 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,15 @@ char	*extract_operator_str(mem_arena *arena, char *input, int i, int len)
 
 	token = ar_substr(arena, input, i, len);
 	return (token);
+}
+/**
+ * Toggles quote flags based on the current character,
+ * ensures quotes inside quotes are ignored.
+ */
+void	handle_quote_flags(char c, int *single_quotes, int *double_quotes)
+{
+	if (c == '\'' && *double_quotes == 0)
+		*single_quotes = !(*single_quotes);
+	else if (c == '"' && *single_quotes == 0)
+		*double_quotes = !(*double_quotes);
 }

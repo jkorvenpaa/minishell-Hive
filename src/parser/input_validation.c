@@ -6,23 +6,11 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:43:28 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/28 11:46:45 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 15:33:47 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-/**
- * Toggles quote flags based on the current character,
- * ensures quotes inside quotes are ignored.
- */
-void	handle_quote_flags(char c, int *single_quotes, int *double_quotes)
-{
-	if (c == '\'' && *double_quotes == 0)
-		*single_quotes = !(*single_quotes);
-	else if (c == '"' && *single_quotes == 0)
-		*double_quotes = !(*double_quotes);
-}
 
 /**
  * Iterates through all tokens and toggles quote states accordingly.
@@ -120,6 +108,31 @@ static int	validate_redirections(t_token *tokens)
 }
 
 /**
+ * Validates that no more than 16 HEREDOC are in the input.
+ * Returns 1 if limit isn't exceeded, exits the program otherwise.
+ */
+static int	 validate_heredoc_count(t_token *tokens)
+{
+	t_token	*current;
+	int	heredoc_count;
+
+	current = tokens;
+	heredoc_count = 0;
+	while (current)
+	{
+		if (current->type == HEREDOC)
+			heredoc_count++;
+		current = current->next;
+	}
+	if (heredoc_count > 16)
+	{
+		printf("minishell: maximum here-document count exceeded\n");
+		exit(2); //bash exits with that code in this case
+	}
+	return (1);
+}
+
+/**
  * Main function that validates syntax on the token list.
  * Ensures that:
  * - Quotes are closed.
@@ -138,5 +151,6 @@ int	validate_syntax(t_token *tokens)
 		return (0);
 	if (!validate_redirections(tokens))
 		return (0);
+	validate_heredoc_count(tokens);
 	return (1);
 }
