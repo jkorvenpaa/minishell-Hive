@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/28 16:26:37 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:41:26 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,74 +64,61 @@ char	*find_command_path(t_command *command, t_shell *shell)
 	char	**folder;
 	char	*final_path;
 	int		i;
-	int		len;
 
 	i = 0;
 	path = getenv("PATH");
-	//printf("path: %s\n", path);
-	folder = ft_split(path, ':');///modify to arena_split
+	folder = ar_split(shell->arena, path, ':');
 	if (!folder)
 		return (NULL); //+mem_error
 	while (folder[i])
 	{
-		//printf("folder: %s\n", folder[i]);
-		len = ft_strlen(folder[i] + 1 + ft_strlen(command->argv[0]) + 1);
-		final_path = arena_alloc(shell->arena, len);
+		final_path = ar_strjoin(shell->arena, folder[i], "/");
 		if (!final_path)
-			return (NULL); //+mem_error
-		final_path = ft_strjoin(folder[i], "/"); //SWITCH TO ARENA VERSION
-		final_path = ft_strjoin(final_path, command->argv[0]);
+			return (NULL);
+		final_path = ar_strjoin(shell->arena, final_path, command->argv[0]);
+		if (!final_path)
+			return (NULL);
 		if (access(final_path, X_OK) == 0)
 			return (final_path);//found the command path
 		i++;
 	}
 	return (NULL);//path not found
 }
-/*
-char **env_to_array(env_arena, shell->env_list)
-{
-	
-}
-*/
 
-int	prepare_files(t_command	*command) // t_shell *shell
+int	env_len(t_env *env_list)
 {
-	int	fd;
+	int		len;
+	t_env	*temp;
 
-	if (command->outfile && command->append == 1)
+	temp = env_list;
+	len = 0;
+	while (temp)
 	{
-		fd = open(command->outfile, O_WRONLY | O_APPEND);
-		if (fd < 0)
-		{
-			 perror("outfile open failed");
-			 return (1);
-		}
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
+		temp = temp->next;
+		len++;
 	}
-	else if (command->outfile)
-	{
-		fd = open(command->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-		if (fd < 0)
-		{
-			 perror("outfile open failed");
-			 return (1);
-		}
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
-	}
-	//if (command->heredoc) needs to be added
-	if (command->infile)
-	{
-		fd = open(command->infile, O_RDONLY);
-		if (fd < 0)
-		{
-			    perror("infile open failed");
-				return (2);
-		}
-		dup2(fd, STDIN_FILENO);
-		close(fd);
-	}
-	return (0);
+	return (len);
 }
 
+char	**env_to_array(t_shell *shell)
+{
+	char	**env_array;
+	char	*temp;
+	t_env	*head;
+	int		i;
+	int		len;
+
+	i = 0;
+	head = shell->env_list;
+	len = env_len(shell->env_list);
+	env_array = arena_alloc(shell->arena, len + 1);
+	while (head)
+	{
+		temp = ar_strjoin(shell->arena, head->name, "=");
+		env_array[i] = ar_strjoin(shell->arena, temp, head->value);
+		i++;
+		head = head->next;
+	}
+	env_array[i] = NULL;
+	return (env_array);
+}

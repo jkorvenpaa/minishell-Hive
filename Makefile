@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+         #
+#    By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/06 09:24:38 by nmascaro          #+#    #+#              #
-#    Updated: 2025/08/27 12:02:36 by nmascaro         ###   ########.fr        #
+#    Updated: 2025/08/29 11:07:50 by jkorvenp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,7 +19,7 @@ SRCS = src/main.c src/parser/token_builder.c src/parser/token_logic.c \
 	src/parser/env_list_utils.c src/parser/expansion.c src/parser/expansion_utils.c \
 	src/parser/arena_utils.c src/parser/arena.c src/execution/execution.c \
 	src/execution/command_validation.c src/execution/built_ins.c \
-	src/execution/built_ins_export_unset.c 
+	src/execution/built_ins_export_unset.c src/execution/files.c src/execution/arena_split.c 
 .SECONDARY: $(OBJS)
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = libft

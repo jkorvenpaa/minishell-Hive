@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/28 16:30:06 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:45:06 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	command_loop(t_command *command, t_shell *shell)
 {
 	pid_t	pid;
 	char	*path;
-	char **env_array;
+	char	**env_array;
 
 	if (check_if_built_in(command) == true)
 	{
@@ -45,16 +45,15 @@ void	command_loop(t_command *command, t_shell *shell)
 			if (prepare_files(command) != 0)
 				exit(EXIT_FAILURE);
 			path = find_command_path(command, shell);
-			//printf("%s\n", path);
-
-			//env_array = env_to_array(env_arena, shell->env_list);
+			printf("%s\n", path);
+			env_array = env_to_array(shell);
 			execve(path, command->argv, env_array);
 			exit(EXIT_SUCCESS);
 			//if (execve(path, command->argv, env) == -1)
 			//	return;//exit_built_in();
 		}
-	else if (pid > 0)
-		waitpid(pid, NULL, 0);
+		else if (pid > 0)
+			waitpid(pid, NULL, 0);
 	}
 }
 
@@ -72,9 +71,10 @@ void	execution(t_shell *shell, t_command	*command_list)
 
 /*
 
-1. Arena split and strjoin
-2. env_to_array function
-3. outfile + heredoc
+1. signals
+2. heredoc
+3. history
+4. refactor, arena split
 ----------------------
 
 HISTORYYYYY

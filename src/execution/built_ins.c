@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 10:50:23 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/27 16:11:46 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:42:45 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,10 +50,10 @@ int	cd(char *next_cmd)
 	return (0);
 }
 
-int	pwd()
+int	pwd(void)
 {
 	char	*cmd;
-	
+
 	cmd = getcwd(NULL, 0);
 	if (!cmd)
 		return (1); //check status
