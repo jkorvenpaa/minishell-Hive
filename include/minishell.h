@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/29 09:55:24 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 11:56:42 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,13 @@ typedef struct s_expansion
     int exit_status;
 }   t_expansion;
 
+typedef struct s_tokenizer
+{
+	t_token	*token_list;
+	char	*current_token;
+	int	*was_quoted;
+}	t_tokenizer;
+
 typedef struct s_history
 {
 	char 	*history; //command made
@@ -86,7 +93,7 @@ void	execution(t_shell *shell, t_command	*command_list);
 // Linked list functions
 t_token	*create_token_node(mem_arena *arena, char *word, t_token_type type);
 void	append_token_to_list(t_token **head, t_token *new_node);
-int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *input, int i, int len);
+int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *substr);
 int	save_token_to_list(mem_arena *arena, t_token **list, char **token, int *was_quoted);
 
 // Tokenization functions
@@ -95,6 +102,9 @@ int	is_separator_symbol(char c);
 void	handle_quote_flags(char c, int *single_quotes, int *double_quotes);
 void	get_curr_quote_state(char *input, int pos, int *single_q, int *double_q);
 int	get_operator_len(char *input, int i);
+int	is_operator_outside_quotes(char *input, int i);
+int	is_token_boundary_outside_quotes(char *input, int i);
+char	*extract_operator_str(mem_arena *arena, char *input, int i, int len);
 t_token_type	identify_token(char *value);
 t_token	*tokenize_input(mem_arena *arena, char *input);
 char	*ar_add_char_to_str(mem_arena *arena, char *s, char c); 

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 09:39:28 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/29 09:53:49 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:57:43 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,21 +54,19 @@ void	append_token_to_list(t_token **head, t_token *new_node)
 }
 
 /**
- * Creates a token from a substring of input starting at i with length len, 
- * then append it to the token list. 
+ * Takes an already extracted substring and identifies its type,
+ * creates a token node and appends it to the token list. 
  * Returns 1 on success, 0 on memory failure.
  */
-int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *input, int i, int len)
+int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *substr)
 {
-	char			*token;
 	t_token			*new;
 	t_token_type	type;
 
-	token = ar_substr(arena, input, i, len);
-	if (!token)
+	if (!substr)
 		return (0);
-	type = identify_token(token);
-	new = create_token_node(arena, token, type);
+	type = identify_token(substr);
+	new = create_token_node(arena, substr, type);
 	if (!new)
 		return (0);
 	append_token_to_list(list, new);

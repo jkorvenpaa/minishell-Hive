@@ -6,14 +6,14 @@
 #    By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/06 09:24:38 by nmascaro          #+#    #+#              #
-#    Updated: 2025/08/27 12:02:36 by nmascaro         ###   ########.fr        #
+#    Updated: 2025/08/29 11:40:16 by nmascaro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g #REMOVE -G FLAG!!!!!!!!!!!!!
-SRCS = src/main.c src/parser/token_builder.c src/parser/token_logic.c \
+SRCS = src/main.c src/parser/token_builder.c src/parser/token_builder_utils.c src/parser/token_logic.c \
 	src/parser/token_list_utils.c src/parser/parser.c src/parser/grouping_commands.c \
 	src/parser/grouping_commands_utils.c src/parser/input_validation.c \
 	src/parser/env_list_utils.c src/parser/expansion.c src/parser/expansion_utils.c \
