@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/28 14:19:38 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 09:55:24 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_token
 {
 	char	*value;
 	t_token_type	type;
+	int	was_quoted;
 	struct s_token	*next;
 }	t_token;
 
@@ -86,7 +87,7 @@ void	execution(t_shell *shell, t_command	*command_list);
 t_token	*create_token_node(mem_arena *arena, char *word, t_token_type type);
 void	append_token_to_list(t_token **head, t_token *new_node);
 int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *input, int i, int len);
-int	save_token_to_list(mem_arena *arena, t_token **list, char **token);
+int	save_token_to_list(mem_arena *arena, t_token **list, char **token, int *was_quoted);
 
 // Tokenization functions
 int	is_token_boundary(char c, int single_quote, int double_quote);

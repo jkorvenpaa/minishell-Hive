@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/28 15:14:12 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 09:59:39 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,12 +53,12 @@ static int	add_char_to_token(mem_arena *arena, char **token, char c)
  * Returns the length of the operator token on success, or -1 on
  * memory allocation failure.
  */
-static int	handle_operator_token(mem_arena *arena, char *input, int i, t_token **list, char **token)
+static int	handle_operator_token(mem_arena *arena, char *input, int i, t_token **list, char **token, int *was_quoted)
 {
 	int	operator_len;
 
 	operator_len = get_operator_len(input, i);
-	if (!save_token_to_list(arena, list, token))
+	if (!save_token_to_list(arena, list, token, was_quoted))
 		return (-1);
 	if (!add_operator_token_to_list(arena, list, input, i, operator_len))
 		return (-1);
@@ -79,7 +79,7 @@ static int	handle_operator_token(mem_arena *arena, char *input, int i, t_token *
  * in infinite loops and always advance, even though in normal cases earlier 
  * conditions always return first.
  */
-static int	process_character(mem_arena	*arena, char *input, int i, t_token **token_list, char **token)
+static int	process_character(mem_arena	*arena, char *input, int i, t_token **token_list, char **token, int *was_quoted)
 {
 	int	operator_len;
 	int	single_quote;
@@ -90,17 +90,19 @@ static int	process_character(mem_arena	*arena, char *input, int i, t_token **tok
 	operator_len = get_operator_len(input, i);
 	if (operator_len > 0 && single_quote == 0 && double_quote == 0)
 	{
-		ret_val = handle_operator_token(arena, input, i, token_list, token);
+		ret_val = handle_operator_token(arena, input, i, token_list, token, was_quoted);
 		return (ret_val);
 	}
 	if (is_token_boundary(input[i], single_quote, double_quote))
 	{
-		if (!save_token_to_list(arena, token_list, token))
+		if (!save_token_to_list(arena, token_list, token, was_quoted))
 			return (-1);
 		return (0);
 	}
 	if (!ft_isspace(input[i]) || single_quote || double_quote)
 	{
+		if (single_quote ||  double_quote)
+			*was_quoted = 1;
 		ret_val = add_char_to_token(arena, token, input[i]);
 		return (ret_val);
 	}
@@ -118,22 +120,24 @@ t_token	*tokenize_input(mem_arena *arena, char *input)
 	int		skip;
 	char	*current_token;
 	t_token	*token_list;
+	int	was_quoted;
 
 	i = 0;
 	current_token = NULL;
 	token_list = NULL;
+	was_quoted = 0;
 	if (!input || !*input)
 		return (NULL);
 	while (input[i])
 	{
-		skip = process_character(arena, input, i, &token_list, &current_token);
+		skip = process_character(arena, input, i, &token_list, &current_token, &was_quoted);
 		if (skip == -1)
 			return (NULL);
 		if (skip == 0)
 			skip = 1;
 		i += skip;
 	}
-	if (!save_token_to_list(arena, &token_list, &current_token))
+	if (!save_token_to_list(arena, &token_list, &current_token, &was_quoted))
 		return (NULL);
 	return (token_list);
 }

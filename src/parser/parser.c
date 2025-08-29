@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/28 14:18:12 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 10:00:24 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	print_tokens(t_token *head) // for testing only!!!!
 {
     while (head)
     {
-        printf("Token: %s Type: %d\n", head->value, head->type);
+        printf("Token: %s | Type: %d | Was quoted %d\n", head->value, head->type, head->was_quoted);
         head = head->next;
     }
 }
