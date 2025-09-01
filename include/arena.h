@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 17:29:31 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/22 12:23:33 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/01 15:31:26 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,5 +27,6 @@ typedef struct t_mem_arena
 
 void	*arena_alloc(mem_arena *arena, size_t bytes);
 mem_arena	*arena_init();
+void	free_arena(mem_arena *arena);
 
 #endif

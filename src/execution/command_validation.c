@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/29 11:41:26 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/01 15:32:08 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	execute_built_in(t_command *command, t_shell *shell)
 		shell->exit_status = unset(next_cmd, shell);
 	else if (ft_strncmp(cmd, "env", 3) == 0)
 		shell->exit_status = env_builtin(shell);
-	//else if (ft_strncmp(cmd, "exit", 4) == 0)
-	//	exit_builtin(shell);
+	else if (ft_strncmp(cmd, "exit", 4) == 0)
+		exit_builtin(shell);
 }
 
 char	*find_command_path(t_command *command, t_shell *shell)

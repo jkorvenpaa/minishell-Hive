@@ -6,12 +6,18 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/29 11:45:06 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/01 16:42:04 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
+
+void	child_sigint(int sig)
+{
+	(void)sig;
+	g_sigint = false;
+}
 
 void	command_loop(t_command *command, t_shell *shell)
 {
@@ -19,6 +25,7 @@ void	command_loop(t_command *command, t_shell *shell)
 	char	*path;
 	char	**env_array;
 
+	//make sure there is argv
 	if (check_if_built_in(command) == true)
 	{
 		if (!command->next && !command->infile && !command->outfile) //heredoc??&& !command->prev)
@@ -28,6 +35,7 @@ void	command_loop(t_command *command, t_shell *shell)
 			pid = fork();
 			if (pid == 0)
 			{
+				signal(SIGINT, child_sigint);
 				if (prepare_files(command) != 0)
 					exit(EXIT_FAILURE);
 				execute_built_in(command, shell);
@@ -42,15 +50,15 @@ void	command_loop(t_command *command, t_shell *shell)
 		pid = fork();
 		if (pid == 0)
 		{
+			signal(SIGINT, child_sigint);
 			if (prepare_files(command) != 0)
 				exit(EXIT_FAILURE);
 			path = find_command_path(command, shell);
 			printf("%s\n", path);
 			env_array = env_to_array(shell);
-			execve(path, command->argv, env_array);
+			if (execve(path, command->argv, env_array) == -1)
+				exit(EXIT_FAILURE);
 			exit(EXIT_SUCCESS);
-			//if (execve(path, command->argv, env) == -1)
-			//	return;//exit_built_in();
 		}
 		else if (pid > 0)
 			waitpid(pid, NULL, 0);
@@ -72,6 +80,7 @@ void	execution(t_shell *shell, t_command	*command_list)
 /*
 
 1. signals
+2.. exit function
 2. heredoc
 3. history
 4. refactor, arena split

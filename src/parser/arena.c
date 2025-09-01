@@ -19,6 +19,7 @@ mem_arena	*arena_init(void)
 		return (NULL);
 	}
 	arena->offset = 0;
+	arena->next = NULL;
 	return (arena);
 }
 
@@ -33,7 +34,7 @@ void	*arena_alloc(mem_arena *arena, size_t bytes)
 		arena->next = arena_init();
 		if (!arena->next)
 			return (NULL);
-		arena_alloc(arena->next, bytes); //shouldn't it be return (arena_alloc(arena->next, bytes))??
+		return(arena_alloc(arena->next, bytes)); //shouldn't it be return (arena_alloc(arena->next, bytes))??
 	}
 	ptr = arena->buffer + arena->offset;
 	arena->offset = arena->offset + bytes;
@@ -47,8 +48,13 @@ void	free_arena(mem_arena *arena)
 	while (arena)
 	{
 		temp = arena->next;
-		free (arena->buffer);
+		if (arena->buffer)
+		{
+			free (arena->buffer);
+			arena->buffer = NULL;
+		}
 		free (arena);
 		arena = temp;
 	}
+	arena = NULL;
 }
