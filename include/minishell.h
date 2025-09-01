@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/29 16:23:09 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/01 09:34:05 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,12 +127,6 @@ char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quote
 // Environment list functions
 t_env	*get_env_node(t_env *env_list, const char *name);
 t_env	*init_env_list(mem_arena *env_arena, const char **envp);
-
-// Arena functions (maybe in arena.h???)
-char	*arena_strdup(mem_arena *arena, const char *str);
-char	*ar_substr(mem_arena *arena, char const *s, unsigned int st, size_t len);
-char	*ar_strjoin(mem_arena *arena, char const *s1, char const *s2);
-char	*arena_itoa(mem_arena *env_arena, int n);
 
 //main function in parsing branch
 t_command	*run_parser(char *input, mem_arena *arena, mem_arena *env_arena, t_env *env, int exit_status); 
