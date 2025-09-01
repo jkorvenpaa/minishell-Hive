@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/29 16:22:35 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/01 09:40:26 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,9 +118,12 @@ t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status)
 }
 
 /**
- * function to be called when dealing with heredoc in execution!!!
+ * Deals with expansions inside the heredoc lines.
+ * If the delimiter is quoted, returns a copy of the line as it is.
+ * If it's unquoted, performs expansion (but doesn't remove quotes).
+ * Returns the result.
  */
-char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted)
+char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted) //call in execution of heredocs!!!!
 {
 	char	*result;
 
@@ -135,3 +138,4 @@ char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quote
 	}
 	return (result);
 }
+
