@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/01 14:44:18 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/03 11:12:51 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ t_command	*run_parser(char *input, mem_arena *arena, mem_arena *env_arena, t_env
 			break;
 		}*/
 		tokens = tokenize_input(arena, input);
+		printf("--------AFTER TOKENIZING------\n"); // here for testing only!!!
+		print_tokens(tokens); // here for testing only!!!
 		if (!tokens)
 		{
 			return (NULL);
@@ -87,12 +89,18 @@ t_command	*run_parser(char *input, mem_arena *arena, mem_arena *env_arena, t_env
 			//continue;
 		}
 		tokens = exp_toks(env_arena, tokens, env, exit_status);
+		printf("--------AFTER EXPANSION------\n"); // here for testing only!!!
+		print_tokens(tokens); // here for testing only!!!
 		tokens = split_expanded_variables(arena, tokens);
+		printf("--------AFTER SPLITTING------\n"); // here for testing only!!!
+		print_tokens(tokens); // here for testing only!!!
 		if (!tokens)
 			return (NULL);
 		tokens = remove_empty_tokens(tokens);
-		cmd_list = group_commands(arena, tokens);
+		printf("--------AFTER REMOVING EMPTY------\n"); // here for testing only!!!
 		print_tokens(tokens); // here for testing only!!!
+		cmd_list = group_commands(arena, tokens);
+		printf("--------AFTER FINAL COMMANDS------\n"); // here for testing only!!!
 		print_commands(cmd_list); // here for testing only!!
 		free(input);
 	//}
