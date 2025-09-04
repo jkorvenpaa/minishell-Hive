@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/01 15:30:40 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/04 18:27:54 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,5 +43,7 @@ int		env_builtin(t_shell *shell);
 int		handle_outfile(t_command *command);
 int		handle_infile(t_command *command);
 int		prepare_files(t_command	*command);
+
+int	handle_heredoc(char *argv, t_shell *shell, t_command *command);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/01 16:58:07 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/04 18:27:36 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,9 +48,10 @@ int main(int argc, char **argv, char const **envp)
 	t_command	*command_list;
 	char	*input;
 
-	(void)argv;
-	if (argc != 1)
-		return (1);
+	//(void) argv;
+	(void)argc;
+//	if (argc != 1)
+//		return (1);
 	arena = arena_init();
 	env_arena = arena_init();
 	shell = init_shell(arena, env_arena, envp);
@@ -59,18 +60,24 @@ int main(int argc, char **argv, char const **envp)
     signal(SIGQUIT, SIG_IGN);        // Ignore Ctrl+backlash
 	while (1)
 	{
+		if (shell->arena)
+		{
+			free_arena(shell->arena);
+			arena = arena_init();
+			shell->arena = arena;
+		}
+	
 		input = readline("minishell$ ");
 		if (input == NULL)
 			break ;
 		command_list = run_parser(input, arena, env_arena, shell->env_list, shell->exit_status);
 		if (command_list == NULL)
 			break ;// do we need to break tho?!
-		execution(shell, command_list);
-		free_arena(shell->arena);
-		arena = arena_init();
-		shell->arena = arena;
+		if (command_list->heredoc)
+			handle_heredoc(argv[1], shell, command_list); //, data, hdoc_quoted);
+		execution(shell, command_list);	
 	}
-	free(input);
+	//free(input);
 	exit_builtin(shell);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/01 16:42:04 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/04 18:17:39 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	command_loop(t_command *command, t_shell *shell)
 	char	**env_array;
 
 	//make sure there is argv
-	if (check_if_built_in(command) == true)
+	if (command->argv && check_if_built_in(command) == true)
 	{
 		if (!command->next && !command->infile && !command->outfile) //heredoc??&& !command->prev)
 			execute_built_in(command, shell);
@@ -45,7 +45,7 @@ void	command_loop(t_command *command, t_shell *shell)
 				waitpid(pid, NULL, 0);
 		}
 	}
-	else
+	else if (command->argv)
 	{
 		pid = fork();
 		if (pid == 0)
@@ -79,8 +79,7 @@ void	execution(t_shell *shell, t_command	*command_list)
 
 /*
 
-1. signals
-2.. exit function
+1. pipelines!!
 2. heredoc
 3. history
 4. refactor, arena split
