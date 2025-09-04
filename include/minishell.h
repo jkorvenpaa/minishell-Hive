@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/01 09:34:05 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/04 11:45:43 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,8 +103,8 @@ int	is_separator_symbol(char c);
 void	handle_quote_flags(char c, int *single_quotes, int *double_quotes);
 void	get_curr_quote_state(char *input, int pos, int *single_q, int *double_q);
 int	get_operator_len(char *input, int i);
-int	is_operator_outside_quotes(char *input, int i);
-int	is_token_boundary_outside_quotes(char *input, int i);
+int	is_operator_outside_quotes(char *input, int i, int single_quote, int double_quote);
+int	is_token_boundary_outside_quotes(char *input, int i, int single_quote, int double_quote);
 char	*extract_operator_str(mem_arena *arena, char *input, int i, int len);
 t_token_type	identify_token(char *value);
 t_token	*tokenize_input(mem_arena *arena, char *input);

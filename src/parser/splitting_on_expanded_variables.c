@@ -134,7 +134,7 @@ t_token	*split_expanded_variables(mem_arena *arena, t_token *tokens)
 			if (split_tokens)
 				replace_token_list(&head, &prev, current, split_tokens);
 			else
-				prev = current; //keep original token (like not splitted)
+				prev = current; //keep original token (not splitted) to avoid infinite loop or crash
 		}
 		else
 			prev = current;
@@ -143,9 +143,9 @@ t_token	*split_expanded_variables(mem_arena *arena, t_token *tokens)
 	return (head);
 }
 
-
 /**
  * Removes tokens that have an empty value and were not quoted.
+ * Used after variable expansion and word splitting.
  * Updates the linked list to skip removed tokens.
  */
 t_token	*remove_empty_tokens(t_token *token)

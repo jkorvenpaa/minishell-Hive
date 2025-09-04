@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/29 14:30:16 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/04 11:47:24 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,12 +97,12 @@ static int	process_character(mem_arena	*arena, char *input, int i, t_tokenizer *
 	single_quote = 0;
 	double_quote = 0;
 	get_curr_quote_state(input, i, &single_quote, &double_quote);
-	if (is_operator_outside_quotes(input, i))
+	if (is_operator_outside_quotes(input, i, single_quote, double_quote))
 	{
 		ret_val = handle_operator_token(arena, input, i, data);
 		return (ret_val);
 	}
-	if (is_token_boundary_outside_quotes(input, i))
+	if (is_token_boundary_outside_quotes(input, i, single_quote, double_quote))
 	{
 		if (!save_token_to_list(arena, &data->token_list, &data->current_token, data->was_quoted))
 			return (-1);

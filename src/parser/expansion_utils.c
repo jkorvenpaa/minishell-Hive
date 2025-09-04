@@ -38,7 +38,7 @@ static char    *resolve_variable(char *token_value, int *i, t_expansion *data)
         {
             node = get_env_node(data->env, var_name);
             if (node && node->value)
-                result = node->value; //append value: $USER becomes $nuria
+                result = node->value; //append value: $USER becomes nuria
             else
                 result = ""; // $NOTDEFINED becomes $ (mimics bash behaviour prints nothing, not an error)
             (*i) += len; //skip chars of variable name
