@@ -3,50 +3,6 @@
 #include "minishell.h"
 
 /**
- * Finds the next word in a string starting from the given index.
- * A word is a sequence of non-space characters.
- * Returns 1 if a word was found, 0 if no more words left.
- */
-static int	get_next_word(char *str, int *start, int *end)
-{
-	int	i;
-
-	i = *start;
-	while (str[i] && ft_isspace(str[i]))
-		i++;
-	if (!str[i])
-		return (0);
-	*start = i;
-	while (str[i] && !ft_isspace(str[i]))
-		i++;
-	*end = i;
-	return (1);
-}
-
-/**
- * Decides if a token should be split into multiple words.
- * It needs splitting if it's unquoted and contains at least one whitespace char.
- * Returns 1 if token needs splitting, 0 otherwise.
- */
-static int	needs_splitting(t_token *token)
-{
-	char	*str;
-	int	i;
-
-	if (!token || !token->value || token->was_quoted)
-		return (0);
-	str = token->value;
-	i = 0;
-	while (str[i])
-	{
-		if (ft_isspace(str[i]))
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-/**
  * Creates a new WORD token from a substring of a given string.
  * Returns a pointer to the new token, NULL if allocation fails.
  */
@@ -134,7 +90,7 @@ t_token	*split_expanded_variables(mem_arena *arena, t_token *tokens)
 			if (split_tokens)
 				replace_token_list(&head, &prev, current, split_tokens);
 			else
-				prev = current; //keep original token (not splitted) to avoid infinite loop or crash
+				prev = current; //keep original token (not splitted, useful for if VAR="") to avoid infinite loop or crash
 		}
 		else
 			prev = current;
@@ -159,7 +115,7 @@ t_token	*remove_empty_tokens(t_token *token)
 	current = token;
 	while (current)
 	{
-		if (current->value && ft_strlen(current->value) == 0 && !current->was_quoted) //value exists, but it's an empty string and outside quotes (empty quoted tokens are kept)
+		if (current->value && is_only_spaces(current->value) && !current->was_quoted) //value exists, but it's an empty string and outside quotes (empty quoted tokens are kept)
 		{
 			if (prev)
 				prev->next = current->next;

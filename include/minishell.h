@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/04 11:45:43 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/04 16:02:45 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,7 @@ char	*extract_operator_str(mem_arena *arena, char *input, int i, int len);
 t_token_type	identify_token(char *value);
 t_token	*tokenize_input(mem_arena *arena, char *input);
 char	*ar_add_char_to_str(mem_arena *arena, char *s, char c); 
+int	validate_syntax(t_token *tokens);
 
 //Grouping the tokens into commands
 t_command	*create_command_node(mem_arena *arena);
@@ -116,7 +117,12 @@ void	append_command_to_list(t_command **head, t_command *new_cmd);
 void	*add_argument_to_argv(mem_arena *arena, t_command *cmd, char *arg);
 t_command	*group_commands(mem_arena *arena, t_token *tokens);
 
-int	validate_syntax(t_token *tokens);
+// Word splitting functions
+t_token	*split_expanded_variables(mem_arena *arena, t_token *tokens);
+t_token	*remove_empty_tokens(t_token *token);
+int	is_only_spaces(const char *str);
+int	get_next_word(char *str, int *start, int *end);
+int	needs_splitting(t_token *token);
 
 // Expansion functions
 t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status);
