@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/01 09:40:26 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/05 10:50:10 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,9 @@ t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status)
 	current = tokens;
 	while (current)
 	{
-		if (current->type == WORD && current->value)
+		if (current->type == HEREDOC && current->next)
+			current = current->next;
+		else if (current->type == WORD && current->value)
 		{
 			current->value = expand_value(current->value, &data);
 			if (!current->value)
