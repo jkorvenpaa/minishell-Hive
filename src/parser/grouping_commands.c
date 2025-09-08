@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:44:09 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/27 11:11:29 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/05 10:27:22 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@
  */
 static void	handle_redirection(mem_arena *arena, t_command *cmd, t_token *redir_token)
 {
-	if (redir_token->type == REDIRECT_IN)
+	if (redir_token->type == RED_IN)
 		cmd->infile = arena_strdup(arena, redir_token->next->value);
-	else if (redir_token->type == REDIRECT_OUT)
+	else if (redir_token->type == RED_OUT)
 	{
 		cmd->outfile = arena_strdup(arena, redir_token->next->value);
 		cmd->append = 0;
@@ -31,7 +31,10 @@ static void	handle_redirection(mem_arena *arena, t_command *cmd, t_token *redir_
 		cmd->append = 1;
 	}
 	else if (redir_token->type == HEREDOC)
+	{
+		cmd->heredoc_quoted = redir_token->next->was_quoted;
 		cmd->heredoc = arena_strdup(arena, redir_token->next->value);
+	}
 }
 
 /**
@@ -81,7 +84,7 @@ t_command	*group_commands(mem_arena *arena, t_token *tokens)
 	{
 		if (token_iterator->type == WORD)
 			handle_word_token(arena, &cmd_list, &current_cmd, token_iterator);
-		else if (token_iterator->type == REDIRECT_IN || token_iterator->type == REDIRECT_OUT
+		else if (token_iterator->type == RED_IN || token_iterator->type == RED_OUT
 			|| token_iterator->type == APPEND || token_iterator->type == HEREDOC)
 		{
 			handle_redirection_token(arena, &cmd_list, &current_cmd, token_iterator);

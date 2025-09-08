@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 09:39:28 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/22 14:11:15 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/29 14:01:50 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 /**
  * Allocates memory for a new token node, duplicates the word,
- * and initializes it.
+ * assigns its type, and initializes fields.
  * Returns a pointer to the new node, or NULL on failure.
  */
 t_token	*create_token_node(mem_arena *arena, char *word, t_token_type type)
@@ -28,9 +28,11 @@ t_token	*create_token_node(mem_arena *arena, char *word, t_token_type type)
 	if (!node->value)
 		return (NULL);
 	node->type = type;
+	node->was_quoted = 0; //needed to decide on word splitting later after expansion (we need to know if string before expansion was quoted or not)
 	node->next = NULL;
 	return (node);
 }
+
 /**
  * Appends a token node to the end of a linked list.
  * If the list is empty, new node becomes the  head.
@@ -52,21 +54,19 @@ void	append_token_to_list(t_token **head, t_token *new_node)
 }
 
 /**
- * Creates a token from a substring of input starting at i with length len, 
- * then append it to the token list. 
+ * Creates a token node from an operator substring
+ * and appends it to the token list. 
  * Returns 1 on success, 0 on memory failure.
  */
-int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *input, int i, int len)
+int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *substr)
 {
-	char	*token;
-	t_token	*new;
+	t_token			*new;
 	t_token_type	type;
 
-	token = ar_substr(arena, input, i, len);
-	if (!token)
+	if (!substr)
 		return (0);
-	type = identify_token(token);
-	new = create_token_node(arena, token, type);
+	type = identify_token(substr);
+	new = create_token_node(arena, substr, type);
 	if (!new)
 		return (0);
 	append_token_to_list(list, new);
@@ -74,12 +74,13 @@ int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *input, in
 }
 
 /**
- * Creates a new token node from the current token string and appends it to the list. 
+ * Finalizes the current token string by creating a node and
+ * and appending it to the list. Resets token and was_quoted flag.
  * Returns 1 on success, 0 on memory failure.
  */
-int	save_token_to_list(mem_arena *arena, t_token **list, char **token)
+int	save_token_to_list(mem_arena *arena, t_token **list, char **token, int *was_quoted)
 {
-	t_token	*new;
+	t_token			*new;
 	t_token_type	type;
 
 	if (*token)
@@ -88,8 +89,10 @@ int	save_token_to_list(mem_arena *arena, t_token **list, char **token)
 		new = create_token_node(arena, *token, type);
 		if (!new)
 			return (0);
+		new->was_quoted = *was_quoted;
 		append_token_to_list(list, new);
 		*token = NULL;
+		*was_quoted = 0;
 	}
 	return (1);
 }

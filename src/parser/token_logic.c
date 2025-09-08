@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:51:27 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/27 09:34:09 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/08/28 14:10:14 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,8 @@ int	is_separator_symbol(char c)
  */
 int	is_token_boundary(char c, int single_quote, int double_quote)
 {
-	if (single_quote == 0 && double_quote == 0 && (ft_isspace(c) || is_separator_symbol(c)))
+	if (single_quote == 0 && double_quote == 0
+		&& (ft_isspace(c) || is_separator_symbol(c)))
 		return (1);
 	return (0);
 }
@@ -42,16 +43,16 @@ int	is_token_boundary(char c, int single_quote, int double_quote)
  * - *double_quotes = 1 if inside double quotes, else 0
  * Quotes toggle only if not inside the opposite quote type.
  */
-void	get_current_quote_state(char *input, int position, int *single_quotes, int *double_quotes)
+void	get_curr_quote_state(char *input, int pos, int *single_q, int *double_q)
 {
 	int	i;
 
-	*single_quotes = 0;
-	*double_quotes = 0;
+	*single_q = 0;
+	*double_q = 0;
 	i = 0;
-	while (i <= position)
+	while (i <= pos)
 	{
-		handle_quote_flags(input[i], single_quotes, double_quotes);
+		handle_quote_flags(input[i], single_q, double_q);
 		i++;
 	}
 }
@@ -69,7 +70,7 @@ int	get_operator_len(char *input, int i)
 		return (2);
 	if (is_separator_symbol(input[i]))
 		return (1);
-	return (0);	
+	return (0);
 }
 
 /**
@@ -78,15 +79,15 @@ int	get_operator_len(char *input, int i)
  */
 t_token_type	identify_token(char *value)
 {
-	if (ft_strncmp(value, "|", 2)  == 0)
+	if (ft_strncmp(value, "|", 2) == 0)
 		return (PIPE);
-	if (ft_strncmp(value, "<", 2)  == 0)
-		return (REDIRECT_IN);
-	if (ft_strncmp(value, ">", 2)  == 0)
-		return (REDIRECT_OUT);
-	if (ft_strncmp(value, ">>", 2)  == 0)
+	if (ft_strncmp(value, "<", 2) == 0)
+		return (RED_IN);
+	if (ft_strncmp(value, ">", 2) == 0)
+		return (RED_OUT);
+	if (ft_strncmp(value, ">>", 2) == 0)
 		return (APPEND);
-	if (ft_strncmp(value, "<<", 2)  == 0)
+	if (ft_strncmp(value, "<<", 2) == 0)
 		return (HEREDOC);
 	return (WORD);
 }

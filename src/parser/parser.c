@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/27 15:56:02 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/04 15:02:37 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void	print_tokens(t_token *head) // for testing only!!!!
 {
     while (head)
     {
-        printf("Token: %s Type: %d\n", head->value, head->type);
+        printf("Token: %s | Type: %d | Was quoted %d\n", head->value, head->type, head->was_quoted);
         head = head->next;
     }
 }
@@ -36,6 +36,8 @@ static void	print_commands(t_command *cmd_list) // for testing only!!!
 				i++;
 			}
 		}
+		else
+			printf("Arg[]: NULL\n");
 		if (cmd_list->infile)
 			printf("Infile: %s\n", cmd_list->infile);
 		if (cmd_list->outfile)
@@ -47,6 +49,7 @@ static void	print_commands(t_command *cmd_list) // for testing only!!!
 		}
 		if (cmd_list->heredoc)
 			printf("Heredoc: %s\n", cmd_list->heredoc);
+		printf("Heredoc was quoted: %d\n", cmd_list->heredoc_quoted);
 		cmd_list = cmd_list->next;
 	}
 }
@@ -71,6 +74,7 @@ t_command	*run_parser(char *input, mem_arena *arena, mem_arena *env_arena, t_env
 			break;
 		}*/
 		tokens = tokenize_input(arena, input);
+		print_tokens(tokens); // here for testing only!!!
 		if (!tokens)
 		{
 			return (NULL);
@@ -83,9 +87,19 @@ t_command	*run_parser(char *input, mem_arena *arena, mem_arena *env_arena, t_env
 			//free(input);
 			//continue;
 		}
-		tokens = expand_tokens(env_arena, tokens, env, exit_status);
-		cmd_list = group_commands(arena, tokens);
+		tokens = exp_toks(env_arena, tokens, env, exit_status);
+		printf("--------AFTER EXPANSION------\n"); // here for testing only!!!
 		print_tokens(tokens); // here for testing only!!!
+		tokens = split_expanded_variables(arena, tokens);
+		printf("--------AFTER SPLITTING------\n"); // here for testing only!!!
+		print_tokens(tokens); // here for testing only!!!
+		if (!tokens)
+			return (NULL);
+		tokens = remove_empty_tokens(tokens);
+		printf("--------AFTER REMOVING EMPTY------\n"); // here for testing only!!!
+		print_tokens(tokens); // here for testing only!!!
+		cmd_list = group_commands(arena, tokens);
+		printf("--------AFTER FINAL COMMANDS------\n"); // here for testing only!!!
 		print_commands(cmd_list); // here for testing only!!
 		free(input);
 	//}

@@ -6,17 +6,18 @@
 #    By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/06 09:24:38 by nmascaro          #+#    #+#              #
-#    Updated: 2025/09/03 12:12:46 by jkorvenp         ###   ########.fr        #
+#    Updated: 2025/09/08 11:51:27 by jkorvenp         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
 CFLAGS = -Wall -Wextra -Werror -g #REMOVE -G FLAG!!!!!!!!!!!!!
-SRCS = src/main.c src/parser/token_builder.c src/parser/token_logic.c \
+SRCS = src/main.c src/parser/token_builder.c src/parser/token_builder_utils.c src/parser/token_logic.c \
 	src/parser/token_list_utils.c src/parser/parser.c src/parser/grouping_commands.c \
 	src/parser/grouping_commands_utils.c src/parser/input_validation.c \
 	src/parser/env_list_utils.c src/parser/expansion.c src/parser/expansion_utils.c \
+	src/parser/splitting_on_expanded_variables.c src/parser/splitting_utils.c \
 	src/parser/arena_utils.c src/parser/arena.c src/execution/execution.c \
 	src/execution/command_validation.c src/execution/built_ins.c \
 	src/execution/built_ins_export_unset.c src/execution/files.c \
