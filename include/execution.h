@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/08 10:43:38 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/08 17:26:23 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <sys/wait.h>
 
 
-void	command_loop(t_command *command, t_shell *shell);
+//void	command_loop(t_command *command, t_shell *shell);
 void	execution(t_shell *shell, t_command	*command_list);
 
 bool	check_if_built_in(t_command *command);
