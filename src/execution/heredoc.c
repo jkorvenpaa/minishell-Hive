@@ -35,12 +35,10 @@ int store_line_to_file(t_shell *shell, t_command *command, int fd)
 {
 	char	*buf;
 	char	*line;
-	int		in;
 	ssize_t	r;
-	char	*input;
+	char	*newline;
 
 	r = 1;
-	in = STDIN_FILENO;
 	line = NULL;
 	buf = arena_alloc(shell->arena, 10);
 	if (!buf)
@@ -48,24 +46,26 @@ int store_line_to_file(t_shell *shell, t_command *command, int fd)
 
 	while (1)
 	{
-		input = readline("> ");
-		if (ft_strncmp(input, command->heredoc,ft_strlen(command->heredoc)) == 0)
+		ft_putstr_fd ("> ", STDOUT_FILENO);
+		r = read(STDIN_FILENO, buf, 10-1);
+		if (r <= 0)
 			break;
-		while (r > 0)
-		{
-			r = read(in, buf, 10);
-			buf[r] = '\0';
-			if (r == 0 || ft_strchr(buf, '\n'))
-				break;
-			if (!line)
-				line = buf;
+		buf[r] = '\0';
+		if (ft_strncmp(buf, command->heredoc,ft_strlen(command->heredoc)) == 0)
+			break;
+		newline = ft_strchr(buf, '\n');
+		if (newline)
+			*newline = '\0';
+		if (!line)
+			line = buf;
+		else
 			line = ar_strjoin(shell->arena, line, buf);
-			buf = NULL;
+		buf = NULL;
 		//if ft_strchr(buf, '$') == 0;
 			//hdoc_line_exp(shell->arena, buf, t_expansion *data, int hdoc_quoted)
-	}
-	ft_putstr_fd(line, fd);
-	line = NULL;
+		
+		ft_putstr_fd(line, fd);
+		line = NULL;
 	}
 	return (0);
 }

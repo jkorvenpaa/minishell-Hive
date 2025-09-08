@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/04 18:27:36 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/08 11:46:23 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	sigint_handler(int sig)
 	printf("\n");
 	rl_replace_line("", 1);
 	rl_on_new_line();
-	rl_redisplay();
+	//rl_redisplay();
 }
 
 int main(int argc, char **argv, char const **envp)
@@ -48,7 +48,7 @@ int main(int argc, char **argv, char const **envp)
 	t_command	*command_list;
 	char	*input;
 
-	//(void) argv;
+	(void) argv;
 	(void)argc;
 //	if (argc != 1)
 //		return (1);
@@ -66,18 +66,18 @@ int main(int argc, char **argv, char const **envp)
 			arena = arena_init();
 			shell->arena = arena;
 		}
-	
 		input = readline("minishell$ ");
 		if (input == NULL)
 			break ;
 		command_list = run_parser(input, arena, env_arena, shell->env_list, shell->exit_status);
-		if (command_list == NULL)
-			break ;// do we need to break tho?!
-		if (command_list->heredoc)
-			handle_heredoc(argv[1], shell, command_list); //, data, hdoc_quoted);
-		execution(shell, command_list);	
+		//if (command_list->heredoc)
+		//	handle_heredoc(argv[1], shell, command_list); //, data, hdoc_quoted);
+		if (command_list)
+			execution(shell, command_list);
+		//free(input);
+
 	}
 	//free(input);
-	exit_builtin(shell);
+	//exit_builtin(shell);
 	return (0);
 }
