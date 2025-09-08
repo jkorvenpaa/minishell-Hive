@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/08 13:41:13 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/08 14:45:15 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_shell	*init_shell(mem_arena *arena, mem_arena *env_arena, char const **envp)
 {
 	t_shell	*shell;
 
-	shell = arena_alloc(arena, sizeof(t_shell));
+	shell = malloc(sizeof(t_shell)); // no allocating in the arena because we reset it, so we lose the data
 	if (!shell)
 		return (NULL);
 	shell->exit_status = 0;
@@ -65,10 +65,11 @@ int main(int argc, char **argv, char const **envp)
 		if (command_list)
 			execution(shell, command_list);
 		arena_reset(shell->arena);
-		free(input);
+		//free(input);
 	}
 	free_arena(shell->arena);
 	free_arena(shell->env_arena);
+	free(shell);
 	//free arenas for env and history only in exit
 	return (0);
 }
