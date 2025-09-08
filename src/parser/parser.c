@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/05 15:10:00 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/08 10:27:06 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	print_commands(t_command *cmd_list) // for testing only!!!
 	}
 }
 
-t_command	*run_parser(char *input, mem_arena *arena, mem_arena *env_arena, t_env *env, int exit_status) //"main" for parsing part
+t_command	*run_parser(char *input, t_parser_context *data) //"main" for parsing part
 {
 	//char	*input;
 	t_token	*tokens;
@@ -73,7 +73,7 @@ t_command	*run_parser(char *input, mem_arena *arena, mem_arena *env_arena, t_env
 			free(input);
 			break;
 		}*/
-		tokens = tokenize_input(arena, input);
+		tokens = tokenize_input(data->arena, input);
 		print_tokens(tokens); // here for testing only!!!
 		if (!tokens)
 		{
@@ -87,10 +87,10 @@ t_command	*run_parser(char *input, mem_arena *arena, mem_arena *env_arena, t_env
 			//free(input);
 			//continue;
 		}
-		tokens = exp_toks(env_arena, tokens, env, exit_status);
+		tokens = exp_toks(data->env_arena, tokens, data->env, data->exit_status);
 		printf("--------AFTER EXPANSION------\n"); // here for testing only!!!
 		print_tokens(tokens); // here for testing only!!!
-		tokens = split_expanded_variables(arena, tokens);
+		tokens = split_expanded_variables(data->arena, tokens);
 		printf("--------AFTER SPLITTING------\n"); // here for testing only!!!
 		print_tokens(tokens); // here for testing only!!!
 		if (!tokens)
@@ -98,7 +98,7 @@ t_command	*run_parser(char *input, mem_arena *arena, mem_arena *env_arena, t_env
 		tokens = remove_empty_tokens(tokens);
 		printf("--------AFTER REMOVING EMPTY------\n"); // here for testing only!!!
 		print_tokens(tokens); // here for testing only!!!
-		cmd_list = group_commands(arena, tokens);
+		cmd_list = group_commands(data->arena, tokens);
 		printf("--------AFTER FINAL COMMANDS------\n"); // here for testing only!!!
 		print_commands(cmd_list); // here for testing only!!
 		//free(input);

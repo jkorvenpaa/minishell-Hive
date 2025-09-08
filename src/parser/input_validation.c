@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:43:28 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/29 15:33:47 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/08 10:58:55 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,7 @@ static int	 validate_heredoc_count(t_token *tokens)
 	if (heredoc_count > 16)
 	{
 		printf("minishell: maximum here-document count exceeded\n");
-		exit(2); //bash exits with that code in this case
+		exit(2); //bash exits with that code in this case (should we use exit function though?)
 	}
 	return (1);
 }

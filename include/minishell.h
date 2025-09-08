@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/04 16:02:45 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/08 10:50:29 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,13 +70,20 @@ typedef struct s_tokenizer
 	int	*was_quoted;
 }	t_tokenizer;
 
+typedef struct s_parser_context
+{
+	mem_arena	*arena;
+	mem_arena	*env_arena;
+	t_env	*env;
+	int	exit_status;
+}	t_parser_context;
+
 typedef struct s_history
 {
 	char 	*history; //command made
 	int		nbr; //number of  history commands
 	struct s_history	*next;
 }	t_history;
-
 
 typedef struct s_shell
 {
@@ -135,6 +142,6 @@ t_env	*get_env_node(t_env *env_list, const char *name);
 t_env	*init_env_list(mem_arena *env_arena, const char **envp);
 
 //main function in parsing branch
-t_command	*run_parser(char *input, mem_arena *arena, mem_arena *env_arena, t_env *env, int exit_status); 
+t_command	*run_parser(char *input, t_parser_context *data); 
 
 #endif

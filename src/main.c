@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/28 09:51:19 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/08 11:07:05 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,16 @@ t_shell	*init_shell(mem_arena *arena, mem_arena *env_arena, char const **envp)
 	shell->env_arena = env_arena;
 	return (shell);
 }
+t_parser_context	init_parser_context_from_shell(t_shell *shell)
+{
+	t_parser_context	data;
+
+	data.arena = shell->arena;
+	data.env_arena = shell->env_arena;
+	data.env = shell->env_list;
+	data.exit_status = shell->exit_status;
+	return (data);
+}
 
 int main(int argc, char **argv, char const **envp)
 {
@@ -33,6 +43,7 @@ int main(int argc, char **argv, char const **envp)
 	mem_arena *env_arena;
 	t_shell	*shell;
 	t_command	*command_list;
+	t_parser_context data;
 	char	*input;
 
 	(void)argv;
@@ -47,10 +58,13 @@ int main(int argc, char **argv, char const **envp)
 		input = readline("minishell$ ");
 		if (input == NULL)
 			break; //exit_builtin
-		command_list = run_parser(input, arena, env_arena, shell->env_list, shell->exit_status);
+		data = init_parser_context_from_shell(shell);
+		command_list = run_parser(input, &data);
 	//	if (command_list == NULL)
 			//free(input); // +something else?
-		execution(shell, command_list);
+		if (command_list)
+			execution(shell, command_list);
+		free(input);
 	}
 	//free arenas for env and history only in exit
 	return (0);
