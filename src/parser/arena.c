@@ -52,3 +52,11 @@ void	free_arena(mem_arena *arena)
 		arena = temp;
 	}
 }
+void	arena_reset(mem_arena *arena)
+{
+	while (arena)
+	{
+		arena->offset = 0;
+		arena = arena->next;
+	}
+}

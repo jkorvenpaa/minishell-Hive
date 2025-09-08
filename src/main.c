@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/08 11:07:05 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/08 13:41:13 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,8 +64,11 @@ int main(int argc, char **argv, char const **envp)
 			//free(input); // +something else?
 		if (command_list)
 			execution(shell, command_list);
+		arena_reset(shell->arena);
 		free(input);
 	}
+	free_arena(shell->arena);
+	free_arena(shell->env_arena);
 	//free arenas for env and history only in exit
 	return (0);
 }
