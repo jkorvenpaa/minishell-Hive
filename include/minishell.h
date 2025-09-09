@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/09 14:19:45 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/09 14:31:08 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,20 +89,12 @@ typedef struct s_parser_context
 	int	exit_status;
 }	t_parser_context;
 
-typedef struct s_history
-{
-	char 	*history; //command made
-	int		nbr; //number of  history commands
-	struct s_history	*next;
-}	t_history;
-
 typedef struct s_shell
 {
 	int			exit_status; // $? fetches this
 	mem_arena	*arena;
 	mem_arena	*env_arena;
 	t_env		*env_list;
-//	t_history	*history_list;
 }	t_shell;
 
 

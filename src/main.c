@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/09 14:25:08 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/09 14:31:34 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_shell	*init_shell(mem_arena *arena, mem_arena *env_arena, char const **envp)
 		return (NULL);
 	shell->exit_status = 0;
 	shell->env_list = init_env_list(env_arena, envp);
-	//shell->history_list = history; // seems we actually dont need this and we dont need the history struct at all (readline already stores commands for us)
 	shell->arena = arena;
 	shell->env_arena = env_arena;
 	return (shell);

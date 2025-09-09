@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/09 14:00:40 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/09 15:09:16 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,18 +35,20 @@ void	child(t_command *command, t_shell *shell)
 }
 
 
-void	command_loop(t_command *command, t_shell *shell)
+int	command_loop(t_command *command, t_shell *shell)
 {
 	pid_t	pid;
 	static int		pipe_fd = -1;
+	int child_status;
+	int status = 0;
 	int	fd[2];
 	
 	if (!command->argv)
-		return ;
+		return (-1);
 	if (check_if_built_in(command) == true && !command->next && !command->infile && !command->outfile)
 	{
 		execute_built_in(command, shell);
-		return ;
+		return (shell->exit_status);
 	}
 	if (command->next)
 		pipe(fd);
@@ -74,10 +76,16 @@ void	command_loop(t_command *command, t_shell *shell)
 	}
 	else
 	{	
-		int child_status;
 		waitpid(pid, &child_status, 0);
-		WEXITSTATUS(child_status);
-			
+		if (WEXITSTATUS(child_status))
+			status = WEXITSTATUS(child_status);
+		else if (WIFSIGNALED(child_status))
+		{
+			int sig = WTERMSIG(child_status);
+			status = sig + 128;
+		}
+		else
+			status = 1;
 		if (pipe_fd != -1)
 		{
 			close(pipe_fd);
@@ -90,15 +98,15 @@ void	command_loop(t_command *command, t_shell *shell)
 		else
             pipe_fd = -1;
 	}
-
+	return (status);
 }
 
 void	execution(t_shell *shell, t_command	*command_list)
 {
-	//init_history
+
 	while (command_list)
 	{
-		command_loop(command_list, shell);
+		shell->exit_status = command_loop(command_list, shell);
 		command_list = command_list->next;
 	}
 	return ;
@@ -106,39 +114,20 @@ void	execution(t_shell *shell, t_command	*command_list)
 	
 
 /*
-1. pipelines!!
+1. exit codes
 2. heredoc
-3. history
 4. refactor, arena split
 5. error, exitcodes
 ----------------------
 
-HISTORYYYYY
+Exit Code	Meaning	Example command	Explanation
+0	Success	ls	Command runs successfully
+1	General error	grep "nomatch" file.txt	No lines matched (grep returns 1 for no matches)
+2	Misuse of shell builtins or syntax error	cd --unknownoption or test with invalid syntax	Shell builtin misused or syntax error
+126	Command invoked but not executable	chmod -x script.sh; ./script.sh	File exists but is not executable
+127	Command not found	nocommand	Command does not exist
+128 + n	Command terminated by signal n	Run command and send signal, e.g. sleep 10 then Ctrl-C (SIGINT, 2)	Exit status = 128 + 2 = 130 (interrupted by SIGINT)
 
 ----------------------
-if readline return NULL = ctrl+D was pushed and exit_builtin should be called
-
-If external command:
-
-Open (Redirection Files) 🔹 Uses open() to prepare files for <, >, >>, <<
-
-Pipe 🔹 Uses pipe() to create a tube between commands if | is found
-
-Fork 🔹 Uses fork() to create a child process for each command
-in chid handle ctrlC = sigint, parent sleeps/ignores signals mean while
-
-Dup2 🔹 Uses dup2() to connect input/output to the right place (file or pipe)
-
-Execve 🔹 Uses execve() to run the actual command (like cat, grep, etc.)
-
-Close 🔹 Uses close() to shut unused pipe ends and file descriptors
-
-Waitpid 🔹 Uses waitpid() to wait for all child processes to finish
-
-	after executing command:
-		Free arenas used for tokens, commands.
-
-free arenas for env and history only in exit
-
 
 */
