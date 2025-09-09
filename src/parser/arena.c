@@ -19,6 +19,7 @@ mem_arena	*arena_init(void)
 		return (NULL);
 	}
 	arena->offset = 0;
+	arena->next = NULL;
 	return (arena);
 }
 
@@ -47,10 +48,15 @@ void	free_arena(mem_arena *arena)
 	while (arena)
 	{
 		temp = arena->next;
-		free (arena->buffer);
+		if (arena->buffer)
+		{
+			free (arena->buffer);
+			arena->buffer = NULL;
+		}
 		free (arena);
 		arena = temp;
 	}
+	arena = NULL;
 }
 void	arena_reset(mem_arena *arena)
 {

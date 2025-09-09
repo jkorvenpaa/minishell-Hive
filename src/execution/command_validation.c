@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/08/27 16:46:39 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/01 15:32:08 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,8 +54,8 @@ void	execute_built_in(t_command *command, t_shell *shell)
 		shell->exit_status = unset(next_cmd, shell);
 	else if (ft_strncmp(cmd, "env", 3) == 0)
 		shell->exit_status = env_builtin(shell);
-	//else if (ft_strncmp(cmd, "exit", 4) == 0)
-	//	exit_builtin(shell);
+	else if (ft_strncmp(cmd, "exit", 4) == 0)
+		exit_builtin(shell);
 }
 
 char	*find_command_path(t_command *command, t_shell *shell)
@@ -64,23 +64,20 @@ char	*find_command_path(t_command *command, t_shell *shell)
 	char	**folder;
 	char	*final_path;
 	int		i;
-	int		len;
 
 	i = 0;
 	path = getenv("PATH");
-	//printf("path: %s\n", path);
-	folder = ft_split(path, ':');///modify to arena_split
+	folder = ar_split(shell->arena, path, ':');
 	if (!folder)
 		return (NULL); //+mem_error
 	while (folder[i])
 	{
-		//printf("folder: %s\n", folder[i]);
-		len = ft_strlen(folder[i] + 1 + ft_strlen(command->argv[0]) + 1);
-		final_path = arena_alloc(shell->arena, len);
+		final_path = ar_strjoin(shell->arena, folder[i], "/");
 		if (!final_path)
-			return (NULL); //+mem_error
-		final_path = ft_strjoin(folder[i], "/");
-		final_path = ft_strjoin(final_path, command->argv[0]);
+			return (NULL);
+		final_path = ar_strjoin(shell->arena, final_path, command->argv[0]);
+		if (!final_path)
+			return (NULL);
 		if (access(final_path, X_OK) == 0)
 			return (final_path);//found the command path
 		i++;
@@ -88,32 +85,40 @@ char	*find_command_path(t_command *command, t_shell *shell)
 	return (NULL);//path not found
 }
 
-void	prepare_files(t_command	*command) // t_shell *shell
+int	env_len(t_env *env_list)
 {
-	int	fd;
+	int		len;
+	t_env	*temp;
 
-	if (command->outfile)
+	temp = env_list;
+	len = 0;
+	while (temp)
 	{
-		fd = open(command->outfile, O_RDONLY);
-		if (fd < 0)
-		{
-			// erno + exit
-		}
-		dup2(fd, STDOUT_FILENO);
-		close(fd);
+		temp = temp->next;
+		len++;
 	}
-	//if (command->heredoc) need to be added
-	if (command->infile)
+	return (len);
+}
+
+char	**env_to_array(t_shell *shell)
+{
+	char	**env_array;
+	char	*temp;
+	t_env	*head;
+	int		i;
+	int		len;
+
+	i = 0;
+	head = shell->env_list;
+	len = env_len(shell->env_list);
+	env_array = arena_alloc(shell->arena, len + 1);
+	while (head)
 	{
-		if (command->append == 1)
-			open(command->infile, O_APPEND);
-		else
-			open(command->infile, O_RDWR);
-		if (fd < 0)
-		{
-			// erno + exit
-		}
-		dup2(fd, STDIN_FILENO);
-		close(fd);
+		temp = ar_strjoin(shell->arena, head->name, "=");
+		env_array[i] = ar_strjoin(shell->arena, temp, head->value);
+		i++;
+		head = head->next;
 	}
+	env_array[i] = NULL;
+	return (env_array);
 }

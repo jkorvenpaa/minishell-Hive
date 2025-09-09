@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/08 11:41:50 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/09 14:19:45 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,17 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdio.h>
+# include <signal.h>
+#include <stdbool.h>
+
+
+# ifndef GLOBAL_H
+#  define GLOBAL_H
+
+extern volatile sig_atomic_t g_sigint;
+
+# endif
+
 
 typedef	enum e_token_type
 {
