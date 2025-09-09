@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/08 11:52:15 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/09 13:03:27 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,6 @@ int main(int argc, char **argv, char const **envp)
 
 	}
 	//free(input);
-	//exit_builtin(shell);
+	exit_builtin(shell);
 	return (0);
 }

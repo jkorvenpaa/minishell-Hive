@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/08 18:44:30 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/09 14:00:40 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,9 @@ void	command_loop(t_command *command, t_shell *shell)
 		WEXITSTATUS(child_status);
 			
 		if (pipe_fd != -1)
+		{
 			close(pipe_fd);
+		}
 		if (command->next)
 		{
 			close(fd[1]);

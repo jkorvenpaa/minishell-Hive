@@ -7,7 +7,7 @@ int	handle_outfile(t_command *command)
 
 	if (command->append == 1)
 	{
-		fd = open(command->outfile, O_WRONLY | O_APPEND | O_CREAT | O_TRUNC, 0644);
+		fd = open(command->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd < 0)
 		{
 			perror("outfile open failed");
@@ -50,11 +50,9 @@ int	prepare_files(t_command	*command) // t_shell *shell
 	int	res;
 
 	res = 0;
-	//if (command->heredoc)
-	//	res = handle_heredoc(command);
-	if (command->outfile)
-		res = handle_outfile(command);
 	if (command->infile)
 		res = handle_infile(command);
+	if (command->outfile)
+		res = handle_outfile(command);
 	return (res);
 }
