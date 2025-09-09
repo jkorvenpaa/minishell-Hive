@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/08 14:09:49 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/09 11:11:00 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,11 @@
 
 static void	print_tokens(t_token *head) // for testing only!!!!
 {
-    while (head)
-    {
-        printf("Token: %s | Type: %d | Was quoted %d\n", head->value, head->type, head->was_quoted);
-        head = head->next;
-    }
+	while (head)
+	{
+		printf("Token: %s | Type: %d | Was quoted %d\n", head->value, head->type, head->was_quoted);
+		head = head->next;
+	}
 }
 
 static void	print_commands(t_command *cmd_list) // for testing only!!!
@@ -56,7 +56,7 @@ static void	print_commands(t_command *cmd_list) // for testing only!!!
 
 t_command	*run_parser(char *input, t_parser_context *data)
 {
-	t_token	*tokens;
+	t_token		*tokens;
 	t_command	*cmd_list;
 
 	tokens = tokenize_input(data->arena, input);
@@ -81,4 +81,3 @@ t_command	*run_parser(char *input, t_parser_context *data)
 	print_commands(cmd_list); // here for testing only!!
 	return (cmd_list);
 }
-

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/05 10:50:10 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/09 11:08:04 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,4 +140,3 @@ char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quote
 	}
 	return (result);
 }
-

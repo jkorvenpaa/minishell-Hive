@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:43:28 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/08 10:58:55 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/09 11:08:56 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,10 +111,10 @@ static int	validate_redirections(t_token *tokens)
  * Validates that no more than 16 HEREDOC are in the input.
  * Returns 1 if limit isn't exceeded, exits the program otherwise.
  */
-static int	 validate_heredoc_count(t_token *tokens)
+static int	validate_heredoc_count(t_token *tokens)
 {
 	t_token	*current;
-	int	heredoc_count;
+	int		heredoc_count;
 
 	current = tokens;
 	heredoc_count = 0;
