@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/08 14:45:15 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/09 10:48:01 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ t_shell	*init_shell(mem_arena *arena, mem_arena *env_arena, char const **envp)
 		return (NULL);
 	shell->exit_status = 0;
 	shell->env_list = init_env_list(env_arena, envp);
-	//shell->history_list = history;
+	//shell->history_list = history; // seems we actually dont need this and we dont need the history struct at all (readline already stores commands for us)
 	shell->arena = arena;
 	shell->env_arena = env_arena;
 	return (shell);
@@ -63,10 +63,14 @@ int main(int argc, char **argv, char const **envp)
 	//	if (command_list == NULL)
 			//free(input); // +something else?
 		if (command_list)
+		{
+			add_history(input);
 			execution(shell, command_list);
+		}
 		arena_reset(shell->arena);
 		//free(input);
 	}
+	rl_clear_history();
 	free_arena(shell->arena);
 	free_arena(shell->env_arena);
 	free(shell);
