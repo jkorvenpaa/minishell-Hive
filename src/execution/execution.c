@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/09 15:09:16 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/10 16:27:21 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,11 @@ void	child(t_command *command, t_shell *shell)
 	char	*path;
 	char	**env_array;
 
-
+	if (prepare_files(command) != 0)
+			exit(EXIT_FAILURE);
 	path = find_command_path(command, shell);
+	if (!path)
+		exit(EXIT_FAILURE);
 	env_array = env_to_array(shell);
 	ft_putstr_fd("HELLO FROM THE KID\n", 2);
 	if (execve(path, command->argv, env_array) == -1)
@@ -34,22 +37,27 @@ void	child(t_command *command, t_shell *shell)
 	exit(EXIT_SUCCESS);
 }
 
+void command_exit_status(t_shell *shell, pid_t pid)
+{
+	int child_status;
+	
+	waitpid(pid, &child_status, 0);
+	if (WEXITSTATUS(child_status))
+		shell->exit_status = WEXITSTATUS(child_status);
+	else if (WIFSIGNALED(child_status))
+	{
+		int sig = WTERMSIG(child_status);
+		shell->exit_status = sig + 128;
+	}
+}
+	
 
-int	command_loop(t_command *command, t_shell *shell)
+void	command_loop(t_command *command, t_shell *shell)
 {
 	pid_t	pid;
 	static int		pipe_fd = -1;
-	int child_status;
-	int status = 0;
 	int	fd[2];
 	
-	if (!command->argv)
-		return (-1);
-	if (check_if_built_in(command) == true && !command->next && !command->infile && !command->outfile)
-	{
-		execute_built_in(command, shell);
-		return (shell->exit_status);
-	}
 	if (command->next)
 		pipe(fd);
 	pid = fork();
@@ -69,27 +77,13 @@ int	command_loop(t_command *command, t_shell *shell)
 				perror("dupfailSTDOUT");
 			close(fd[1]);
 		}
-		if (prepare_files(command) != 0)
-			exit(EXIT_FAILURE);
 		child(command, shell);
-		exit(EXIT_SUCCESS);
 	}
 	else
 	{	
-		waitpid(pid, &child_status, 0);
-		if (WEXITSTATUS(child_status))
-			status = WEXITSTATUS(child_status);
-		else if (WIFSIGNALED(child_status))
-		{
-			int sig = WTERMSIG(child_status);
-			status = sig + 128;
-		}
-		else
-			status = 1;
+		command_exit_status(shell, pid);
 		if (pipe_fd != -1)
-		{
 			close(pipe_fd);
-		}
 		if (command->next)
 		{
 			close(fd[1]);
@@ -98,16 +92,20 @@ int	command_loop(t_command *command, t_shell *shell)
 		else
             pipe_fd = -1;
 	}
-	return (status);
 }
 
-void	execution(t_shell *shell, t_command	*command_list)
+void	execution(t_shell *shell, t_command	*command)
 {
 
-	while (command_list)
+	while (command)
 	{
-		shell->exit_status = command_loop(command_list, shell);
-		command_list = command_list->next;
+		if (command->argv)
+		{
+			if (check_if_built_in(command) == true && !command->next && !command->infile && !command->outfile)
+				execute_built_in(command, shell);
+			command_loop(command, shell);
+		}
+		command = command->next;
 	}
 	return ;
 }
@@ -118,6 +116,7 @@ void	execution(t_shell *shell, t_command	*command_list)
 2. heredoc
 4. refactor, arena split
 5. error, exitcodes
+6. leaks and open fd with echo hello >> test1.txt | wc -l 
 ----------------------
 
 Exit Code	Meaning	Example command	Explanation
