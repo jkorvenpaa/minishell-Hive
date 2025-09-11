@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/09 11:11:00 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/10 14:55:15 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_command	*run_parser(char *input, t_parser_context *data)
 	tokens = exp_toks(data->env_arena, tokens, data->env, data->exit_status);
 	printf("--------AFTER EXPANSION------\n"); // here for testing only!!!
 	print_tokens(tokens); // here for testing only!!!
-	tokens = split_expanded_variables(data->arena, tokens);
+	tokens = split_expanded_variables(data->env_arena, tokens);
 	printf("--------AFTER SPLITTING------\n"); // here for testing only!!!
 	print_tokens(tokens); // here for testing only!!!
 	if (!tokens)

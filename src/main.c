@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/09 14:31:34 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/11 11:54:32 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,6 @@ int main(int argc, char **argv, char const **envp)
     signal(SIGQUIT, SIG_IGN);        // Ignore Ctrl+backlash
 	while (1)
 	{
-		if (shell->arena)
-		{
-			free_arena(shell->arena);
-			arena = arena_init();
-			shell->arena = arena;
-		}
 		input = readline("minishell$ ");
 		if (input == NULL)
 			break; //exit_builtin
@@ -87,6 +81,7 @@ int main(int argc, char **argv, char const **envp)
 			execution(shell, command_list);
 		}
 		arena_reset(shell->arena);
+		free(input);
 		//if (command_list->heredoc)
 		//	handle_heredoc(argv[1], shell, command_list); //, data, hdoc_quoted);
 		//free(input);

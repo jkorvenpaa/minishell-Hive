@@ -45,7 +45,7 @@ t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd)
 	i = ft_strlen(next_cmd);
 	equal = ft_strchr(next_cmd, '=');
 	e = equal - next_cmd; //position of = sign
-	new->value = ar_substr(shell->arena, next_cmd, e + 1, i - e);
+	new->value = ar_substr(shell->env_arena, next_cmd, e + 1, i - e);
 	if (!new->value)
 		return (NULL);
 	return (new);
@@ -62,13 +62,13 @@ t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd)
 	i = ft_strlen(next_cmd);
 	equal = ft_strchr(next_cmd, '=');
 	e = equal - next_cmd; //position of = sign
-	new = arena_alloc(shell->arena, sizeof(t_env));
+	new = arena_alloc(shell->env_arena, sizeof(t_env));
 	if (!new)
 		return (NULL);
-	new->name = ar_substr(shell->arena, next_cmd, 0, e);
+	new->name = ar_substr(shell->env_arena, next_cmd, 0, e);
 	if (!new->name)
 		return (NULL);
-	new->value = ar_substr(shell->arena, next_cmd, e + 1, i - e);
+	new->value = ar_substr(shell->env_arena, next_cmd, e + 1, i - e);
 	if (!new->value)
 		return (NULL);
 	new->next = NULL;
