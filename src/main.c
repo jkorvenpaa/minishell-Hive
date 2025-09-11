@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/09 14:25:08 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/10 15:08:44 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,13 @@ int main(int argc, char **argv, char const **envp)
     signal(SIGQUIT, SIG_IGN);        // Ignore Ctrl+backlash
 	while (1)
 	{
-		if (shell->arena)
-		{
-			free_arena(shell->arena);
-			arena = arena_init();
-			shell->arena = arena;
-		}
+		//if (shell->arena)
+		//{
+			//free_arena(shell->arena);
+			//arena = arena_init();
+			//shell->arena = arena;
+		//}
+
 		input = readline("minishell$ ");
 		if (input == NULL)
 			break; //exit_builtin
@@ -87,7 +88,8 @@ int main(int argc, char **argv, char const **envp)
 			add_history(input);
 			execution(shell, command_list);
 		}
-		arena_reset(shell->arena);
+		//arena_reset(shell->arena);
+		free(input);
 		//if (command_list->heredoc)
 		//	handle_heredoc(argv[1], shell, command_list); //, data, hdoc_quoted);
 		//free(input);
