@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/12 11:07:14 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/12 14:26:44 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,72 +19,64 @@ void	child_sigint(int sig)
 	g_sigint = false;
 }
 
-//void	command_error(char *command_name)
-//{
-		//ft_putstr_fd("minishell: ", 2);
-		//ft_putstr_fd(command_name, 2);
-		//ft_putendl_fd(": command not found", 2);
-		//exit(127);
-//}
+void	command_error(char *command_name)
+{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd(command_name, 2);
+		ft_putendl_fd(": command not found", 2);
+		exit(127);
+}
 
-//void	execve_error(char *command_name)
-//{
-	//if (errno == EACCES) // file exists but can't execute it
-	//{
-		//perror(command_name);
-		//exit(126);
-	//}
-	//else if (errno == ENOENT) // file doesn't exist
-	//{
-		//perror(command_name);
-		//exit(127);
-	//}
-	//else if (errno == EISDIR) // trying to execute a directory
-	//{
-		//ft_putstr_fd("minishell: ", 2);
-		//ft_putstr_fd(command_name, 2);
-		//ft_putendl_fd(": is a directory", 2);
-		//exit(126);
-	//}
-	//else if (errno == ENOEXEC) // invalid executable format
-	//{
-		//ft_putstr_fd("minishell: ", 2);
-		//ft_putstr_fd(command_name, 2);
-		//ft_putendl_fd(": Exec format error", 2);
-		//exit(126);
-	//}
-//}
+void	execve_error(void)
+{
+	if (errno == EACCES) // file exists but can't execute it
+		exit(126);
+	if (errno == ENOENT) // file doesn't exist
+		exit(127);
+	if (errno == EISDIR) // trying to execute a directory
+		exit(126);
+	if (errno == ENOEXEC) // invalid executable format
+		exit(126);
+	exit(EXIT_SUCCESS);
+}
 void	child(t_command *command, t_shell *shell)
 {
 	char	*path;
 	char	**env_array;
 
-
+	if (prepare_files(command) != 0)
+			//exit(EXIT_FAILURE);
+			execve_error();
 	path = find_command_path(command, shell);
-	//if (!path)
-		//command_error(command->argv[0]);
+	if (!path)
+		command_error(command->argv[0]);
 	env_array = env_to_array(shell);
 	ft_putstr_fd("HELLO FROM THE KID\n", 2);
-	if (execve(path, command->argv, env_array) == -1)
-	{
-		//execve_error(command->argv[0]);
-		//exit(EXIT_FAILURE); //fallback for if there's another reason for failing
-	}
+	execve(path, command->argv, env_array);
+
+	
 }
 
+void command_exit_status(t_shell *shell, pid_t pid)
+{
+	int child_status;
+	
+	printf("test exit\n");
+	waitpid(pid, &child_status, 0);
+	if (WEXITSTATUS(child_status))
+		shell->exit_status = WEXITSTATUS(child_status);
+	else if (WIFSIGNALED(child_status))
+	{
+		int sig = WTERMSIG(child_status);
+		shell->exit_status = sig + 128;
+	}
+}
 void	command_loop(t_command *command, t_shell *shell)
 {
 	pid_t	pid;
 	static int		pipe_fd = -1;
 	int	fd[2];
 	
-	if (!command->argv)
-		return ;
-	if (check_if_built_in(command) == true && !command->next && !command->infile && !command->outfile)
-	{
-		execute_built_in(command, shell);
-		return ;
-	}
 	if (command->next)
 		pipe(fd);
 	pid = fork();
@@ -104,21 +96,13 @@ void	command_loop(t_command *command, t_shell *shell)
 				perror("dupfailSTDOUT");
 			close(fd[1]);
 		}
-		if (prepare_files(command) != 0)
-			exit(EXIT_FAILURE);
 		child(command, shell);
-		exit(EXIT_SUCCESS);
 	}
 	else
 	{	
-		int child_status;
-		waitpid(pid, &child_status, 0);
-		WEXITSTATUS(child_status);
-			
+		command_exit_status(shell, pid);
 		if (pipe_fd != -1)
-		{
 			close(pipe_fd);
-		}
 		if (command->next)
 		{
 			close(fd[1]);
@@ -127,55 +111,42 @@ void	command_loop(t_command *command, t_shell *shell)
 		else
             pipe_fd = -1;
 	}
-
 }
 
-void	execution(t_shell *shell, t_command	*command_list)
+void	execution(t_shell *shell, t_command	*command)
 {
-	//init_history
-	while (command_list)
+
+	while (command)
 	{
-		command_loop(command_list, shell);
-		command_list = command_list->next;
+		if (command->argv)
+		{
+			if (check_if_built_in(command) == true && !command->next && !command->infile && !command->outfile)
+				execute_built_in(command, shell);
+			else
+				command_loop(command, shell);
+		}
+		command = command->next;
 	}
 	return ;
 }
 	
 
 /*
-1. pipelines!!
+1. exit codes
 2. heredoc
-3. history
 4. refactor, arena split
 5. error, exitcodes
+6. leaks and open fd with echo hello >> test1.txt | wc -l 
 ----------------------
 
-HISTORYYYYY
+Exit Code	Meaning	Example command	Explanation
+0	Success	ls	Command runs successfully
+1	General error	grep "nomatch" file.txt	No lines matched (grep returns 1 for no matches)
+2	Misuse of shell builtins or syntax error	cd --unknownoption or test with invalid syntax	Shell builtin misused or syntax error
+126	Command invoked but not executable	chmod -x script.sh; ./script.sh	File exists but is not executable
+127	Command not found	nocommand	Command does not exist
+128 + n	Command terminated by signal n	Run command and send signal, e.g. sleep 10 then Ctrl-C (SIGINT, 2)	Exit status = 128 + 2 = 130 (interrupted by SIGINT)
 
 ----------------------
-if readline return NULL = ctrl+D was pushed and exit_builtin should be called
-
-If external command:
-
-Open (Redirection Files) 🔹 Uses open() to prepare files for <, >, >>, <<
-
-Pipe 🔹 Uses pipe() to create a tube between commands if | is found
-
-Fork 🔹 Uses fork() to create a child process for each command
-in chid handle ctrlC = sigint, parent sleeps/ignores signals mean while
-
-Dup2 🔹 Uses dup2() to connect input/output to the right place (file or pipe)
-
-Execve 🔹 Uses execve() to run the actual command (like cat, grep, etc.)
-
-Close 🔹 Uses close() to shut unused pipe ends and file descriptors
-
-Waitpid 🔹 Uses waitpid() to wait for all child processes to finish
-
-	after executing command:
-		Free arenas used for tokens, commands.
-
-free arenas for env and history only in exit
-
 
 */

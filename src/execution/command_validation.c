@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_validation.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/01 15:32:08 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/12 13:49:34 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
