@@ -21,16 +21,29 @@
 
 #include "minishell.h"
 #include "execution.h"
+
 /*
-int	file_name(t_shell *shell, char *file_name)
+char	*file_name(t_shell *shell)
 {
-	static int num = 0;
-	int i;
+	char *str;
+	char	*file_name;
+	static unsigned int counter = 0;
+	char	*number;
 
-	if (!file_name)
-		file_name = arena_alloc(shell->arena, );
+	file_name = arena_alloc(shell->arena, 8 + 1 + ft_strlen(num)+ ft_strlen.txt));
+	if (!str)
+		return (NULL);
+	str =  strlcpy(str, "heredoc_", 8);
 
-}*/
+	file_name = ar_strjoin(str, num);
+	file_name = ar_strjoin(file_name, ".txt")
+	if (access(file_name, F_OK) == 0)
+		return(NULL);
+	else
+		return (file_name);
+
+}
+
 int store_line_to_file(t_shell *shell, t_command *command, int fd)
 {
 	char	*buf;
@@ -73,19 +86,26 @@ int store_line_to_file(t_shell *shell, t_command *command, int fd)
 int	handle_heredoc(char *argv, t_shell *shell, t_command *command)// t_expansion *data, int hdoc_quoted))
 {
 	
-	static char	*file;
+	char	*file;
 	int		fd;
 	
 
-	file = argv; //file_name(shell, file);
+	//file = file_name(shell);
+	if (!file)
+		perror ("hd_file failed");
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
 		perror("open hd_file failed");
 		return(1);
 	}
-	if (store_line_to_file(shell, command, fd) == 0)
-		command->infile = file;
+	while (command)
+	{
+		if (store_line_to_file(shell, command, fd) == 0)
+			command->infile = file;
+		command = command->next;
+	}
 	close (fd);
 	return (0);
 }
+*/

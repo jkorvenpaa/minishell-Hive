@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/10 16:27:21 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/11 12:52:43 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void command_exit_status(t_shell *shell, pid_t pid)
 		shell->exit_status = sig + 128;
 	}
 }
-	
 
 void	command_loop(t_command *command, t_shell *shell)
 {
