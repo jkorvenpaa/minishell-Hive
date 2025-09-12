@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/10 15:07:31 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/12 10:43:17 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <readline/history.h>
 # include <stdio.h>
 # include <signal.h>
-#include <stdbool.h>
+# include <stdbool.h>
 
 
 # ifndef GLOBAL_H
