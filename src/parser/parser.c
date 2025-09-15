@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/10 14:55:15 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/15 15:20:55 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	print_commands(t_command *cmd_list) // for testing only!!!
 	}
 }
 
-t_command	*run_parser(char *input, t_parser_context *data)
+t_command	*run_parser(char *input, t_parser_context *data, t_shell *shell)
 {
 	t_token		*tokens;
 	t_command	*cmd_list;
@@ -65,7 +65,7 @@ t_command	*run_parser(char *input, t_parser_context *data)
 		return (NULL);
 	if (!validate_syntax(tokens))
 		return (NULL);
-	tokens = exp_toks(data->env_arena, tokens, data->env, data->exit_status);
+	tokens = exp_toks(data->env_arena, tokens, data->env, data->exit_status, shell);
 	printf("--------AFTER EXPANSION------\n"); // here for testing only!!!
 	print_tokens(tokens); // here for testing only!!!
 	tokens = split_expanded_variables(data->env_arena, tokens);

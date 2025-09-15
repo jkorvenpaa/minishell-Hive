@@ -18,31 +18,38 @@
 
 // line = readline("> "); 
 */
-/*
 
 #include "minishell.h"
 #include "execution.h"
 
-
+void unlink_infile(t_command *command)
+{
+	while (command)
+	{
+		if (command->infile && ft_strncmp(command->infile, "hd_temp_file", 12) == 0)
+		unlink(command->infile);
+		command = command->next;
+	}
+}
 char	*file_name(t_shell *shell)
 {
-	char *str;
 	char	*file_name;
-	static unsigned int counter = 0;
-	char	*number;
+	static unsigned int count = 0;
+	char	*num;
 
-	file_name = arena_alloc(shell->arena, 8 + 1 + ft_strlen(num)+ ft_strlen.txt));
-	if (!str)
-		return (NULL);
-	str =  strlcpy(str, "heredoc_", 8);
-
-	file_name = ar_strjoin(str, num);
-	file_name = ar_strjoin(file_name, ".txt")
-	if (access(file_name, F_OK) == 0)
-		return(NULL);
-	else
-		return (file_name);
-
+	
+	while (count <= 16)
+	{
+		count++;
+		num = arena_itoa(shell->arena, count);
+		if (!num)
+			return (NULL);
+		file_name = ar_strjoin(shell->arena, "hd_temp_file", num);
+		file_name = ar_strjoin(shell->arena, file_name, ".txt");
+		if (access(file_name, F_OK) != 0)
+			return (file_name); 
+	}
+	return (NULL);
 }
 
 int store_line_to_file(t_shell *shell, t_command *command, int fd)
@@ -50,63 +57,77 @@ int store_line_to_file(t_shell *shell, t_command *command, int fd)
 	char	*buf;
 	char	*line;
 	ssize_t	r;
-	char	*newline;
+	char	*newline = NULL;
+	//char	*exp;
 
 	r = 1;
 	line = NULL;
-	buf = arena_alloc(shell->arena, 10);
+	buf = arena_alloc(shell->arena, 10 + 1);
 	if (!buf)
 		return(1);
-
+	ft_putstr_fd ("> ", STDOUT_FILENO);
 	while (1)
 	{
-		ft_putstr_fd ("> ", STDOUT_FILENO);
-		r = read(STDIN_FILENO, buf, 10-1);
+		
+		r = read(STDIN_FILENO, buf, 10);
 		if (r <= 0)
 			break;
 		buf[r] = '\0';
-		if (ft_strncmp(buf, command->heredoc,ft_strlen(command->heredoc)) == 0)
-			break;
-		newline = ft_strchr(buf, '\n');
-		if (newline)
-			*newline = '\0';
+		
 		if (!line)
-			line = buf;
+			line = arena_strdup(shell->arena, buf);
 		else
 			line = ar_strjoin(shell->arena, line, buf);
-		buf = NULL;
-		//if ft_strchr(buf, '$') == 0;
-			//hdoc_line_exp(shell->arena, buf, t_expansion *data, int hdoc_quoted)
+	/*	if (exp = ft_strchr(buf, '$') == 0)
+		{	
+
+			exp = ar_substr (shell->arena, buf, *exp,  )
+			exp = hdoc_line_exp(shell->arena, *exp, data, command->heredoc_quoted); //holding expanded string
+			printf("%s\n", buf);
+		}
+			*/
+		newline = ft_strchr(buf, '\n');
+		if (newline)
+		{
+			*newline = '\0';
+			if (ft_strncmp(buf, command->heredoc,ft_strlen(command->heredoc)) == 0)
+				break;
+			ft_putstr_fd ("> ", STDOUT_FILENO);
+		}
 		
 		ft_putstr_fd(line, fd);
-		line = NULL;
+		line = arena_strdup(shell->arena, "");
 	}
 	return (0);
 }
 
-int	handle_heredoc(char *argv, t_shell *shell, t_command *command)// t_expansion *data, int hdoc_quoted))
+int	handle_heredoc (t_shell *shell, t_command *command)// t_expansion *data, int hdoc_quoted))
 {
-	
 	char	*file;
 	int		fd;
 	
-
-	//file = file_name(shell);
-	if (!file)
-		perror ("hd_file failed");
-	fd = open(file, O_WRONLY | O_APPEND | O_CREAT | O_TRUNC, 0644);
-	if (fd < 0)
-	{
-		perror("open hd_file failed");
-		return(1);
-	}
 	while (command)
 	{
-		if (store_line_to_file(shell, command, fd) == 0)
-			command->infile = file;
+		if (command->heredoc)
+		{
+			file = file_name(shell);
+			if (!file)
+			{
+				perror ("hd_file failed");
+				return (1);
+			}
+			fd = open(file, O_WRONLY | O_APPEND | O_CREAT | O_TRUNC, 0644);
+			if (fd < 0)
+			{
+				perror("open hd_file failed");
+				return(1);
+			}
+			if (store_line_to_file(shell, command, fd) == 0)
+				command->infile = file;
+			close(fd);
+		}
 		command = command->next;
 	}
-	close (fd);
 	return (0);
 }
-*/
+

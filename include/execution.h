@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/12 10:43:23 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/15 16:45:29 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int		handle_outfile(t_command *command);
 int		handle_infile(t_command *command);
 int		prepare_files(t_command	*command);
 
-int	handle_heredoc(char *argv, t_shell *shell, t_command *command);
+int	handle_heredoc(t_shell *shell, t_command *command);
+void unlink_infile(t_command *command);
 
 #endif

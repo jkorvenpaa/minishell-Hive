@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/12 12:34:42 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/15 15:22:07 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_shell
 	mem_arena	*arena;
 	mem_arena	*env_arena;
 	t_env		*env_list;
+	t_expansion	*expansion;
 }	t_shell;
 
 
@@ -135,7 +136,7 @@ int	get_next_word(char *str, int *start, int *end);
 int	needs_splitting(t_token *token);
 
 // Expansion functions
-t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status);
+t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status, t_shell *shell);
 char	*get_variable_name(mem_arena *env_arena, const char *input, int *len);
 char *expand_value(char *token_val, t_expansion *data);
 char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted);
@@ -145,6 +146,6 @@ t_env	*get_env_node(t_env *env_list, const char *name);
 t_env	*init_env_list(mem_arena *env_arena, const char **envp);
 
 //main function in parsing branch
-t_command	*run_parser(char *input, t_parser_context *data); 
+t_command	*run_parser(char *input, t_parser_context *data, t_shell *shell); 
 
 #endif

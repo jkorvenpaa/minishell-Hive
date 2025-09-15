@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/11 11:54:32 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/15 16:45:12 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ t_shell	*init_shell(mem_arena *arena, mem_arena *env_arena, char const **envp)
 	shell->env_list = init_env_list(env_arena, envp);
 	shell->arena = arena;
 	shell->env_arena = env_arena;
+	shell->expansion = NULL;
 	return (shell);
 }
 t_parser_context	init_parser_context_from_shell(t_shell *shell)
@@ -74,16 +75,17 @@ int main(int argc, char **argv, char const **envp)
 		if (input == NULL)
 			break; //exit_builtin
 		data = init_parser_context_from_shell(shell);
-		command_list = run_parser(input, &data);
+		command_list = run_parser(input, &data, shell);
+		handle_heredoc(shell, command_list);
 		if (command_list)
 		{
 			add_history(input);
 			execution(shell, command_list);
+			unlink_infile(command_list);
 		}
 		arena_reset(shell->arena);
 		free(input);
-		//if (command_list->heredoc)
-		//	handle_heredoc(argv[1], shell, command_list); //, data, hdoc_quoted);
+		
 		//free(input);
 	}
 	rl_clear_history();
