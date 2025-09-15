@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 10:57:01 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/04 11:46:53 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:37:25 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,7 @@ char	*extract_operator_str(mem_arena *arena, char *input, int i, int len)
 	token = ar_substr(arena, input, i, len);
 	return (token);
 }
+
 /**
  * Toggles quote flags based on the current character,
  * ensures quotes inside quotes are ignored.

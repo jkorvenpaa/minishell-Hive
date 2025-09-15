@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:35:29 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/15 13:35:35 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:39:01 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,13 +36,13 @@ static t_token	*new_word_token(mem_arena *arena, char *s, int start, int len)
  * Splits the value of a token into multiple tokens, one for each word.
  * Returns the head of the new list of word tokens, or NULL if allocation fails.
  */
-static t_token *split_token_words(mem_arena *arena, t_token *token)
+static t_token	*split_token_words(mem_arena *arena, t_token *token)
 {
-	int	start;
-	int	end;
+	int		start;
+	int		end;
 	t_token	*head;
 	t_token	*new_token;
-	
+
 	start = 0;
 	head = NULL;
 	while (get_next_word(token->value, &start, &end))
@@ -62,18 +62,18 @@ static t_token *split_token_words(mem_arena *arena, t_token *token)
  * current token in the linked list. It also updates the previous token,
  * and connects the end of the new list to the remainder of the original one.
  */
-static void	replace_token_list(t_token **head, t_token **prev, t_token *current, t_token *split_tokens)
+static void	repl_tk_lst(t_token **head, t_token **prev, t_token *curr, t_token *spl_tks)
 {
 	t_token	*tail;
 
-	tail = split_tokens;
+	tail = spl_tks;
 	while (tail->next)
 		tail = tail->next;
 	if (*prev)
-		(*prev)->next = split_tokens;
+		(*prev)->next = spl_tks;
 	else
-		*head = split_tokens;
-	tail->next = current->next;
+		*head = spl_tks;
+	tail->next = curr->next;
 	*prev = tail;
 }
 
@@ -86,8 +86,8 @@ t_token	*split_expanded_variables(mem_arena *arena, t_token *tokens)
 {
 	t_token	*current;
 	t_token	*prev;
-	t_token *head;
-	t_token *split_tokens;
+	t_token	*head;
+	t_token	*split_tokens;
 
 	current = tokens;
 	prev = NULL;
@@ -98,7 +98,7 @@ t_token	*split_expanded_variables(mem_arena *arena, t_token *tokens)
 		{
 			split_tokens = split_token_words(arena, current);
 			if (split_tokens)
-				replace_token_list(&head, &prev, current, split_tokens);
+				repl_tk_lst(&head, &prev, current, split_tokens);
 			else
 				prev = current; //keep original token (not splitted, useful for if VAR="") to avoid infinite loop or crash
 		}
@@ -118,7 +118,7 @@ t_token	*remove_empty_tokens(t_token *token)
 {
 	t_token	*current;
 	t_token	*prev;
-	t_token *head;
+	t_token	*head;
 
 	head = token;
 	prev = NULL;

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/04 11:47:24 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:37:01 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ static int	add_char_to_token(mem_arena *arena, char **token, char c)
  */
 static int	handle_operator_token(mem_arena *arena, char *input, int i, t_tokenizer *data)
 {
-	int	operator_len;
+	int		operator_len;
 	char	*operator_str;
 
 	operator_len = get_operator_len(input, i);
@@ -92,7 +92,7 @@ static int	process_character(mem_arena	*arena, char *input, int i, t_tokenizer *
 {
 	int	ret_val;
 	int	single_quote;
-	int double_quote;
+	int	double_quote;
 
 	single_quote = 0;
 	double_quote = 0;
@@ -125,10 +125,10 @@ static int	process_character(mem_arena	*arena, char *input, int i, t_tokenizer *
  */
 t_token	*tokenize_input(mem_arena *arena, char *input)
 {
-	int		i;
-	int		skip;
+	int			i;
+	int			skip;
 	t_tokenizer	data;
-	int	was_quoted;
+	int			was_quoted;
 
 	i = 0;
 	was_quoted = 0;

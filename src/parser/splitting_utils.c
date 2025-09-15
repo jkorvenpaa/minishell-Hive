@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:35:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/15 13:35:46 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:34:17 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 int	needs_splitting(t_token *token)
 {
 	char	*str;
-	int	i;
+	int		i;
 
 	if (!token || !token->value || token->was_quoted)
 		return (0);
@@ -59,8 +59,8 @@ int	get_next_word(char *str, int *start, int *end)
 int	is_only_spaces(const char *str)
 {
 	int	i;
-	i = 0;
 
+	i = 0;
 	while (str[i])
 	{
 		if (!ft_isspace(str[i]))
