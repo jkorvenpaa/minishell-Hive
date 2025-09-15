@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:43:28 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/09 11:08:56 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/15 13:57:44 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,7 +111,7 @@ static int	validate_redirections(t_token *tokens)
  * Validates that no more than 16 HEREDOC are in the input.
  * Returns 1 if limit isn't exceeded, exits the program otherwise.
  */
-static int	validate_heredoc_count(t_token *tokens)
+static int	validate_heredoc_count(t_token *tokens, t_shell *shell)
 {
 	t_token	*current;
 	int		heredoc_count;
@@ -127,7 +127,8 @@ static int	validate_heredoc_count(t_token *tokens)
 	if (heredoc_count > 16)
 	{
 		printf("minishell: maximum here-document count exceeded\n");
-		exit(2); //bash exits with that code in this case (should we use exit function though?)
+		shell->exit_status = 2;
+		exit_builtin(shell);
 	}
 	return (1);
 }
@@ -141,7 +142,7 @@ static int	validate_heredoc_count(t_token *tokens)
  * Takes into account that empty input (pressing Enter) is valid.
  * Returns 1 if syntax is valid, 0 otherwise.
  */
-int	validate_syntax(t_token *tokens)
+int	validate_syntax(t_token *tokens, t_shell *shell)
 {
 	if (!tokens)
 		return (1);
@@ -151,6 +152,6 @@ int	validate_syntax(t_token *tokens)
 		return (0);
 	if (!validate_redirections(tokens))
 		return (0);
-	validate_heredoc_count(tokens);
+	validate_heredoc_count(tokens, shell);
 	return (1);
 }

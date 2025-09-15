@@ -6,14 +6,17 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/12 10:43:23 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:11:59 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef EXECUTION_H
 # define EXECUTION_H
 
-# include "minishell.h"
+//# include "minishell.h"
+typedef struct s_shell t_shell;
+typedef struct s_command t_command;
+typedef struct s_env t_env;
 # include <fcntl.h>
 # include <unistd.h> 
 # include <stdbool.h>

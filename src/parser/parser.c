@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/10 14:55:15 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:00:22 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	print_commands(t_command *cmd_list) // for testing only!!!
 	}
 }
 
-t_command	*run_parser(char *input, t_parser_context *data)
+t_command	*run_parser(char *input, t_parser_context *data, t_shell *shell)
 {
 	t_token		*tokens;
 	t_command	*cmd_list;
@@ -63,7 +63,7 @@ t_command	*run_parser(char *input, t_parser_context *data)
 	print_tokens(tokens); // here for testing only!!!
 	if (!tokens)
 		return (NULL);
-	if (!validate_syntax(tokens))
+	if (!validate_syntax(tokens, shell))
 		return (NULL);
 	tokens = exp_toks(data->env_arena, tokens, data->env, data->exit_status);
 	printf("--------AFTER EXPANSION------\n"); // here for testing only!!!

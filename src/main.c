@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/11 11:54:32 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:01:06 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int main(int argc, char **argv, char const **envp)
 		if (input == NULL)
 			break; //exit_builtin
 		data = init_parser_context_from_shell(shell);
-		command_list = run_parser(input, &data);
+		command_list = run_parser(input, &data, shell);
 		if (command_list)
 		{
 			add_history(input);

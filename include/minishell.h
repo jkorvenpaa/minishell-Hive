@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/12 12:34:42 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/15 14:10:35 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "libft.h"
 # include "arena.h"
-//# include "execution.h"
+# include "execution.h"
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <stdio.h>
@@ -119,7 +119,7 @@ char	*extract_operator_str(mem_arena *arena, char *input, int i, int len);
 t_token_type	identify_token(char *value);
 t_token	*tokenize_input(mem_arena *arena, char *input);
 char	*ar_add_char_to_str(mem_arena *arena, char *s, char c); 
-int	validate_syntax(t_token *tokens);
+int	validate_syntax(t_token *tokens, t_shell *shell);
 
 //Grouping the tokens into commands
 t_command	*create_command_node(mem_arena *arena);
@@ -145,6 +145,6 @@ t_env	*get_env_node(t_env *env_list, const char *name);
 t_env	*init_env_list(mem_arena *env_arena, const char **envp);
 
 //main function in parsing branch
-t_command	*run_parser(char *input, t_parser_context *data); 
+t_command	*run_parser(char *input, t_parser_context *data, t_shell *shell); 
 
 #endif

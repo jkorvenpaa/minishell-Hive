@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expansion_utils.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/09/15 13:34:40 by nmascaro          #+#    #+#             */
+/*   Updated: 2025/09/15 13:51:26 by nmascaro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -5,14 +16,14 @@
  * Converts the last command's exit status to a string.
  * Returns the exit status as a newly allocated string, NULL on failure.
  */
-static char *handle_exit_status(t_expansion *data, int *i)
+static char	*handle_exit_status(t_expansion *data, int *i)
 {
-    char    *result;
+	char	*result;
 
-    result = arena_itoa(data->env_arena, data->exit_status); //needs to be a string to be able to append to result
-    if (result)
-        (*i)++;
-    return (result);
+	result = arena_itoa(data->env_arena, data->exit_status); //needs to be a string to be able to append to result
+	if (result)
+		(*i)++;
+	return (result);
 }
 
 /**
