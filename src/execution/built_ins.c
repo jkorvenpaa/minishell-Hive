@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 10:50:23 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/09 14:39:28 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/15 10:18:37 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	cd(char *next_cmd)
 		next_cmd = getenv("HOME");
 	if (chdir(next_cmd) != 0)
 	{
-		printf(" cd: %s: No such file or directory\n", next_cmd); //check message
+		printf("cd: %s: No such file or directory\n", next_cmd); //check message
 		return (1); //?? check the status
 	}
 	return (0);

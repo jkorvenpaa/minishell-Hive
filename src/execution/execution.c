@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/12 15:48:37 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/15 10:35:50 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	execve_error(char *command_name)
 	{	
 		ft_putstr_fd(command_name, 2);
 		ft_putendl_fd(": is a directory", 2);
-		exit (126);
+		exit(126);
 	}
 	perror(command_name);
 	if (errno == EACCES || errno == ENOEXEC) // execve failed because the file exists but can't be executed or it's not valid executable format
@@ -53,6 +53,8 @@ void	child(t_command *command, t_shell *shell)
 
 	if (prepare_files(command) != 0)
 		exit(EXIT_FAILURE);
+	if (!command->argv || !command->argv[0] || command->argv[0][0] == '\0')
+		command_error(command->argv[0]);
 	path = find_command_path(command, shell);
 	if (!path)
 		command_error(command->argv[0]);
