@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/11 12:52:43 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/12 13:30:10 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,8 @@ void	execution(t_shell *shell, t_command	*command)
 		{
 			if (check_if_built_in(command) == true && !command->next && !command->infile && !command->outfile)
 				execute_built_in(command, shell);
-			command_loop(command, shell);
+			else
+				command_loop(command, shell);
 		}
 		command = command->next;
 	}

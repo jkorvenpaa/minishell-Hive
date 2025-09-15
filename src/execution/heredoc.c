@@ -18,11 +18,12 @@
 
 // line = readline("> "); 
 */
+/*
 
 #include "minishell.h"
 #include "execution.h"
 
-/*
+
 char	*file_name(t_shell *shell)
 {
 	char *str;
