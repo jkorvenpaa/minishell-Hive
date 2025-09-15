@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_validation.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/01 15:32:08 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/12 14:48:26 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ char	*find_command_path(t_command *command, t_shell *shell)
 	char	*final_path;
 	int		i;
 
+	if (ft_strchr(command->argv[0], '/'))
+		return (arena_strdup(shell->arena, command->argv[0]));
 	i = 0;
 	path = getenv("PATH");
 	folder = ar_split(shell->arena, path, ':');
