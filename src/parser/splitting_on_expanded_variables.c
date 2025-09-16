@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:35:29 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/15 14:39:01 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/16 09:29:58 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ t_token	*remove_empty_tokens(t_token *token)
 	t_token	*current;
 	t_token	*prev;
 	t_token	*head;
-
+	
 	head = token;
 	prev = NULL;
 	current = token;
