@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/15 14:16:41 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:41:13 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ int		handle_outfile(t_command *command);
 int		handle_infile(t_command *command);
 int		prepare_files(t_command	*command);
 
-int	handle_heredoc(char *argv, t_shell *shell, t_command *command);
+int	handle_heredoc(t_shell *shell, t_command *command);
+void unlink_infile(t_command *command);
 
 #endif

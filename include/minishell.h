@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/15 14:10:35 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/16 15:40:33 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ typedef struct s_shell
 	mem_arena	*arena;
 	mem_arena	*env_arena;
 	t_env		*env_list;
+	t_expansion	expansion;
 }	t_shell;
 
 
@@ -135,7 +136,7 @@ int	get_next_word(char *str, int *start, int *end);
 int	needs_splitting(t_token *token);
 
 // Expansion functions
-t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status);
+t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status, t_shell *shell);
 char	*get_variable_name(mem_arena *env_arena, const char *input, int *len);
 char *expand_value(char *token_val, t_expansion *data);
 char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted);
