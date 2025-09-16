@@ -58,7 +58,7 @@ int store_line_to_file(t_shell *shell, t_command *command, int fd)
 	char	*line;
 	ssize_t	r;
 	char	*newline = NULL;
-	//char	*exp;
+	char	*exp;
 
 	r = 1;
 	line = NULL;
@@ -73,30 +73,21 @@ int store_line_to_file(t_shell *shell, t_command *command, int fd)
 		if (r <= 0)
 			break;
 		buf[r] = '\0';
-		
 		if (!line)
 			line = arena_strdup(shell->arena, buf);
 		else
 			line = ar_strjoin(shell->arena, line, buf);
-	/*	if (exp = ft_strchr(buf, '$') == 0)
-		{	
-
-			exp = ar_substr (shell->arena, buf, *exp,  )
-			exp = hdoc_line_exp(shell->arena, *exp, data, command->heredoc_quoted); //holding expanded string
-			printf("%s\n", buf);
-		}
-			*/
 		newline = ft_strchr(buf, '\n');
 		if (newline)
 		{
 			*newline = '\0';
 			if (ft_strncmp(buf, command->heredoc,ft_strlen(command->heredoc)) == 0)
 				break;
+			exp = hdoc_line_exp(shell->arena, line, &shell->expansion, command->heredoc_quoted);
+			ft_putstr_fd(exp, fd);
+			line = arena_strdup(shell->arena, "");
 			ft_putstr_fd ("> ", STDOUT_FILENO);
 		}
-		
-		ft_putstr_fd(line, fd);
-		line = arena_strdup(shell->arena, "");
 	}
 	return (0);
 }

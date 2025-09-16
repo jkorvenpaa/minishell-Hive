@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/15 15:22:07 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:51:51 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ typedef struct s_shell
 	mem_arena	*arena;
 	mem_arena	*env_arena;
 	t_env		*env_list;
-	t_expansion	*expansion;
+	t_expansion	expansion;
 }	t_shell;
 
 

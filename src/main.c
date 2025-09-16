@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/15 16:45:12 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:52:55 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,9 @@ t_shell	*init_shell(mem_arena *arena, mem_arena *env_arena, char const **envp)
 	shell->env_list = init_env_list(env_arena, envp);
 	shell->arena = arena;
 	shell->env_arena = env_arena;
-	shell->expansion = NULL;
+	shell->expansion.env_arena = env_arena;
+	shell->expansion.env = shell->env_list;
+	shell->expansion.exit_status = 0;
 	return (shell);
 }
 t_parser_context	init_parser_context_from_shell(t_shell *shell)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/15 15:23:11 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/16 13:55:09 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status,
 	t_token		*current;
 	t_expansion	data;
 	
-	shell->expansion = &data;
 	data.env_arena = env_arena;
 	data.env = env;
 	data.exit_status = status;
+	shell->expansion = data;
 	current = tokens;
 	while (current)
 	{
@@ -128,16 +128,16 @@ t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status,
  */
 char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted) //call in execution of heredocs!!!!
 {
+	char	*expanded;
 	char	*result;
 
 	result = NULL;
 	if (hdoc_quoted)
-	{
 		result = arena_strdup(ar, line); //no expansion, line as it is 
-	}
 	else
 	{
-		result = expand_value(line, data); //and in this case we dont remove quotes
+		expanded = expand_value(line, data); // here allocated in env_arena
+		result = arena_strdup(ar, expanded); // copy it to the arena for heredoc
 	}
 	return (result);
 }
