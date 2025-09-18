@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/16 15:41:54 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/18 12:36:04 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,11 +137,15 @@ void	execution(t_shell *shell, t_command	*command)
 	
 
 /*
-1. exit codes
-2. heredoc
-4. refactor, arena split
-5. error, exitcodes
-6. leaks and open fd with echo hello >> test1.txt | wc -l 
+
+OPEN FD
+cat | ls +ctrlC
+minishell: gep: command not found
+==1533848== 
+==1533848== FILE DESCRIPTORS: 3 open (3 std) at exit
+
+HEREDOC
+>it's me $USER
 ----------------------
 
 Exit Code	Meaning	Example command	Explanation

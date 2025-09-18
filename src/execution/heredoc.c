@@ -1,102 +1,77 @@
-
-
 //create file to store stdin + validate file name-function
 //redirect input, store line by line to file until exact match to delimeter,
 // display prompt > in read loop;
-//destroy file after command;
-// if heredoc fd = open. (fd, STDIN_FILENO))
-
-
-
-// char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted)
-/* typedef struct s_expansion
-{
-    mem_arena   *env_arena;
-    t_env   *env;
-    int exit_status;
-}   t_expansion;
-
-// line = readline("> "); 
-*/
 
 #include "minishell.h"
 #include "execution.h"
 
-void unlink_infile(t_command *command)
+char	*update_line(t_shell *shell, char *line, char *buf)
 {
-	while (command)
-	{
-		if (command->infile && ft_strncmp(command->infile, "hd_temp_file", 12) == 0)
-		unlink(command->infile);
-		command = command->next;
-	}
-}
-char	*file_name(t_shell *shell)
-{
-	char	*file_name;
-	static unsigned int count = 0;
-	char	*num;
-
-	
-	while (count <= 16)
-	{
-		count++;
-		num = arena_itoa(shell->arena, count);
-		if (!num)
-			return (NULL);
-		file_name = ar_strjoin(shell->arena, "hd_temp_file", num);
-		file_name = ar_strjoin(shell->arena, file_name, ".txt");
-		if (access(file_name, F_OK) != 0)
-			return (file_name); 
-	}
-	return (NULL);
+	if (!line)
+		line = arena_strdup(shell->arena, buf);
+	else
+		line = ar_strjoin(shell->arena, line, buf);
+	return (line);
 }
 
-int store_line_to_file(t_shell *shell, t_command *command, int fd)
+char	*read_to_buffer(char *buf)
 {
-	char	*buf;
-	char	*line;
 	ssize_t	r;
-	char	*newline = NULL;
-	char	*exp;
 
 	r = 1;
+	r = read(STDIN_FILENO, buf, 10);
+	if (r <= 0)
+		return (NULL);
+	buf[r] = '\0';
+	return (buf);
+}
+
+void	read_loop(t_shell *shell, t_command *cmd, int fd, char *buf)
+{
+	char	*line;
+	char	*newline;
+	char	*exp;
+
 	line = NULL;
-	buf = arena_alloc(shell->arena, 10 + 1);
-	if (!buf)
-		return(1);
-	ft_putstr_fd ("> ", STDOUT_FILENO);
 	while (1)
 	{
-		
-		r = read(STDIN_FILENO, buf, 10);
-		if (r <= 0)
-			break;
-		buf[r] = '\0';
-		if (!line)
-			line = arena_strdup(shell->arena, buf);
-		else
-			line = ar_strjoin(shell->arena, line, buf);
+		buf = read_to_buffer(buf);
+		if (!buf)
+			break ;
+		line = update_line(shell, line, buf);
 		newline = ft_strchr(buf, '\n');
 		if (newline)
 		{
 			*newline = '\0';
-			if (ft_strncmp(buf, command->heredoc,ft_strlen(command->heredoc)) == 0)
-				break;
-			exp = hdoc_line_exp(shell->arena, line, &shell->expansion, command->heredoc_quoted);
+			if (ft_strncmp(buf, cmd->heredoc, ft_strlen(cmd->heredoc) + 1) == 0)
+				break ;
+			exp = hdoc_line_exp(shell->arena, line, &shell->expansion, cmd->heredoc_quoted);
 			ft_putstr_fd(exp, fd);
 			line = arena_strdup(shell->arena, "");
 			ft_putstr_fd ("> ", STDOUT_FILENO);
 		}
 	}
-	return (0);
 }
 
-int	handle_heredoc (t_shell *shell, t_command *command)// t_expansion *data, int hdoc_quoted))
+//store stdin to file, line by line until delimeter matches the line
+void	store_to_file(t_shell *shell, t_command *command, int fd, char *file)
+{
+	char	*buf;
+
+	buf = arena_alloc(shell->arena, 10 + 1);
+	if (!buf)
+		return ;
+	ft_putstr_fd ("> ", STDOUT_FILENO);
+	read_loop(shell, command, fd, buf);
+	command->infile = file;
+}
+
+//Checks if command has a heredoc, creates a file to command->infile if so
+int	handle_heredoc(t_shell *shell, t_command *command)
 {
 	char	*file;
 	int		fd;
-	
+
 	while (command)
 	{
 		if (command->heredoc)
@@ -111,14 +86,12 @@ int	handle_heredoc (t_shell *shell, t_command *command)// t_expansion *data, int
 			if (fd < 0)
 			{
 				perror("open hd_file failed");
-				return(1);
+				return (1);
 			}
-			if (store_line_to_file(shell, command, fd) == 0)
-				command->infile = file;
+			store_to_file(shell, command, fd, file);
 			close(fd);
 		}
 		command = command->next;
 	}
 	return (0);
 }
-
