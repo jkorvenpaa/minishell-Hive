@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   command_validation.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/12 14:48:26 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/19 14:43:29 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
 
-bool	check_if_built_in(t_command *command)
+bool	is_built_in(t_command *command)
 {
 	char	*cmd;
 

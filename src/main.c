@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/16 15:40:09 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/19 15:35:43 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ void	sigint_handler(int sig)
 	printf("\n");
 	rl_replace_line("", 1);
 	rl_on_new_line();
-	//rl_redisplay();
+	rl_redisplay();
 }
 
 int main(int argc, char **argv, char const **envp)
@@ -62,9 +62,8 @@ int main(int argc, char **argv, char const **envp)
 	char	*input;
 
 	(void) argv;
-	(void)argc;
-//	if (argc != 1)
-//		return (1);
+	if (argc != 1)
+		return (1);
 	arena = arena_init();
 	env_arena = arena_init();
 	shell = init_shell(arena, env_arena, envp);
@@ -87,8 +86,6 @@ int main(int argc, char **argv, char const **envp)
 		}
 		arena_reset(shell->arena);
 		free(input);
-		
-		//free(input);
 	}
 	rl_clear_history();
 	//free(input);
