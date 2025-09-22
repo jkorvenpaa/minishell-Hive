@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/19 15:28:57 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:06:28 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int		export(char	*next_cmd, t_shell *shell);
 t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd);
 t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd);
 int		unset(char *next_cmd, t_shell *shell);
-int		env_builtin(t_shell *shell);
+int		env_builtin(t_shell *shell, char *next_cmd);
+void	sort_env(t_shell *shell);
 
 // Prepare files
 int		handle_outfile(t_command *command);

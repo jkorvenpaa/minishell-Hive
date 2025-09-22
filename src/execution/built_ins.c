@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 10:50:23 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/15 10:18:37 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/22 15:54:48 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,31 @@ int	pwd(void)
 	return (0);
 }
 
+int	unset(char *next_cmd, t_shell *shell)
+{
+	t_env	*node;
+	t_env	*temp;
+
+	node = get_env_node(shell->env_list, next_cmd);
+	if (!node)
+		return (0);
+	temp = shell->env_list;
+	if (temp == node)
+	{
+		shell->env_list = temp->next;
+		node = ft_memset(node, 0, sizeof(t_env));
+		return (0);
+	}
+	while (temp->next != node)
+		temp = temp->next;
+	temp->next = node->next;
+	node = ft_memset(node, 0, sizeof(t_env));
+	return (0);
+}
+
 void	exit_builtin(t_shell *shell)
 {
-	int e;
+	int	e;
 
 	e = shell->exit_status;
 	printf("exit\n");
@@ -73,14 +95,3 @@ void	exit_builtin(t_shell *shell)
 	free(shell);
 	exit(e);
 }
-
-/*
-	else if (ft_strncmp(cmd, "exit", 4) == 0)
-		
-		if (!next_cmd)
-		free
-		close fd
-		kill background process
-		exit status = $?
-			
-		*/

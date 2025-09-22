@@ -6,9 +6,17 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/19 15:35:43 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/22 16:02:01 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+/* 
+1. env -i. What happens if env is set to null and try to export, crash. 
+2. sleeeeeepppppp, move waiting after every child.loop
+3. heredoc quotes, delimeter has quotes?
+4. dir inside dir .. rm all without getting stuck.
+*/
+
 
 #include "minishell.h"
 #include "execution.h"

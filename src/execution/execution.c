@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/19 15:40:59 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/22 13:59:41 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ void	execution(t_shell *shell, t_command	*command)
 			else
 			{
 				pipe_fd = command_loop(command, shell, pipe_fd);
-				printf("pipe = %d\n", pipe_fd);
+			//	printf("pipe = %d\n", pipe_fd);
 			}
 		}
 		command = command->next;

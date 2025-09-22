@@ -1,41 +1,6 @@
 #include "minishell.h"
 #include "execution.h"
 
-int	env_builtin(t_shell *shell)
-{
-	t_env	*temp;
-
-	temp = shell->env_list;
-	while (temp)
-	{
-		printf("%s=%s\n", temp->name, temp->value);
-		temp = temp->next;
-	}
-	return (0);
-}
-
-int	unset(char *next_cmd, t_shell *shell)
-{
-	t_env	*node;
-	t_env	*temp;
-
-	node = get_env_node(shell->env_list, next_cmd);
-	if (!node)
-		return (0);
-	temp = shell->env_list;
-	if (temp == node)
-	{
-		shell->env_list = temp->next;
-		node = ft_memset(node, 0, sizeof(t_env));
-		return (0);
-	}
-	while (temp->next != node)
-		temp = temp->next;
-	temp->next = node->next;
-	node = ft_memset(node, 0, sizeof(t_env));
-	return (0);
-}
-
 t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd)
 {
 	char	*equal;
@@ -70,7 +35,7 @@ t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd)
 		return (NULL);
 	new->value = ar_substr(shell->env_arena, next_cmd, e + 1, i - e);
 	if (!new->value)
-		return (NULL);
+		new->value = arena_strdup(shell->env_arena, "");
 	new->next = NULL;
 	while (temp->next)
 		temp = temp->next;
@@ -78,14 +43,32 @@ t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd)
 	return (new);
 }
 
+static int	valid_export_name(char *next_cmd)
+{
+	int	i;
+
+	i = 0;
+	if (ft_strchr(next_cmd, '=') == NULL)
+		return (1);
+	while (next_cmd[i] != '=')
+	{
+		if (ft_isalnum(next_cmd[i]) == 0 && next_cmd[i] != '_')
+			return (1);
+		else
+			i++;
+	}
+	return (0);
+}
+
 int	export(char	*next_cmd, t_shell *shell)
 {
 	t_env	*temp;
 	t_env	*new;
 
-	temp = shell->env_list;
 	if (!next_cmd) // just print the list
 	{
+		sort_env(shell);
+		temp = shell->env_list;
 		while (temp)
 		{
 			printf("declare -x %s=\"%s\"\n", temp->name, temp->value);
@@ -93,7 +76,7 @@ int	export(char	*next_cmd, t_shell *shell)
 		}
 		return (0);
 	}
-	if (ft_strchr(next_cmd, '=') == NULL) // invalid input for export
+	if (valid_export_name(next_cmd) == 1) // invalid input for export
 		return (1);
 	new = get_env_node(shell->env_list, next_cmd); // if already in env list
 	if (new == NULL)
