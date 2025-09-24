@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expansion.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/16 13:55:09 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:50:21 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ static char	*stripped_string(mem_arena *env_arena, char *input)
  * Removes quotes from a string. 
  * Entry point for the stripped_string() function.
  */
-static char	*remove_quotes(mem_arena *env_arena, char *input)
+char	*remove_quotes(mem_arena *env_arena, char *input)
 {
 	char	*result;
 

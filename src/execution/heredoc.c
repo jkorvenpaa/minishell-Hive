@@ -33,6 +33,8 @@ void	read_loop(t_shell *shell, t_command *cmd, int fd, char *buf)
 	char	*exp;
 
 	line = NULL;
+	if (cmd->heredoc_quoted == 1)
+		cmd->heredoc = remove_quotes(shell->arena, cmd->heredoc);
 	while (1)
 	{
 		buf = read_to_buffer(buf);

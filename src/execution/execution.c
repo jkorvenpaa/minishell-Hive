@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/22 13:59:41 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/24 18:04:03 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,11 @@ void	child_pipe_handler(t_command *command, int pipe_fd, int fd[2])
 	}
 }
 
-int	command_loop(t_command *command, t_shell *shell, int pipe_fd)
+int	command_loop(t_command *command, t_shell *shell)
 {
-	pid_t	pid;
-	int		fd[2];
+	static int		pipe_fd = -1;
+	pid_t			pid;
+	int				fd[2];
 
 	if (command->next)
 		pipe(fd);
@@ -69,7 +70,6 @@ int	command_loop(t_command *command, t_shell *shell, int pipe_fd)
 	}
 	else
 	{
-		command_exit_status(shell, pid);
 		if (pipe_fd != -1)
 			close(pipe_fd);
 		if (command->next)
@@ -80,27 +80,32 @@ int	command_loop(t_command *command, t_shell *shell, int pipe_fd)
 		else
 			pipe_fd = -1;
 	}
-	return (pipe_fd);
+	return (pid);
 }
 
 void	execution(t_shell *shell, t_command	*command)
 {
-	static int		pipe_fd = -1;
+	int	*pids;
+	int	i;
+	int	count;
 
+	count = cmd_count(command);
+	pids = arena_alloc(shell->arena, sizeof(int *) * count);
+	i = 0;
 	while (command)
 	{
 		if (command->argv)
 		{
-			if (is_built_in(command) == true && pipe_fd == -1
+			if (is_built_in(command) == true
 				&& !command->next && !command->infile && !command->outfile)
 				execute_built_in(command, shell);
 			else
 			{
-				pipe_fd = command_loop(command, shell, pipe_fd);
-			//	printf("pipe = %d\n", pipe_fd);
+				pids[i] = command_loop(command, shell);
+				i++;
 			}
 		}
 		command = command->next;
 	}
-	return ;
+	wait_kids(shell, pids);
 }

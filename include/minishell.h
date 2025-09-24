@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/16 15:40:33 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/24 16:50:41 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -146,6 +146,7 @@ t_env	*get_env_node(t_env *env_list, const char *name);
 t_env	*init_env_list(mem_arena *env_arena, const char **envp);
 
 //main function in parsing branch
-t_command	*run_parser(char *input, t_parser_context *data, t_shell *shell); 
+t_command	*run_parser(char *input, t_parser_context *data, t_shell *shell);
+char	*remove_quotes(mem_arena *env_arena, char *input);
 
 #endif

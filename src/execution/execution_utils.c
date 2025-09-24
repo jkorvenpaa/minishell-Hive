@@ -29,6 +29,19 @@ void	execve_error(char *command_name)
 	exit(1);
 }
 
+int	cmd_count(t_command *command)
+{
+	int	i;
+
+	i = 0;
+	while (command)
+	{
+		command = command->next;
+		i++;
+	}
+	return (i);
+}
+
 void	command_exit_status(t_shell *shell, pid_t pid)
 {
 	int	child_status;
@@ -41,5 +54,17 @@ void	command_exit_status(t_shell *shell, pid_t pid)
 	{
 		sig = WTERMSIG(child_status);
 		shell->exit_status = sig + 128;
+	}
+}
+
+void	wait_kids(t_shell *shell, int *pids)
+{
+	int	i;
+
+	i = 0;
+	while (pids[i])
+	{
+		command_exit_status(shell, pids[i]);
+		i++;
 	}
 }
