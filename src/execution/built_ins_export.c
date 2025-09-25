@@ -60,12 +60,14 @@ static int	valid_export_name(char *next_cmd)
 	return (0);
 }
 
-int	export(char	*next_cmd, t_shell *shell)
+int	export(t_command *cmd, t_shell *shell)
 {
 	t_env	*temp;
 	t_env	*new;
+	int i;
 
-	if (!next_cmd) // just print the list
+	i = 1;
+	if (!cmd->argv[i]) // just print the list
 	{
 		sort_env(shell);
 		temp = shell->env_list;
@@ -76,14 +78,19 @@ int	export(char	*next_cmd, t_shell *shell)
 		}
 		return (0);
 	}
-	if (valid_export_name(next_cmd) == 1) // invalid input for export
-		return (1);
-	new = get_env_node(shell->env_list, next_cmd); // if already in env list
-	if (new == NULL)
-		new = new_env(new, shell, next_cmd); //if not make a new
-	else
-		new = update_env(new, shell, next_cmd); // if yes, update value
-	if (!new)
-		return (1);
+	while (cmd->argv[i])
+	{
+		if (valid_export_name(cmd->argv[i]) == 1) // invalid input for export
+			return (1);
+		new = get_env_node(shell->env_list, cmd->argv[i]); // if already in env list
+		//printf("%s\n", new->value);
+		if (new == NULL)
+			new = new_env(new, shell, cmd->argv[i]); //if not make a new
+		else
+			new = update_env(new, shell, cmd->argv[i]); // if yes, update value
+		if (!new)
+			return (1);
+		i++;
+	}
 	return (0);
 }

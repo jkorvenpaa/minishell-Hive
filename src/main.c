@@ -6,13 +6,34 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/24 17:38:51 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/25 13:41:39 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /* 
+exit hello 555, exit 55 5
+home, unsethoome, cd, change from getenv
+signal handler reset after heredoc.
+echo hi out1>out2>out3
+export updatee the value correctly THIS IS NOT FINDING new = get_env_node(shell->env_list, cmd->argv[i]);
+restrict input len;
+
+ % valgrind --track-fds=yes ./minishell
+==2151118== Memcheck, a memory error detector
+==2151118== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==2151118== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==2151118== Command: ./minishell
+==2151118== 
+minishell$ echo a
+a
+==2151118== Conditional jump or move depends on uninitialised value(s)
+==2151118==    at 0x405833: wait_kids (execution_utils.c:65)
+==2151118==    by 0x404500: execution (execution.c:110)
+==2151118==    by 0x40152E: main (main.c:90)
+==2151118== 
+
+
 1. env -i. What happens if env is set to null and try to export, crash. 
-4. dir inside dir .. rm all without getting stuck.
 */
 
 

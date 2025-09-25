@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/24 18:03:51 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/25 13:30:09 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int		cd(char *next_cmd);
 int 	pwd();
 void	exit_builtin(t_shell *shell);
 
-int		export(char	*next_cmd, t_shell *shell);
+int	    export(t_command *cmd, t_shell *shell);
 t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd);
 t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd);
 int		unset(char *next_cmd, t_shell *shell);
