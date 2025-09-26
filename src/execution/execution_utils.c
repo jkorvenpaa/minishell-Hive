@@ -57,12 +57,12 @@ void	command_exit_status(t_shell *shell, pid_t pid)
 	}
 }
 
-void	wait_kids(t_shell *shell, int *pids)
+void	wait_kids(t_shell *shell, int *pids, int count)
 {
 	int	i;
 
 	i = 0;
-	while (pids[i])
+	while (i < count)
 	{
 		command_exit_status(shell, pids[i]);
 		i++;

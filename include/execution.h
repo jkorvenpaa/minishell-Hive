@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/25 13:30:09 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/26 16:58:57 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void    command_exit_status(t_shell *shell, pid_t pid);
 void	execve_error(char *command_name);
 void	command_error(char *command_name);
 int     cmd_count(t_command *command);
-void	wait_kids(t_shell *shell, int *pids);
+void	wait_kids(t_shell *shell, int *pids, int count);
 
 bool	is_built_in(t_command *command);
 void	execute_built_in(t_command *command, t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/24 18:04:03 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/26 17:04:23 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ void	execution(t_shell *shell, t_command	*command)
 	int	count;
 
 	count = cmd_count(command);
-	pids = arena_alloc(shell->arena, sizeof(int *) * count);
+	pids = arena_alloc(shell->arena, sizeof(int) * sizeof(int) *count);
 	i = 0;
 	while (command)
 	{
@@ -107,5 +107,5 @@ void	execution(t_shell *shell, t_command	*command)
 		}
 		command = command->next;
 	}
-	wait_kids(shell, pids);
+	wait_kids(shell, pids, i);
 }
