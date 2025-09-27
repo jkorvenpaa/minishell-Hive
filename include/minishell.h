@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/24 16:50:41 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/27 17:28:17 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@
 # include <readline/history.h>
 # include <stdio.h>
 # include <signal.h>
+# include <sys/types.h>
 # include <stdbool.h>
 
 

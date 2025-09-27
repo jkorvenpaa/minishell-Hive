@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/26 17:11:57 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/27 17:37:22 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,14 @@ t_parser_context	init_parser_context_from_shell(t_shell *shell)
 void	sigint_handler(int sig)
 {
 	(void)sig;
+	//g_sigint = false;
+
+		ft_putstr_fd("\n", STDOUT_FILENO);
+		rl_replace_line("", 1);
+		rl_on_new_line();
+		rl_redisplay();
 	g_sigint = true;
-	printf("\n");
-	rl_replace_line("", 1);
-	rl_on_new_line();
-	rl_redisplay();
+	
 }
 
 int main(int argc, char **argv, char const **envp)
@@ -81,10 +84,12 @@ int main(int argc, char **argv, char const **envp)
 	env_arena = arena_init();
 	shell = init_shell(arena, env_arena, envp);
 	g_sigint = false;
-	signal(SIGINT, sigint_handler);   // Handle Ctrl+C
+	signal(SIGINT, sigint_handler);  // Handle Ctrl+C
     signal(SIGQUIT, SIG_IGN);        // Ignore Ctrl+backlash
 	while (1)
 	{
+		if (g_sigint)
+			g_sigint = false;
 		input = readline("minishell$ ");
 		if (input == NULL)
 			break; //exit_builtin

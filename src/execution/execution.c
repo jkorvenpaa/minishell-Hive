@@ -6,19 +6,19 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/26 17:04:23 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/27 17:15:38 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include "execution.h"
-
+/*
 void	child_sigint(int sig)
 {
 	(void)sig;
 	g_sigint = false;
 }
-
+*/
 void	execute_child_command(t_command *command, t_shell *shell)
 {
 	char	*path;
@@ -38,7 +38,7 @@ void	execute_child_command(t_command *command, t_shell *shell)
 
 void	child_pipe_handler(t_command *command, int pipe_fd, int fd[2])
 {
-	signal(SIGINT, child_sigint);
+	//signal(SIGINT, SIG_DFL);
 	if (pipe_fd != -1)
 	{
 		if (dup2(pipe_fd, STDIN_FILENO) == -1) // redirect in to open pipe_fd
