@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/25 13:29:50 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/28 14:08:43 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void	execute_built_in(t_command *command, t_shell *shell)
 	if (ft_strncmp(cmd, "echo", 5) == 0)
 		shell->exit_status = echo(command);
 	else if (ft_strncmp(cmd, "cd", 2) == 0)
-		shell->exit_status = cd(next_cmd);
+		shell->exit_status = cd(shell, next_cmd);
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
 		shell->exit_status = pwd();
 	else if (ft_strncmp(cmd, "export", 6) == 0)
@@ -55,7 +55,7 @@ void	execute_built_in(t_command *command, t_shell *shell)
 	else if (ft_strncmp(cmd, "env", 3) == 0)
 		shell->exit_status = env_builtin(shell, next_cmd);
 	else if (ft_strncmp(cmd, "exit", 4) == 0)
-		exit_builtin(shell);
+		exit_builtin(shell, command);
 }
 
 char	*find_command_path(t_command *command, t_shell *shell)
@@ -71,7 +71,7 @@ char	*find_command_path(t_command *command, t_shell *shell)
 	path = getenv("PATH");
 	folder = ar_split(shell->arena, path, ':');
 	if (!folder)
-		return (NULL); //+mem_error
+		return (NULL);
 	while (folder[i])
 	{
 		final_path = ar_strjoin(shell->arena, folder[i], "/");

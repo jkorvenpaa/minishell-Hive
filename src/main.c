@@ -6,20 +6,20 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/27 17:37:22 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/28 15:06:55 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-/* 
-exit hello 555, exit 55 5
-home, unsethoome, cd, change from getenv
-signal handler reset after heredoc.
-echo hi out1>out2>out3
-export updatee the value correctly THIS IS NOT FINDING new = get_env_node(shell->env_list, cmd->argv[i]);
-restrict input len = ft_strlen(input) > ???, throw an error, display prompt?;
+/*	NEEDS TO BE CHECKED/FIXED:
 
+echo hi out1>out2>out3 , should build all files(now builds the last only)
 
-1. env -i. What happens if env is set to null and try to export, crash. 
+restrict input len? = ft_strlen(input) > ???, throw an error, display prompt?;
+
+env -i. What happens if env is set to null and try to export=crash?!. 
+
+signals
+
 */
 
 
@@ -68,6 +68,20 @@ void	sigint_handler(int sig)
 	
 }
 
+void	exit_shell(t_shell *shell)
+{
+	int	e;
+
+	rl_clear_history();
+	e = shell->exit_status;
+	printf("exit\n");
+	free_arena(shell->env_arena);
+	if (shell->arena)
+		free_arena(shell->arena);
+	free(shell);
+	exit(e);
+}
+
 int main(int argc, char **argv, char const **envp)
 {
 	mem_arena *arena;
@@ -92,7 +106,7 @@ int main(int argc, char **argv, char const **envp)
 			g_sigint = false;
 		input = readline("minishell$ ");
 		if (input == NULL)
-			break; //exit_builtin
+			exit_shell(shell);
 		data = init_parser_context_from_shell(shell);
 		command_list = run_parser(input, &data, shell);
 		handle_heredoc(shell, command_list);
@@ -105,7 +119,5 @@ int main(int argc, char **argv, char const **envp)
 		arena_reset(shell->arena);
 		free(input);
 	}
-	rl_clear_history();
-	exit_builtin(shell);
 	return (0);
 }

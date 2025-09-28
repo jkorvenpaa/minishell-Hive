@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/26 16:58:57 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/28 14:09:18 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ char	**ar_split(mem_arena *arena, char const *s, char c);
 
 // Built-ins
 int		echo(t_command *command);
-int		cd(char *next_cmd);
+int	    cd(t_shell *shell, char	*next);
 int 	pwd();
-void	exit_builtin(t_shell *shell);
+void    exit_builtin(t_shell *shell, t_command *command);
 
 int	    export(t_command *cmd, t_shell *shell);
 t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd);

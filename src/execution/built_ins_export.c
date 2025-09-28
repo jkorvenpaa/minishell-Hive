@@ -60,14 +60,37 @@ static int	valid_export_name(char *next_cmd)
 	return (0);
 }
 
+int	export_values(t_command *cmd, t_shell *shell)
+{
+	t_env	*new;
+	int i;
+	char *name;
+	int len;
+	
+	i = 1;
+	while (cmd->argv[i])
+	{
+		len = ft_strchr(cmd->argv[i], '=') - cmd->argv[i];
+		name = ar_substr(shell->arena, cmd->argv[i], 0, len);
+		if (valid_export_name(cmd->argv[i]) == 1) // invalid input for export
+			return (1);
+		new = get_env_node(shell->env_list, name); // if already in env list
+		if (new == NULL)
+			new = new_env(new, shell, cmd->argv[i]); //if not make a new
+		else
+			new = update_env(new, shell, cmd->argv[i]); // if yes, update value
+		if (!new)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	export(t_command *cmd, t_shell *shell)
 {
 	t_env	*temp;
-	t_env	*new;
-	int i;
 
-	i = 1;
-	if (!cmd->argv[i]) // just print the list
+	if (!cmd->argv[1]) // just print the list
 	{
 		sort_env(shell);
 		temp = shell->env_list;
@@ -78,19 +101,6 @@ int	export(t_command *cmd, t_shell *shell)
 		}
 		return (0);
 	}
-	while (cmd->argv[i])
-	{
-		if (valid_export_name(cmd->argv[i]) == 1) // invalid input for export
-			return (1);
-		new = get_env_node(shell->env_list, cmd->argv[i]); // if already in env list
-		//printf("%s\n", new->value);
-		if (new == NULL)
-			new = new_env(new, shell, cmd->argv[i]); //if not make a new
-		else
-			new = update_env(new, shell, cmd->argv[i]); // if yes, update value
-		if (!new)
-			return (1);
-		i++;
-	}
-	return (0);
+	else
+		return (export_values(cmd, shell));
 }

@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 10:50:23 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/25 13:14:50 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/28 14:56:28 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,27 @@ int	echo(t_command *command)
 	return (0);
 }
 
-int	cd(char *next_cmd)
+int	cd(t_shell *shell, char	*next)
 {
-	if (!next_cmd)
-		next_cmd = getenv("HOME");
-	if (chdir(next_cmd) != 0)
+	t_env *temp;
+	char 	*dir;
+	
+	if (!next)
 	{
-		printf("cd: %s: No such file or directory\n", next_cmd); //check message
-		return (1); //?? check the status
+		temp = get_env_node(shell->env_list, "HOME");
+		if (!temp)
+		{
+			printf("cd: HOME not set\n");
+			return (1);
+		}
+		dir = temp->value;
+	}
+	else
+		dir = next;
+	if (chdir(dir) != 0)
+	{
+		printf("cd: %s: No such file or directory\n", next);
+		return (1);
 	}
 	return (0);
 }
@@ -81,11 +94,39 @@ int	unset(char *next_cmd, t_shell *shell)
 	node = ft_memset(node, 0, sizeof(t_env));
 	return (0);
 }
-
-void	exit_builtin(t_shell *shell)
+int	exit_isdigit(char *num)
+{
+	int i = 0;
+	
+	while (num[i] == '-' || num[i] == '+')
+		i++;
+	while(num[i])
+	{
+		if(ft_isdigit(num[i])==0)
+			return(0);
+		i++;
+	}
+	return(1);
+}
+void	exit_builtin(t_shell *shell, t_command *command)
 {
 	int	e;
 
+	if (command->argv[1])
+	{
+	if (exit_isdigit(command->argv[1]) == 1)
+	{	
+		if (!command->argv[2])
+			e = ft_atoi(command->argv[1]);
+		else
+		{
+			printf("exit: too many arguments\n");
+			return ;
+		}
+	}
+	else
+		printf("exit: %s: numeric argument required\n", command->argv[1]);
+	}
 	e = shell->exit_status;
 	printf("exit\n");
 	free_arena(shell->env_arena);

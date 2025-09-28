@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_validation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:43:28 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/15 13:57:44 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/28 15:04:33 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ static int	validate_heredoc_count(t_token *tokens, t_shell *shell)
 	{
 		printf("minishell: maximum here-document count exceeded\n");
 		shell->exit_status = 2;
-		exit_builtin(shell);
+		exit_shell(shell);
 	}
 	return (1);
 }

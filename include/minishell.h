@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/27 17:28:17 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/28 15:05:14 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ typedef struct s_shell
 
 
 void	execution(t_shell *shell, t_command	*command_list);
+void	exit_shell(t_shell *shell);
 
 
 // Linked list functions
