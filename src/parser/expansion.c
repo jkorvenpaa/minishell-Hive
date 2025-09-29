@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/29 15:41:59 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/29 15:54:20 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,14 @@ char	*remove_quotes(mem_arena *env_arena, char *input)
  * expanding variables and the special exit status, then removes quotes.
  * Returns updated token list, NULL on failure.
  */
-t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status, t_shell *shell)
+t_token	*exp_toks(t_shell *shell, t_token *tokens)
 {
 	t_token		*current;
 	t_expansion	data;
 	
-	data.env_arena = env_arena;
-	data.env = env;
-	data.exit_status = status;
+	data.env_arena = shell->env_arena;
+	data.env = shell->env_list;
+	data.exit_status = shell->exit_status;
 	shell->expansion = data;
 	current = tokens;
 	while (current)
@@ -111,7 +111,7 @@ t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status,
 			current->value = expand_value(current->value, &data);
 			if (!current->value)
 				return (NULL);
-			current->value = remove_quotes(env_arena, current->value);
+			current->value = remove_quotes(shell->env_arena, current->value);
 			if (!current->value)
 				return (NULL);
 		}

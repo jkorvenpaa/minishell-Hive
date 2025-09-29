@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/28 15:05:14 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/29 15:53:30 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	get_next_word(char *str, int *start, int *end);
 int	needs_splitting(t_token *token);
 
 // Expansion functions
-t_token	*exp_toks(mem_arena *env_arena, t_token *tokens, t_env *env, int status, t_shell *shell);
+t_token	*exp_toks(t_shell *shell, t_token *tokens);
 char	*get_variable_name(mem_arena *env_arena, const char *input, int *len);
 char *expand_value(char *token_val, t_expansion *data);
 char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted);
