@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/28 15:06:55 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/29 16:17:07 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ signals
 #include "minishell.h"
 #include "execution.h"
 
-volatile sig_atomic_t g_sigint;
+
 
 t_shell	*init_shell(mem_arena *arena, mem_arena *env_arena, char const **envp)
 {
@@ -55,19 +55,6 @@ t_parser_context	init_parser_context_from_shell(t_shell *shell)
 	return (data);
 }
 
-void	sigint_handler(int sig)
-{
-	(void)sig;
-	//g_sigint = false;
-
-		ft_putstr_fd("\n", STDOUT_FILENO);
-		rl_replace_line("", 1);
-		rl_on_new_line();
-		rl_redisplay();
-	g_sigint = true;
-	
-}
-
 void	exit_shell(t_shell *shell)
 {
 	int	e;
@@ -90,27 +77,22 @@ int main(int argc, char **argv, char const **envp)
 	t_command	*command_list;
 	t_parser_context data;
 	char	*input;
-
+	
 	(void) argv;
-	if (argc != 1)
-		return (1);
+	(void) argc;
 	arena = arena_init();
 	env_arena = arena_init();
 	shell = init_shell(arena, env_arena, envp);
-	g_sigint = false;
-	signal(SIGINT, sigint_handler);  // Handle Ctrl+C
-    signal(SIGQUIT, SIG_IGN);        // Ignore Ctrl+backlash
 	while (1)
 	{
-		if (g_sigint)
-			g_sigint = false;
+		init_signals();
 		input = readline("minishell$ ");
 		if (input == NULL)
 			exit_shell(shell);
 		data = init_parser_context_from_shell(shell);
 		command_list = run_parser(input, &data, shell);
-		handle_heredoc(shell, command_list);
-		if (command_list)
+		//handle_heredoc(shell, command_list);
+		if (command_list && handle_heredoc(shell, command_list) == 0)
 		{
 			add_history(input);
 			execution(shell, command_list);

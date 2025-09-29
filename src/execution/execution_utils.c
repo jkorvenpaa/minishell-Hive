@@ -54,6 +54,7 @@ void	command_exit_status(t_shell *shell, pid_t pid)
 	{
 		sig = WTERMSIG(child_status);
 		shell->exit_status = sig + 128;
+		g_sig = 1;
 	}
 }
 
@@ -64,6 +65,7 @@ void	wait_kids(t_shell *shell, int *pids, int count)
 	i = 0;
 	while (i < count)
 	{
+		ignore();
 		command_exit_status(shell, pids[i]);
 		i++;
 	}

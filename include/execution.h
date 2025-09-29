@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/28 14:09:18 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/29 18:12:28 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,17 @@
 # include <stdbool.h>
 # include <sys/wait.h>
 # include <errno.h>
+# include <signal.h>
 
 typedef struct s_shell t_shell;
 typedef struct s_command t_command;
 typedef struct s_env t_env;
 
 void	execution(t_shell *shell, t_command	*command_list);
+void	init_signals();
+void	heredoc_signals();
+void	child_signals();
+void	ignore();
 
 // Execution_utils
 void    command_exit_status(t_shell *shell, pid_t pid);

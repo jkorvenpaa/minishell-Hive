@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/28 15:05:14 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/29 15:36:58 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # ifndef GLOBAL_H
 #  define GLOBAL_H
 
-extern volatile sig_atomic_t g_sigint;
+extern volatile sig_atomic_t g_sig;
 
 # endif
 
