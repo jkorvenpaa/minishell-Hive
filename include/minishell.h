@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/29 15:36:58 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:07:43 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@
 extern volatile sig_atomic_t g_sig;
 
 # endif
+
+# define ARG_MAX 4096
 
 
 typedef	enum e_token_type
@@ -97,6 +99,7 @@ typedef struct s_shell
 	mem_arena	*env_arena;
 	t_env		*env_list;
 	t_expansion	expansion;
+	int			fd_in;
 }	t_shell;
 
 

@@ -14,11 +14,11 @@ void	store_to_file(t_shell *shell, t_command *cmd, int fd)
 		cmd->heredoc = remove_quotes(shell->arena, cmd->heredoc);
 	while (1)
 	{
-		if (g_sig == 1)
+		if (g_sig == SIGINT)
 			return;
 		line = readline("> ");
 		if (!line)
-			break ;	
+			break ;
 		exp = arena_strdup(shell->arena, line);
 		free (line);
 		if (ft_strncmp(exp, cmd->heredoc, ft_strlen(cmd->heredoc) + 1) == 0)
@@ -58,7 +58,7 @@ int	handle_heredoc(t_shell *shell, t_command *command)
 			store_to_file(shell, command, fd);
 			command->infile = file;
 			close(fd);
-			if (g_sig == 1)
+			if (g_sig == SIGINT)
 			{
 				unlink_infile(command);
 				g_sig = 0;

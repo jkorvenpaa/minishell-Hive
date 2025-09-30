@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/29 15:29:04 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:03:57 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,5 @@ void	execution(t_shell *shell, t_command	*command)
 		command = command->next;
 	}
 	wait_kids(shell, pids, i);
+	unlink_infile(command);
 }

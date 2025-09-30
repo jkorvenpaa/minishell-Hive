@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/29 18:12:28 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:44:04 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ bool	is_built_in(t_command *command);
 void	execute_built_in(t_command *command, t_shell *shell);
 char	*find_command_path(t_command *command, t_shell *shell);
 char	**env_to_array(t_shell *shell);
-char	**ar_split(mem_arena *arena, char const *s, char c);
+char	**arena_split(t_shell *shell, char const *s, char c);
 
 // Built-ins
 int		echo(t_command *command);

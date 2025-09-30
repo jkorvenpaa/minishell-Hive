@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/29 16:17:07 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:49:17 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,9 @@
 
 echo hi out1>out2>out3 , should build all files(now builds the last only)
 
-restrict input len? = ft_strlen(input) > ???, throw an error, display prompt?;
+directory stuck
 
-env -i. What happens if env is set to null and try to export=crash?!. 
-
-signals
+signals \n
 
 */
 
@@ -26,12 +24,14 @@ signals
 #include "minishell.h"
 #include "execution.h"
 
-
-
-t_shell	*init_shell(mem_arena *arena, mem_arena *env_arena, char const **envp)
+t_shell	*init_shell(char const **envp)
 {
 	t_shell	*shell;
+	mem_arena *arena;
+	mem_arena *env_arena;
 
+	arena = arena_init();
+	env_arena = arena_init();
 	shell = malloc(sizeof(t_shell));
 	if (!shell)
 		return (NULL);
@@ -42,6 +42,7 @@ t_shell	*init_shell(mem_arena *arena, mem_arena *env_arena, char const **envp)
 	shell->expansion.env_arena = env_arena;
 	shell->expansion.env = shell->env_list;
 	shell->expansion.exit_status = 0;
+	shell->fd_in = dup(STDIN_FILENO);
 	return (shell);
 }
 t_parser_context	init_parser_context_from_shell(t_shell *shell)
@@ -71,8 +72,6 @@ void	exit_shell(t_shell *shell)
 
 int main(int argc, char **argv, char const **envp)
 {
-	mem_arena *arena;
-	mem_arena *env_arena;
 	t_shell	*shell;
 	t_command	*command_list;
 	t_parser_context data;
@@ -80,25 +79,28 @@ int main(int argc, char **argv, char const **envp)
 	
 	(void) argv;
 	(void) argc;
-	arena = arena_init();
-	env_arena = arena_init();
-	shell = init_shell(arena, env_arena, envp);
+	
+	shell = init_shell(envp);
 	while (1)
 	{
 		init_signals();
+		dup2(shell->fd_in, STDIN_FILENO);
 		input = readline("minishell$ ");
 		if (input == NULL)
 			exit_shell(shell);
-		data = init_parser_context_from_shell(shell);
-		command_list = run_parser(input, &data, shell);
-		//handle_heredoc(shell, command_list);
-		if (command_list && handle_heredoc(shell, command_list) == 0)
+		if(ft_strlen(input) < ARG_MAX)
 		{
-			add_history(input);
-			execution(shell, command_list);
-			unlink_infile(command_list);
+			data = init_parser_context_from_shell(shell);
+			command_list = run_parser(input, &data, shell);
+			if (command_list && handle_heredoc(shell, command_list) == 0)
+			{
+				add_history(input);
+				execution(shell, command_list);
+			}
+			arena_reset(shell->arena);
 		}
-		arena_reset(shell->arena);
+		else
+			printf("ARG_MAX exceeded\n");
 		free(input);
 	}
 	return (0);
