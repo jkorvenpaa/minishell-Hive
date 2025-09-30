@@ -48,7 +48,9 @@ int	handle_infile(t_command *command)
 int	prepare_files(t_command	*command) // t_shell *shell
 {
 	int	res;
+	int	i;
 
+	i = 0;
 	res = 0;
 	if (command->infile)
 		res = handle_infile(command);
@@ -56,3 +58,21 @@ int	prepare_files(t_command	*command) // t_shell *shell
 		res = handle_outfile(command);
 	return (res);
 }
+
+/*int	prepare_files(t_command	*command) // t_shell *shell
+{
+	int	res;
+	int	i;
+
+	i = 0;
+	res = 0;
+	if (command->infile)
+		res = handle_infile(command);
+	while (command->outfile_list[i])
+	{
+		//printf("%s\n", command->outfile[i]);
+		res = handle_outfile(command->outfile_list[i], command->append);
+		i++;
+	}
+	return (res);
+}*/

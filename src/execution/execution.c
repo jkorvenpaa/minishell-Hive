@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/30 14:03:57 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/30 16:28:58 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	execute_child_command(t_command *command, t_shell *shell)
 		exit(EXIT_FAILURE);
 	if (!command->argv || !command->argv[0] || command->argv[0][0] == '\0')
 		command_error(command->argv[0]);
-	//if (is_built_in(command->argv[0]) == true)
-//	{
-//		execute_built_in(command, shell);
-//		return;
-//	}
+	/*if (is_built_in(command) == true)
+	{
+		execute_built_in(command, shell);
+		return;
+	}*/
 	path = find_command_path(command, shell);
 	if (!path)
 		command_error(command->argv[0]);
