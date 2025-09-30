@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/30 14:53:15 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:55:25 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ typedef struct s_command
 {
 	char	**argv;
 	char	*infile;
+	char	**outfile_list;
 	char	*outfile;
 	int	append;
 	char	*heredoc;
@@ -132,6 +133,7 @@ t_command	*create_command_node(mem_arena *arena);
 void	append_command_to_list(t_command **head, t_command *new_cmd);
 void	*add_argument_to_argv(mem_arena *arena, t_command *cmd, char *arg);
 t_command	*group_commands(mem_arena *arena, t_token *tokens);
+void	outfile_to_list(mem_arena *arena, t_command *cmd, const char *name);
 
 // Word splitting functions
 t_token	*split_expanded_variables(mem_arena *arena, t_token *tokens);

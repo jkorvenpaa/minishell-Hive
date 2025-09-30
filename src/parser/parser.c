@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 10:19:48 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/29 15:52:52 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/30 16:03:47 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,15 @@ static void	print_commands(t_command *cmd_list) // for testing only!!!
 			printf("Arg[]: NULL\n");
 		if (cmd_list->infile)
 			printf("Infile: %s\n", cmd_list->infile);
+		if (cmd_list->outfile_list)
+		{
+			i = 0;
+			while (cmd_list->outfile_list[i])
+			{
+				printf("Outfile_list[%d]: %s\n", i, cmd_list->outfile_list[i]);
+				i++;
+			}
+		}	
 		if (cmd_list->outfile)
 		{
 			printf("Outfile: %s", cmd_list->outfile);
@@ -53,7 +62,7 @@ static void	print_commands(t_command *cmd_list) // for testing only!!!
 		cmd_list = cmd_list->next;
 	}
 }
-	*/
+*/
 
 t_command	*run_parser(char *input, t_parser_context *data, t_shell *shell)
 {
@@ -61,7 +70,7 @@ t_command	*run_parser(char *input, t_parser_context *data, t_shell *shell)
 	t_command	*cmd_list;
 
 	tokens = tokenize_input(data->arena, input);
-//	print_tokens(tokens); // here for testing only!!!
+	//print_tokens(tokens); // here for testing only!!!
 	if (!tokens)
 		return (NULL);
 	if (!validate_syntax(tokens, shell))

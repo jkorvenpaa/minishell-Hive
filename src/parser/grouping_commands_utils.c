@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:49:33 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/29 15:41:23 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/30 16:03:24 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ t_command	*create_command_node(mem_arena *arena)
 		return (NULL);
 	node->argv = NULL;
 	node->infile = NULL;
+	node->outfile_list = NULL;
 	node->outfile = NULL;
 	node->append = 0;
 	node->heredoc = NULL;
@@ -86,4 +87,24 @@ void	append_command_to_list(t_command **head, t_command *new_cmd)
 	while (temp->next)
 		temp = temp->next;
 	temp->next = new_cmd;
+}
+
+void	outfile_to_list(mem_arena *arena, t_command *cmd, const char *name)
+{
+	int	count;
+	char	**list;
+
+	count = 0;
+	if (cmd->outfile_list)
+	{
+		while (cmd->outfile_list[count])
+			count++;
+	}
+	list = arena_alloc(arena, sizeof(char *) * (count + 2));
+	if (!list)
+		return ;
+	ft_memcpy(list, cmd->outfile_list, sizeof(char *) * count);
+	list[count] = arena_strdup(arena, name);
+	list[count + 1] = NULL;
+	cmd->outfile_list = list;
 }
