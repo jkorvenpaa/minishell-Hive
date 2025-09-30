@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/28 15:04:17 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:03:57 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 void	child_sigint(int sig)
 {
 	(void)sig;
-	g_sigint = false;
-}
-*/
+	g_sig = 0;
+}*/
+
 void	execute_child_command(t_command *command, t_shell *shell)
 {
 	char	*path;
@@ -28,6 +28,11 @@ void	execute_child_command(t_command *command, t_shell *shell)
 		exit(EXIT_FAILURE);
 	if (!command->argv || !command->argv[0] || command->argv[0][0] == '\0')
 		command_error(command->argv[0]);
+	//if (is_built_in(command->argv[0]) == true)
+//	{
+//		execute_built_in(command, shell);
+//		return;
+//	}
 	path = find_command_path(command, shell);
 	if (!path)
 		command_error(command->argv[0]);
@@ -38,7 +43,6 @@ void	execute_child_command(t_command *command, t_shell *shell)
 
 void	child_pipe_handler(t_command *command, int pipe_fd, int fd[2])
 {
-	//signal(SIGINT, SIG_DFL);
 	if (pipe_fd != -1)
 	{
 		if (dup2(pipe_fd, STDIN_FILENO) == -1) // redirect in to open pipe_fd
@@ -65,6 +69,7 @@ int	command_loop(t_command *command, t_shell *shell)
 	pid = fork();
 	if (pid == 0)
 	{
+		child_signals();
 		child_pipe_handler(command, pipe_fd, fd);
 		execute_child_command(command, shell);
 	}
@@ -108,4 +113,5 @@ void	execution(t_shell *shell, t_command	*command)
 		command = command->next;
 	}
 	wait_kids(shell, pids, i);
+	unlink_infile(command);
 }

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/30 11:33:15 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:53:15 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,11 @@
 # ifndef GLOBAL_H
 #  define GLOBAL_H
 
-extern volatile sig_atomic_t g_sigint;
+extern volatile sig_atomic_t g_sig;
 
 # endif
+
+# define ARG_MAX 4096
 
 
 typedef	enum e_token_type
@@ -97,6 +99,7 @@ typedef struct s_shell
 	mem_arena	*env_arena;
 	t_env		*env_list;
 	t_expansion	expansion;
+	int			fd_in;
 }	t_shell;
 
 

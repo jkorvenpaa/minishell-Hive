@@ -6,7 +6,7 @@
 #    By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/06 09:24:38 by nmascaro          #+#    #+#              #
-#    Updated: 2025/09/30 11:36:37 by nmascaro         ###   ########.fr        #
+#    Updated: 2025/09/30 14:52:49 by nmascaro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -24,7 +24,8 @@ SRCS = src/main.c src/parser/token_builder.c src/parser/token_builder_utils.c sr
 	src/execution/command_validation.c src/execution/built_ins.c \
 	src/execution/built_ins_export.c src/execution/built_ins_env.c \
 	src/execution/files.c src/execution/execution_utils.c \
-	src/execution/arena_split.c src/execution/heredoc.c src/execution/heredoc_utils.c
+	src/parser/arena_split.c src/execution/signals.c \
+	src/execution/heredoc.c src/execution/heredoc_utils.c
 .SECONDARY: $(OBJS)
 OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = libft

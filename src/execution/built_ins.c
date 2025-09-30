@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 10:50:23 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/29 11:57:34 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:53:51 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ int	exit_isdigit(char *num)
 }
 void	exit_builtin(t_shell *shell, t_command *command)
 {
-	int	e;
+	int	e = 0;
 
 	if (command->argv[1])
 	{
@@ -127,7 +127,8 @@ void	exit_builtin(t_shell *shell, t_command *command)
 	else
 		printf("exit: %s: numeric argument required\n", command->argv[1]);
 	}
-	e = shell->exit_status;
+	if (e == 0) 
+		e = shell->exit_status;
 	printf("exit\n");
 	free_arena(shell->env_arena);
 	if (shell->arena)

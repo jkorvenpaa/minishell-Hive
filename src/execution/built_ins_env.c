@@ -7,7 +7,7 @@ int	env_builtin(t_shell *shell, char *next_cmd)
 
 	if (next_cmd)
 		return(0);
-	sort_env(shell);
+	//sort_env(shell);
 	temp = shell->env_list;
 	while (temp)
 	{

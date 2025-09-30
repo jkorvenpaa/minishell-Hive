@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/28 14:08:43 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/30 14:46:23 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ char	*find_command_path(t_command *command, t_shell *shell)
 		return (arena_strdup(shell->arena, command->argv[0]));
 	i = 0;
 	path = getenv("PATH");
-	folder = ar_split(shell->arena, path, ':');
+	folder = arena_split(shell, path, ':');
 	if (!folder)
 		return (NULL);
 	while (folder[i])
