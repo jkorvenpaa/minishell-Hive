@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:44:09 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/05 10:27:22 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:56:47 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,11 +22,13 @@ static void	handle_redirection(mem_arena *arena, t_command *cmd, t_token *redir_
 		cmd->infile = arena_strdup(arena, redir_token->next->value);
 	else if (redir_token->type == RED_OUT)
 	{
+		outfile_to_list(arena, cmd, redir_token->next->value);
 		cmd->outfile = arena_strdup(arena, redir_token->next->value);
 		cmd->append = 0;
 	}
 	else if (redir_token->type == APPEND)
 	{
+		outfile_to_list(arena, cmd, redir_token->next->value);
 		cmd->outfile = arena_strdup(arena, redir_token->next->value);
 		cmd->append = 1;
 	}
