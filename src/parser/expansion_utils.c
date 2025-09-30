@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:34:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/15 14:24:13 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/30 11:33:08 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ static char	*resolve_variable(char *token_value, int *i, t_expansion *data)
  * Returns the updated result string with expansion applied, NULL
  * on failure.
  */
-static char	*handle_expansion_char(t_expansion *data, char *result, char *token_value, int *i)
+char	*handle_expansion_char(t_expansion *data, char *result, char *token_value, int *i)
 {
 	char	*new_result;
 	char	*exp_value;

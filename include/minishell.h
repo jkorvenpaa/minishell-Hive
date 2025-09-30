@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/29 15:53:30 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/30 11:33:15 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,6 +141,7 @@ int	needs_splitting(t_token *token);
 t_token	*exp_toks(t_shell *shell, t_token *tokens);
 char	*get_variable_name(mem_arena *env_arena, const char *input, int *len);
 char *expand_value(char *token_val, t_expansion *data);
+char	*handle_expansion_char(t_expansion *data, char *result, char *token_value, int *i);
 char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted);
 
 // Environment list functions

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/29 15:54:20 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/09/30 11:27:55 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ static char	*stripped_string(mem_arena *env_arena, char *input)
 /**
  * Removes quotes from a string. 
  * Entry point for the stripped_string() function.
+ * Prevents a segfault by returning and empty string if stripped_string()
+ * returns NULL.
  */
 char	*remove_quotes(mem_arena *env_arena, char *input)
 {
@@ -118,22 +120,4 @@ t_token	*exp_toks(t_shell *shell, t_token *tokens)
 		current = current->next;
 	}
 	return (tokens);
-}
-
-/**
- * Deals with expansions inside the heredoc lines.
- * If the delimiter is quoted, returns a copy of the line as it is.
- * If it's unquoted, performs expansion (but doesn't remove quotes).
- * Returns the result.
- */
-char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted)
-{
-	char	*result;
-
-	result = NULL;
-	if (hdoc_quoted)
-		result = arena_strdup(ar, line); //no expansion, line as it is 
-	else
-		result = expand_value(line, data);
-	return (result);
 }

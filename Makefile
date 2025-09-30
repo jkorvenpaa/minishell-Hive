@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+         #
+#    By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/06 09:24:38 by nmascaro          #+#    #+#              #
-#    Updated: 2025/09/22 15:50:43 by jkorvenp         ###   ########.fr        #
+#    Updated: 2025/09/30 11:36:37 by nmascaro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,6 +17,7 @@ SRCS = src/main.c src/parser/token_builder.c src/parser/token_builder_utils.c sr
 	src/parser/token_list_utils.c src/parser/parser.c src/parser/grouping_commands.c \
 	src/parser/grouping_commands_utils.c src/parser/input_validation.c \
 	src/parser/env_list_utils.c src/parser/expansion.c src/parser/expansion_utils.c \
+	src/parser/expansion_in_heredoc.c \
 	src/parser/splitting_on_expanded_variables.c src/parser/splitting_utils.c \
 	src/parser/arena_utils.c src/parser/arena.c \
 	src/execution/execution.c \
