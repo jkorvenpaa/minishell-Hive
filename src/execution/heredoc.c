@@ -23,7 +23,7 @@ void	store_to_file(t_shell *shell, t_command *cmd, int fd)
 		free (line);
 		if (ft_strncmp(exp, cmd->heredoc, ft_strlen(cmd->heredoc) + 1) == 0)
 			break ;
-		exp = hdoc_line_exp(shell->arena, exp, &shell->expansion, cmd->heredoc_quoted);
+		exp = hd_line_exp(shell->arena, exp, &shell->expansion, cmd->heredoc_quoted);
 		ft_putstr_fd(exp, fd);
 		ft_putstr_fd("\n", fd);
 	}

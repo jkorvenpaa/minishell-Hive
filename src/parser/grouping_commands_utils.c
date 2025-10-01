@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:49:33 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/30 16:03:24 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:40:53 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Allocates and initializes a new command struct.
  * Returns a pointer to the allocated command or NULL on failure.
  */
-t_command	*create_command_node(mem_arena *arena)
+t_command	*create_command_node(t_mem_arena *arena)
 {
 	t_command	*node;
 
@@ -30,6 +30,7 @@ t_command	*create_command_node(mem_arena *arena)
 	node->append = 0;
 	node->heredoc = NULL;
 	node->heredoc_quoted = 0;
+	node->position = MIDDLE; 
 	node->next = NULL;
 	return (node);
 }
@@ -40,7 +41,7 @@ t_command	*create_command_node(mem_arena *arena)
  * and duplicates the new argument.
  * Returns the new argv array pointer or NULL on failure.
  */
-void	*add_argument_to_argv(mem_arena *arena, t_command *cmd, char *arg)
+void	*add_argument_to_argv(t_mem_arena *arena, t_command *cmd, char *arg)
 {
 	int		count;
 	int		i;
@@ -89,9 +90,10 @@ void	append_command_to_list(t_command **head, t_command *new_cmd)
 	temp->next = new_cmd;
 }
 
-void	outfile_to_list(mem_arena *arena, t_command *cmd, const char *name)
+void	outfile_to_list(t_mem_arena *arena, t_command *cmd, const char *name)
 {
-	int	count;
+	int		count;
+	int		i;
 	char	**list;
 
 	count = 0;
@@ -103,7 +105,12 @@ void	outfile_to_list(mem_arena *arena, t_command *cmd, const char *name)
 	list = arena_alloc(arena, sizeof(char *) * (count + 2));
 	if (!list)
 		return ;
-	ft_memcpy(list, cmd->outfile_list, sizeof(char *) * count);
+	i = 0;
+	while (i < count)
+	{
+		list[i] = cmd->outfile_list[i];
+		i++;
+	}
 	list[count] = arena_strdup(arena, name);
 	list[count + 1] = NULL;
 	cmd->outfile_list = list;

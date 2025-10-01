@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 10:57:01 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/15 14:37:25 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:11:38 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Checks if an operator starts at index i and is outside quotes.
  * Returns 1 if true, 0 otherwise.
  */
-int	is_operator_outside_quotes(char *input, int i, int single_quote, int double_quote)
+int	is_unquoted_operator(char *input, int i, int single_quote, int double_quote)
 {
 	int	operator_len;
 
@@ -31,7 +31,7 @@ int	is_operator_outside_quotes(char *input, int i, int single_quote, int double_
  * outside quotes.
  * Returns 1 if true, 0 otherwise.
  */
-int	is_token_boundary_outside_quotes(char *input, int i, int single_quote, int double_quote)
+int	is_unquoted_boundary(char *input, int i, int single_quote, int double_quote)
 {
 	if (is_token_boundary(input[i], single_quote, double_quote))
 		return (1);
@@ -43,7 +43,7 @@ int	is_token_boundary_outside_quotes(char *input, int i, int single_quote, int d
  * and allocates it in the arena.
  * Returns the substring, NULL if failure.
  */
-char	*extract_operator_str(mem_arena *arena, char *input, int i, int len)
+char	*extract_operator_str(t_mem_arena *arena, char *input, int i, int len)
 {
 	char	*token;
 

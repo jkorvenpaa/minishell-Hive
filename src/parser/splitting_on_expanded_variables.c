@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:35:29 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/16 09:29:58 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:48:39 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Creates a new WORD token from a substring of a given string.
  * Returns a pointer to the new token, NULL if allocation fails.
  */
-static t_token	*new_word_token(mem_arena *arena, char *s, int start, int len)
+static t_token	*new_word_token(t_mem_arena *arena, char *s, int start, int len)
 {
 	char	*word;
 	t_token	*token;
@@ -36,7 +36,7 @@ static t_token	*new_word_token(mem_arena *arena, char *s, int start, int len)
  * Splits the value of a token into multiple tokens, one for each word.
  * Returns the head of the new list of word tokens, or NULL if allocation fails.
  */
-static t_token	*split_token_words(mem_arena *arena, t_token *token)
+static t_token	*split_token_words(t_mem_arena *arena, t_token *token)
 {
 	int		start;
 	int		end;
@@ -60,29 +60,31 @@ static t_token	*split_token_words(mem_arena *arena, t_token *token)
  * Replaces a single token in a linked list with a list of tokens.
  * Inserts the new list of tokens (split_tokens) in place of the original
  * current token in the linked list. It also updates the previous token,
- * and connects the end of the new list to the remainder of the original one.
+ * and connects the end of the new list to the remainder of the original one. hol
  */
-static void	repl_tk_lst(t_token **head, t_token **prev, t_token *curr, t_token *spl_tks)
+static void	new_lst(t_token **head, t_token **prv, t_token *cr, t_token *spl_tk)
 {
 	t_token	*tail;
 
-	tail = spl_tks;
+	tail = spl_tk;
 	while (tail->next)
 		tail = tail->next;
-	if (*prev)
-		(*prev)->next = spl_tks;
+	if (*prv)
+		(*prv)->next = spl_tk;
 	else
-		*head = spl_tks;
-	tail->next = curr->next;
-	*prev = tail;
+		*head = spl_tk;
+	tail->next = cr->next;
+	*prv = tail;
 }
 
 /**
  * Main entry point for splitting.
  * Iterates through a token list and splits all tokens that require it.
+ * Ensures avoiding infinite loop by moving forward if split_token_words()
+ * returns NULL (for example if it's empty token).
  * Returns the head of the updated token list.
  */
-t_token	*split_expanded_variables(mem_arena *arena, t_token *tokens)
+t_token	*split_expanded_variables(t_mem_arena *arena, t_token *tokens)
 {
 	t_token	*current;
 	t_token	*prev;
@@ -98,9 +100,9 @@ t_token	*split_expanded_variables(mem_arena *arena, t_token *tokens)
 		{
 			split_tokens = split_token_words(arena, current);
 			if (split_tokens)
-				repl_tk_lst(&head, &prev, current, split_tokens);
+				new_lst(&head, &prev, current, split_tokens);
 			else
-				prev = current; //keep original token (not splitted, useful for if VAR="") to avoid infinite loop or crash
+				prev = current;
 		}
 		else
 			prev = current;
@@ -116,27 +118,27 @@ t_token	*split_expanded_variables(mem_arena *arena, t_token *tokens)
  */
 t_token	*remove_empty_tokens(t_token *token)
 {
-	t_token	*current;
+	t_token	*curr;
 	t_token	*prev;
 	t_token	*head;
-	
+
 	head = token;
 	prev = NULL;
-	current = token;
-	while (current)
+	curr = token;
+	while (curr)
 	{
-		if (current->value && is_only_spaces(current->value) && !current->was_quoted) //value exists, but it's an empty string and outside quotes (empty quoted tokens are kept)
+		if (curr->value && is_only_spaces(curr->value) && !curr->was_quoted)
 		{
 			if (prev)
-				prev->next = current->next;
+				prev->next = curr->next;
 			else
-				head = current->next;
-			current = current->next;
+				head = curr->next;
+			curr = curr->next;
 		}
 		else
 		{
-			prev = current;
-			current = current->next;
+			prev = curr;
+			curr = curr->next;
 		}
 	}
 	return (head);

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:34:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/30 11:33:08 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:06:16 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static char	*handle_exit_status(t_expansion *data, int *i)
 {
 	char	*result;
 
-	result = arena_itoa(data->env_arena, data->exit_status); //needs to be a string to be able to append to result
+	result = arena_itoa(data->env_arena, data->exit_status);
 	if (result)
 		(*i)++;
 	return (result);
@@ -40,21 +40,21 @@ static char	*resolve_variable(char *token_value, int *i, t_expansion *data)
 
 	result = NULL;
 	(*i)++;
-	if (token_value[*i] == '?') // exit status variable we get it in the main loop of the program after executing commands
+	if (token_value[*i] == '?')
 		result = handle_exit_status(data, i);
 	else
 	{
 		var_name = get_variable_name(data->env_arena, &token_value[*i], &len);
-		if (var_name) //variable name is valid
+		if (var_name)
 		{
 			node = get_env_node(data->env, var_name);
 			if (node && node->value)
-				result = node->value; //append value: $USER becomes nuria
+				result = node->value;
 			else
-				result = ""; // $NOTDEFINED becomes $ (mimics bash behaviour prints nothing, not an error)
-			(*i) += len; //skip chars of variable name
+				result = "";
+			(*i) += len;
 		}
-		else //invalid variable name, string kept literally
+		else
 			result = "$";
 	}
 	return (result);
@@ -65,15 +65,15 @@ static char	*resolve_variable(char *token_value, int *i, t_expansion *data)
  * Returns the updated result string with expansion applied, NULL
  * on failure.
  */
-char	*handle_expansion_char(t_expansion *data, char *result, char *token_value, int *i)
+char	*handle_exp_char(t_expansion *data, char *res, char *token_val, int *i)
 {
 	char	*new_result;
 	char	*exp_value;
 
-	exp_value = resolve_variable(token_value, i, data);
+	exp_value = resolve_variable(token_val, i, data);
 	if (!exp_value)
 		return (NULL);
-	new_result = ar_strjoin(data->env_arena, result, exp_value);
+	new_result = ar_strjoin(data->env_arena, res, exp_value);
 	if (!new_result)
 		return (NULL);
 	return (new_result);
@@ -89,26 +89,26 @@ static char	*expansion_loop(char *token_value, t_expansion *data)
 	int		i;
 	int		single_quotes;
 	int		double_quotes;
-	char	*result;
+	char	*res;
 
 	i = 0;
 	single_quotes = 0;
 	double_quotes = 0;
-	result = NULL;
+	res = NULL;
 	while (token_value[i])
 	{
 		handle_quote_flags(token_value[i], &single_quotes, &double_quotes);
 		if (token_value[i] == '$' && !single_quotes)
-			result = handle_expansion_char(data, result, token_value, &i);
+			res = handle_exp_char(data, res, token_value, &i);
 		else
 		{
-			result = ar_add_char_to_str(data->env_arena, result, token_value[i]); // append normal characters 
-			if (!result)
+			res = ar_add_char_to_str(data->env_arena, res, token_value[i]);
+			if (!res)
 				return (NULL);
 			i++;
 		}
 	}
-	return (result);
+	return (res);
 }
 
 /**
