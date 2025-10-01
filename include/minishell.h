@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/30 15:55:25 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 12:21:43 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ typedef struct s_env
 
 typedef struct s_expansion
 {
-    mem_arena   *env_arena;
+    t_mem_arena   *env_arena;
     t_env   *env;
     int exit_status;
 }   t_expansion;
@@ -87,8 +87,8 @@ typedef struct s_tokenizer
 
 typedef struct s_parser_context
 {
-	mem_arena	*arena;
-	mem_arena	*env_arena;
+	t_mem_arena	*arena;
+	t_mem_arena	*env_arena;
 	t_env	*env;
 	int	exit_status;
 }	t_parser_context;
@@ -96,8 +96,8 @@ typedef struct s_parser_context
 typedef struct s_shell
 {
 	int			exit_status; // $? fetches this
-	mem_arena	*arena;
-	mem_arena	*env_arena;
+	t_mem_arena	*arena;
+	t_mem_arena	*env_arena;
 	t_env		*env_list;
 	t_expansion	expansion;
 	int			fd_in;
@@ -109,10 +109,10 @@ void	exit_shell(t_shell *shell);
 
 
 // Linked list functions
-t_token	*create_token_node(mem_arena *arena, char *word, t_token_type type);
+t_token	*create_token_node(t_mem_arena *arena, char *word, t_token_type type);
 void	append_token_to_list(t_token **head, t_token *new_node);
-int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *substr);
-int	save_token_to_list(mem_arena *arena, t_token **list, char **token, int *was_quoted);
+int	add_operator_token_to_list(t_mem_arena *arena, t_token **list, char *substr);
+int	save_token_to_list(t_mem_arena *arena, t_token **list, char **token, int *was_quoted);
 
 // Tokenization functions
 int	is_token_boundary(char c, int single_quote, int double_quote);
@@ -122,21 +122,21 @@ void	get_curr_quote_state(char *input, int pos, int *single_q, int *double_q);
 int	get_operator_len(char *input, int i);
 int	is_operator_outside_quotes(char *input, int i, int single_quote, int double_quote);
 int	is_token_boundary_outside_quotes(char *input, int i, int single_quote, int double_quote);
-char	*extract_operator_str(mem_arena *arena, char *input, int i, int len);
+char	*extract_operator_str(t_mem_arena *arena, char *input, int i, int len);
 t_token_type	identify_token(char *value);
-t_token	*tokenize_input(mem_arena *arena, char *input);
-char	*ar_add_char_to_str(mem_arena *arena, char *s, char c); 
+t_token	*tokenize_input(t_mem_arena *arena, char *input);
+char	*ar_add_char_to_str(t_mem_arena *arena, char *s, char c); 
 int	validate_syntax(t_token *tokens, t_shell *shell);
 
 //Grouping the tokens into commands
-t_command	*create_command_node(mem_arena *arena);
+t_command	*create_command_node(t_mem_arena *arena);
 void	append_command_to_list(t_command **head, t_command *new_cmd);
-void	*add_argument_to_argv(mem_arena *arena, t_command *cmd, char *arg);
-t_command	*group_commands(mem_arena *arena, t_token *tokens);
-void	outfile_to_list(mem_arena *arena, t_command *cmd, const char *name);
+void	*add_argument_to_argv(t_mem_arena *arena, t_command *cmd, char *arg);
+t_command	*group_commands(t_mem_arena *arena, t_token *tokens);
+void	outfile_to_list(t_mem_arena *arena, t_command *cmd, const char *name);
 
 // Word splitting functions
-t_token	*split_expanded_variables(mem_arena *arena, t_token *tokens);
+t_token	*split_expanded_variables(t_mem_arena *arena, t_token *tokens);
 t_token	*remove_empty_tokens(t_token *token);
 int	is_only_spaces(const char *str);
 int	get_next_word(char *str, int *start, int *end);
@@ -144,17 +144,17 @@ int	needs_splitting(t_token *token);
 
 // Expansion functions
 t_token	*exp_toks(t_shell *shell, t_token *tokens);
-char	*get_variable_name(mem_arena *env_arena, const char *input, int *len);
+char	*get_variable_name(t_mem_arena *env_arena, const char *input, int *len);
 char *expand_value(char *token_val, t_expansion *data);
 char	*handle_expansion_char(t_expansion *data, char *result, char *token_value, int *i);
-char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted);
+char	*hdoc_line_exp(t_mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted);
 
 // Environment list functions
 t_env	*get_env_node(t_env *env_list, const char *name);
-t_env	*init_env_list(mem_arena *env_arena, const char **envp);
+t_env	*init_env_list(t_mem_arena *env_arena, const char **envp);
 
 //main function in parsing branch
 t_command	*run_parser(char *input, t_parser_context *data, t_shell *shell);
-char	*remove_quotes(mem_arena *env_arena, char *input);
+char	*remove_quotes(t_mem_arena *env_arena, char *input);
 
 #endif

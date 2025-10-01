@@ -4,11 +4,11 @@
 //EXIT PROGRAM GRACEFULLY IF NULL;
 
 //init area before using, returns arena
-mem_arena	*arena_init(void)
+t_mem_arena	*arena_init(void)
 {
-	mem_arena	*arena;
+	t_mem_arena	*arena;
 
-	arena = malloc(sizeof(mem_arena));
+	arena = malloc(sizeof(t_mem_arena));
 	if (!arena)
 		return (NULL);
 	arena->size = A_SIZE;
@@ -24,8 +24,8 @@ mem_arena	*arena_init(void)
 }
 
 //returns a pointer to arena where, alloc starts.
-//Moves offset for the amouth of bytes reserved
-void	*arena_alloc(mem_arena *arena, size_t bytes)
+//Moves offset for the amount of bytes reserved
+void	*arena_alloc(t_mem_arena *arena, size_t bytes)
 {
 	void	*ptr;
 
@@ -41,9 +41,9 @@ void	*arena_alloc(mem_arena *arena, size_t bytes)
 	return (ptr);
 }
 
-void	free_arena(mem_arena *arena)
+void	free_arena(t_mem_arena *arena)
 {
-	mem_arena	*temp;
+	t_mem_arena	*temp;
 
 	while (arena)
 	{
@@ -58,7 +58,7 @@ void	free_arena(mem_arena *arena)
 	}
 	arena = NULL;
 }
-void	arena_reset(mem_arena *arena)
+void	arena_reset(t_mem_arena *arena)
 {
 	while (arena)
 	{

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:44:09 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/30 15:56:47 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 12:24:17 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Processes a redirection token and updates the command.
  * Depending on the type, updates infile, outfile, append flag or heredoc.
  */
-static void	handle_redirection(mem_arena *arena, t_command *cmd, t_token *redir_token)
+static void	handle_redirection(t_mem_arena *arena, t_command *cmd, t_token *redir_token)
 {
 	if (redir_token->type == RED_IN)
 		cmd->infile = arena_strdup(arena, redir_token->next->value);
@@ -43,7 +43,7 @@ static void	handle_redirection(mem_arena *arena, t_command *cmd, t_token *redir_
  * Creates a new command node if no current command exists,
  * then adds the token value to the comand's argv array.
  */
-static void	handle_word_token(mem_arena *arena, t_command **cmd_list, t_command **current_cmd, t_token *token)
+static void	handle_word_token(t_mem_arena *arena, t_command **cmd_list, t_command **current_cmd, t_token *token)
 {
 	if (!*current_cmd)
 	{
@@ -57,7 +57,7 @@ static void	handle_word_token(mem_arena *arena, t_command **cmd_list, t_command 
  * Processes a redirection operator and its target.
  * Creates a new command node if needed, then calls handle_redirection().
  */
-static void	handle_redirection_token(mem_arena *arena, t_command **cmd_list, t_command **current_cmd, t_token *token)
+static void	handle_redirection_token(t_mem_arena *arena, t_command **cmd_list, t_command **current_cmd, t_token *token)
 {
 	if (!*current_cmd)
 	{
@@ -73,7 +73,7 @@ static void	handle_redirection_token(mem_arena *arena, t_command **cmd_list, t_c
  * Handles pipes by resetting the current command pointer, starting a new one.
  * Returns the head of the linked list of parsed commands.
  */
-t_command	*group_commands(mem_arena *arena, t_token *tokens)
+t_command	*group_commands(t_mem_arena *arena, t_token *tokens)
 {
 	t_command	*cmd_list;
 	t_command	*current_cmd;

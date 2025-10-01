@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 09:39:28 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/08/29 14:01:50 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:59:13 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * assigns its type, and initializes fields.
  * Returns a pointer to the new node, or NULL on failure.
  */
-t_token	*create_token_node(mem_arena *arena, char *word, t_token_type type)
+t_token	*create_token_node(t_mem_arena *arena, char *word, t_token_type type)
 {
 	t_token	*node;
 
@@ -58,7 +58,7 @@ void	append_token_to_list(t_token **head, t_token *new_node)
  * and appends it to the token list. 
  * Returns 1 on success, 0 on memory failure.
  */
-int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *substr)
+int	add_operator_token_to_list(t_mem_arena *arena, t_token **list, char *substr)
 {
 	t_token			*new;
 	t_token_type	type;
@@ -78,7 +78,7 @@ int	add_operator_token_to_list(mem_arena *arena, t_token **list, char *substr)
  * and appending it to the list. Resets token and was_quoted flag.
  * Returns 1 on success, 0 on memory failure.
  */
-int	save_token_to_list(mem_arena *arena, t_token **list, char **token, int *was_quoted)
+int	save_token_to_list(t_mem_arena *arena, t_token **list, char **token, int *was_quoted)
 {
 	t_token			*new;
 	t_token_type	type;

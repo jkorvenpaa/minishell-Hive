@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 11:27:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/30 11:37:08 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 12:22:57 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
  */
 static char	*expand_in_heredoc(char *token_value, t_expansion *data)
 {
-	int	i;
+	int		i;
 	char	*result;
 
 	if (!token_value || !data)
@@ -46,7 +46,7 @@ static char	*expand_in_heredoc(char *token_value, t_expansion *data)
  * If it's unquoted, performs expansion (but doesn't remove quotes).
  * Returns the result.
  */
-char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted)
+char	*hdoc_line_exp(t_mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted)
 {
 	char	*result;
 
@@ -57,4 +57,3 @@ char	*hdoc_line_exp(mem_arena *ar, char *line, t_expansion *data, int hdoc_quote
 		result = expand_in_heredoc(line, data);
 	return (result);
 }
-

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/15 14:37:01 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:58:55 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * If string is NULL, allocates a new one with the character.
  * Returns a new string on success, NULL if failure.
  */
-char	*ar_add_char_to_str(mem_arena *arena, char *s, char c)
+char	*ar_add_char_to_str(t_mem_arena *arena, char *s, char c)
 {
 	size_t	len;
 	char	*result;
@@ -41,7 +41,7 @@ char	*ar_add_char_to_str(mem_arena *arena, char *s, char c)
  * calling ar_add_char_to_str().
  * Returns 1 on success, 0 on memory allocation failure. 
  */
-static int	add_char_to_token(mem_arena *arena, char **token, char c)
+static int	add_char_to_token(t_mem_arena *arena, char **token, char c)
 {
 	char	*new_token;
 
@@ -57,7 +57,7 @@ static int	add_char_to_token(mem_arena *arena, char **token, char c)
  * an operator token from the input.
  * Returns length of the operator on success, -1 on failure.
  */
-static int	handle_operator_token(mem_arena *arena, char *input, int i, t_tokenizer *data)
+static int	handle_operator_token(t_mem_arena *arena, char *input, int i, t_tokenizer *data)
 {
 	int		operator_len;
 	char	*operator_str;
@@ -88,7 +88,7 @@ static int	handle_operator_token(mem_arena *arena, char *input, int i, t_tokeniz
  * in infinite loops and always advance, even though in normal cases earlier 
  * conditions always return first.
  */
-static int	process_character(mem_arena	*arena, char *input, int i, t_tokenizer *data)
+static int	process_character(t_mem_arena	*arena, char *input, int i, t_tokenizer *data)
 {
 	int	ret_val;
 	int	single_quote;
@@ -123,7 +123,7 @@ static int	process_character(mem_arena	*arena, char *input, int i, t_tokenizer *
  * into a linked list, respecting quote rules, operators and token boundaries.
  * Returns a pointer to the head of the token list on success, NULL on failure.
  */
-t_token	*tokenize_input(mem_arena *arena, char *input)
+t_token	*tokenize_input(t_mem_arena *arena, char *input)
 {
 	int			i;
 	int			skip;

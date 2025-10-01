@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/30 11:27:55 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 12:23:22 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
  * The length of the name is returned via 'len'.
  * Returns the newly allocated variable name or NULL if invalid.
  */
-char	*get_variable_name(mem_arena *env_arena, const char *input, int *len)
+char	*get_variable_name(t_mem_arena *env_arena, const char *input, int *len)
 {
 	int	i;
 
@@ -43,7 +43,7 @@ char	*get_variable_name(mem_arena *env_arena, const char *input, int *len)
  * skipping single and double quotes but preserving all other chars.
  * Returns new string without quotes, NULL on error.
  */
-static char	*stripped_string(mem_arena *env_arena, char *input)
+static char	*stripped_string(t_mem_arena *env_arena, char *input)
 {
 	int		i;
 	char	*result;
@@ -76,7 +76,7 @@ static char	*stripped_string(mem_arena *env_arena, char *input)
  * Prevents a segfault by returning and empty string if stripped_string()
  * returns NULL.
  */
-char	*remove_quotes(mem_arena *env_arena, char *input)
+char	*remove_quotes(t_mem_arena *env_arena, char *input)
 {
 	char	*result;
 
@@ -98,7 +98,7 @@ t_token	*exp_toks(t_shell *shell, t_token *tokens)
 {
 	t_token		*current;
 	t_expansion	data;
-	
+
 	data.env_arena = shell->env_arena;
 	data.env = shell->env_list;
 	data.exit_status = shell->exit_status;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_list_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:34:00 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/28 13:19:46 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/01 12:24:52 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	append_env_to_list(t_env **head, t_env *new_node)
  * the variable is created with an empty value.
  * Returns 1 on success, 0 if allocation failed.
  */
-static int	process_env_var(mem_arena *env_a, t_env *new_env, const char *env_s)
+static int	process_env_var(t_mem_arena *env_a, t_env *new_env, const char *env_s)
 {
 	char	*equal_sign;
 
@@ -64,7 +64,7 @@ static int	process_env_var(mem_arena *env_a, t_env *new_env, const char *env_s)
  * and appends to the list.
  * Returns head of the linked list or NULL or error.
  */
-t_env	*init_env_list(mem_arena *env_arena, const char **envp)
+t_env	*init_env_list(t_mem_arena *env_arena, const char **envp)
 {
 	int		i;
 	t_env	*head;

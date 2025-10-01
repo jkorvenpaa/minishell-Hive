@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:35:29 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 11:45:58 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 12:22:12 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
  * Creates a new WORD token from a substring of a given string.
  * Returns a pointer to the new token, NULL if allocation fails.
  */
-static t_token	*new_word_token(mem_arena *arena, char *s, int start, int len)
+static t_token	*new_word_token(t_mem_arena *arena, char *s, int start, int len)
 {
 	char	*word;
 	t_token	*token;
@@ -36,7 +36,7 @@ static t_token	*new_word_token(mem_arena *arena, char *s, int start, int len)
  * Splits the value of a token into multiple tokens, one for each word.
  * Returns the head of the new list of word tokens, or NULL if allocation fails.
  */
-static t_token	*split_token_words(mem_arena *arena, t_token *token)
+static t_token	*split_token_words(t_mem_arena *arena, t_token *token)
 {
 	int		start;
 	int		end;
@@ -82,7 +82,7 @@ static void	repl_tk_lst(t_token **head, t_token **prev, t_token *curr, t_token *
  * Iterates through a token list and splits all tokens that require it.
  * Returns the head of the updated token list.
  */
-t_token	*split_expanded_variables(mem_arena *arena, t_token *tokens)
+t_token	*split_expanded_variables(t_mem_arena *arena, t_token *tokens)
 {
 	t_token	*current;
 	t_token	*prev;
@@ -119,7 +119,7 @@ t_token	*remove_empty_tokens(t_token *token)
 	t_token	*current;
 	t_token	*prev;
 	t_token	*head;
-	
+
 	head = token;
 	prev = NULL;
 	current = token;

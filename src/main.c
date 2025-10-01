@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/30 14:49:17 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/01 13:59:36 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@ signals \n
 t_shell	*init_shell(char const **envp)
 {
 	t_shell	*shell;
-	mem_arena *arena;
-	mem_arena *env_arena;
+	t_mem_arena *arena;
+	t_mem_arena *env_arena;
 
 	arena = arena_init();
 	env_arena = arena_init();
