@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:44:09 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 15:36:26 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:52:49 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,33 @@ static void	rdr_tk(t_mem_arena *a, t_command **lst, t_command **cmd, t_token *t)
 	}
 	handle_redir(a, *cmd, t);
 }
+static void	command_position(t_command *head)
+{
+	int	count;
+	t_command	*current;
+	int	i;
 
+	count = 0;
+	current = head;
+	while (current)
+	{
+		count++;
+		current = current->next;
+	}
+	current = head;
+	i = 0;
+	while (current)
+	{
+		if (i == 0)
+			current->position = FIRST;
+		else if (i == count - 1)
+			current->position = LAST;
+		else
+			current->position = MIDDLE;
+		current = current->next;
+		i++;
+	}	
+}
 /**
  * Groups tokens into a linked list of commands.
  * Iterates over tokens and builds command nodes with arguments and redirections.
@@ -96,5 +122,6 @@ t_command	*group_commands(t_mem_arena *arena, t_token *tokens)
 			current_cmd = NULL;
 		token_iter = token_iter->next;
 	}
+	command_position(cmd_list);
 	return (cmd_list);
 }

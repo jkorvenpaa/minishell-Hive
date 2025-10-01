@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 16:24:19 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 16:36:44 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,13 @@ typedef enum e_token_type
 	WORD,
 }	t_token_type;
 
+typedef enum e_command_pos
+{
+	FIRST,
+	MIDDLE,
+	LAST,
+} t_command_pos;
+
 typedef struct s_token
 {
 	char			*value;
@@ -59,6 +66,7 @@ typedef struct s_command
 	int					append;
 	char				*heredoc;
 	int					heredoc_quoted;
+	t_command_pos		position;
 	struct s_command	*next;
 }	t_command;
 
