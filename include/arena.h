@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 17:29:31 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/01 12:20:24 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:45:43 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_mem_arena	*arena_init();
 void	arena_reset(t_mem_arena *arena);
 void	free_arena(t_mem_arena *arena);
 char	*arena_strdup(t_mem_arena *arena, const char *str);
-char	*ar_substr(t_mem_arena *arena, char const *s, unsigned int st, size_t len);
+char	*ar_substr(t_mem_arena *ar, char const *s, unsigned int st, size_t len);
 char	*ar_strjoin(t_mem_arena *arena, char const *s1, char const *s2);
 char	*arena_itoa(t_mem_arena *env_arena, int n);
 

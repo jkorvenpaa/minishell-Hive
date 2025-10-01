@@ -6,10 +6,9 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:50:07 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 13:57:18 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:45:29 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "minishell.h"
 
@@ -33,7 +32,7 @@ char	*arena_strdup(t_mem_arena *arena, const char *str)
 	return (dest);
 }
 
-char	*ar_substr(t_mem_arena *arena, char const *s, unsigned int st, size_t len)
+char	*ar_substr(t_mem_arena *ar, char const *s, unsigned int st, size_t len)
 {
 	size_t	i;
 	size_t	j;
@@ -44,10 +43,10 @@ char	*ar_substr(t_mem_arena *arena, char const *s, unsigned int st, size_t len)
 		return (NULL);
 	slen = ft_strlen(s);
 	if (st >= slen)
-		return (arena_strdup(arena, ""));
+		return (arena_strdup(ar, ""));
 	if (len > slen - st)
 		len = slen - st;
-	substr = arena_alloc(arena, len + 1);
+	substr = arena_alloc(ar, len + 1);
 	if (!substr)
 		return (NULL);
 	i = st;

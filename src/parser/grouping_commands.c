@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:44:09 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 12:24:17 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:36:26 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,26 +16,26 @@
  * Processes a redirection token and updates the command.
  * Depending on the type, updates infile, outfile, append flag or heredoc.
  */
-static void	handle_redirection(t_mem_arena *arena, t_command *cmd, t_token *redir_token)
+static void	handle_redir(t_mem_arena *ar, t_command *cmd, t_token *redir_token)
 {
 	if (redir_token->type == RED_IN)
-		cmd->infile = arena_strdup(arena, redir_token->next->value);
+		cmd->infile = arena_strdup(ar, redir_token->next->value);
 	else if (redir_token->type == RED_OUT)
 	{
-		outfile_to_list(arena, cmd, redir_token->next->value);
-		cmd->outfile = arena_strdup(arena, redir_token->next->value);
+		outfile_to_list(ar, cmd, redir_token->next->value);
+		cmd->outfile = arena_strdup(ar, redir_token->next->value);
 		cmd->append = 0;
 	}
 	else if (redir_token->type == APPEND)
 	{
-		outfile_to_list(arena, cmd, redir_token->next->value);
-		cmd->outfile = arena_strdup(arena, redir_token->next->value);
+		outfile_to_list(ar, cmd, redir_token->next->value);
+		cmd->outfile = arena_strdup(ar, redir_token->next->value);
 		cmd->append = 1;
 	}
 	else if (redir_token->type == HEREDOC)
 	{
 		cmd->heredoc_quoted = redir_token->next->was_quoted;
-		cmd->heredoc = arena_strdup(arena, redir_token->next->value);
+		cmd->heredoc = arena_strdup(ar, redir_token->next->value);
 	}
 }
 
@@ -43,28 +43,28 @@ static void	handle_redirection(t_mem_arena *arena, t_command *cmd, t_token *redi
  * Creates a new command node if no current command exists,
  * then adds the token value to the comand's argv array.
  */
-static void	handle_word_token(t_mem_arena *arena, t_command **cmd_list, t_command **current_cmd, t_token *token)
+static void	wd_tk(t_mem_arena *a, t_command **lst, t_command **cmd, t_token *tk)
 {
-	if (!*current_cmd)
+	if (!*cmd)
 	{
-		*current_cmd = create_command_node(arena);
-		append_command_to_list(cmd_list, *current_cmd);
+		*cmd = create_command_node(a);
+		append_command_to_list(lst, *cmd);
 	}
-	add_argument_to_argv(arena, *current_cmd, token->value);
+	add_argument_to_argv(a, *cmd, tk->value);
 }
 
 /**
  * Processes a redirection operator and its target.
  * Creates a new command node if needed, then calls handle_redirection().
  */
-static void	handle_redirection_token(t_mem_arena *arena, t_command **cmd_list, t_command **current_cmd, t_token *token)
+static void	rdr_tk(t_mem_arena *a, t_command **lst, t_command **cmd, t_token *t)
 {
-	if (!*current_cmd)
+	if (!*cmd)
 	{
-		*current_cmd = create_command_node(arena);
-		append_command_to_list(cmd_list, *current_cmd);
+		*cmd = create_command_node(a);
+		append_command_to_list(lst, *cmd);
 	}
-	handle_redirection(arena, *current_cmd, token);
+	handle_redir(a, *cmd, t);
 }
 
 /**
@@ -77,24 +77,24 @@ t_command	*group_commands(t_mem_arena *arena, t_token *tokens)
 {
 	t_command	*cmd_list;
 	t_command	*current_cmd;
-	t_token		*token_iterator;
+	t_token		*token_iter;
 
 	cmd_list = NULL;
 	current_cmd = NULL;
-	token_iterator = tokens;
-	while (token_iterator)
+	token_iter = tokens;
+	while (token_iter)
 	{
-		if (token_iterator->type == WORD)
-			handle_word_token(arena, &cmd_list, &current_cmd, token_iterator);
-		else if (token_iterator->type == RED_IN || token_iterator->type == RED_OUT
-			|| token_iterator->type == APPEND || token_iterator->type == HEREDOC)
+		if (token_iter->type == WORD)
+			wd_tk(arena, &cmd_list, &current_cmd, token_iter);
+		else if (token_iter->type == RED_IN || token_iter->type == RED_OUT
+			|| token_iter->type == APPEND || token_iter->type == HEREDOC)
 		{
-			handle_redirection_token(arena, &cmd_list, &current_cmd, token_iterator);
-			token_iterator = token_iterator->next;
+			rdr_tk(arena, &cmd_list, &current_cmd, token_iter);
+			token_iter = token_iter->next;
 		}
-		else if (token_iterator->type == PIPE)
+		else if (token_iter->type == PIPE)
 			current_cmd = NULL;
-		token_iterator = token_iterator->next;
+		token_iter = token_iter->next;
 	}
 	return (cmd_list);
 }

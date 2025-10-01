@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 12:23:22 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:47:19 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ char	*remove_quotes(t_mem_arena *env_arena, char *input)
 		return (NULL);
 	result = stripped_string(env_arena, input);
 	if (!result)
-		result = arena_strdup(env_arena, ""); // result is an empty string but still a valid token
+		result = arena_strdup(env_arena, "");
 	return (result);
 }
 

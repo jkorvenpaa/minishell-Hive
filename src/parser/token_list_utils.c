@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 09:39:28 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 13:59:13 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 14:17:35 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_token	*create_token_node(t_mem_arena *arena, char *word, t_token_type type)
 	if (!node->value)
 		return (NULL);
 	node->type = type;
-	node->was_quoted = 0; //needed to decide on word splitting later after expansion (we need to know if string before expansion was quoted or not)
+	node->was_quoted = 0;
 	node->next = NULL;
 	return (node);
 }
@@ -78,7 +78,7 @@ int	add_operator_token_to_list(t_mem_arena *arena, t_token **list, char *substr)
  * and appending it to the list. Resets token and was_quoted flag.
  * Returns 1 on success, 0 on memory failure.
  */
-int	save_token_to_list(t_mem_arena *arena, t_token **list, char **token, int *was_quoted)
+int	save_token(t_mem_arena *ar, t_token **list, char **token, int *was_quoted)
 {
 	t_token			*new;
 	t_token_type	type;
@@ -86,7 +86,7 @@ int	save_token_to_list(t_mem_arena *arena, t_token **list, char **token, int *wa
 	if (*token)
 	{
 		type = identify_token(*token);
-		new = create_token_node(arena, *token, type);
+		new = create_token_node(ar, *token, type);
 		if (!new)
 			return (0);
 		new->was_quoted = *was_quoted;

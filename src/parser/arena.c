@@ -1,3 +1,14 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   arena.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/10/01 15:37:05 by nmascaro          #+#    #+#             */
+/*   Updated: 2025/10/01 15:37:45 by nmascaro         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "minishell.h"
 
@@ -58,6 +69,7 @@ void	free_arena(t_mem_arena *arena)
 	}
 	arena = NULL;
 }
+
 void	arena_reset(t_mem_arena *arena)
 {
 	while (arena)

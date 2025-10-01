@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 12:21:43 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 15:03:27 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	exit_shell(t_shell *shell);
 t_token	*create_token_node(t_mem_arena *arena, char *word, t_token_type type);
 void	append_token_to_list(t_token **head, t_token *new_node);
 int	add_operator_token_to_list(t_mem_arena *arena, t_token **list, char *substr);
-int	save_token_to_list(t_mem_arena *arena, t_token **list, char **token, int *was_quoted);
+int	save_token(t_mem_arena *ar, t_token **list, char **token, int *was_quoted);
 
 // Tokenization functions
 int	is_token_boundary(char c, int single_quote, int double_quote);
@@ -120,8 +120,8 @@ int	is_separator_symbol(char c);
 void	handle_quote_flags(char c, int *single_quotes, int *double_quotes);
 void	get_curr_quote_state(char *input, int pos, int *single_q, int *double_q);
 int	get_operator_len(char *input, int i);
-int	is_operator_outside_quotes(char *input, int i, int single_quote, int double_quote);
-int	is_token_boundary_outside_quotes(char *input, int i, int single_quote, int double_quote);
+int	is_unquoted_operator(char *input, int i, int single_quote, int double_quote);
+int	is_unquoted_boundary(char *input, int i, int single_quote, int double_quote);
 char	*extract_operator_str(t_mem_arena *arena, char *input, int i, int len);
 t_token_type	identify_token(char *value);
 t_token	*tokenize_input(t_mem_arena *arena, char *input);
@@ -146,8 +146,8 @@ int	needs_splitting(t_token *token);
 t_token	*exp_toks(t_shell *shell, t_token *tokens);
 char	*get_variable_name(t_mem_arena *env_arena, const char *input, int *len);
 char *expand_value(char *token_val, t_expansion *data);
-char	*handle_expansion_char(t_expansion *data, char *result, char *token_value, int *i);
-char	*hdoc_line_exp(t_mem_arena *ar, char *line, t_expansion *data, int hdoc_quoted);
+char	*handle_exp_char(t_expansion *data, char *res, char *token_val, int *i);
+char	*hd_line_exp(t_mem_arena *ar, char *line, t_expansion *dt, int hd_quot);
 
 // Environment list functions
 t_env	*get_env_node(t_env *env_list, const char *name);
