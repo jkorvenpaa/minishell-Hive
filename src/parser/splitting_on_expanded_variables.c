@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:35:29 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/16 09:29:58 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 11:45:58 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,7 @@ t_token	*split_expanded_variables(mem_arena *arena, t_token *tokens)
 			if (split_tokens)
 				repl_tk_lst(&head, &prev, current, split_tokens);
 			else
-				prev = current; //keep original token (not splitted, useful for if VAR="") to avoid infinite loop or crash
+				prev = current; //move forward if split_token_words() returns null, for example empty token (we keep the original token "")
 		}
 		else
 			prev = current;

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:49:33 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/09/30 16:03:24 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/01 12:07:11 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,7 @@ void	append_command_to_list(t_command **head, t_command *new_cmd)
 void	outfile_to_list(mem_arena *arena, t_command *cmd, const char *name)
 {
 	int	count;
+	int	i;
 	char	**list;
 
 	count = 0;
@@ -103,7 +104,12 @@ void	outfile_to_list(mem_arena *arena, t_command *cmd, const char *name)
 	list = arena_alloc(arena, sizeof(char *) * (count + 2));
 	if (!list)
 		return ;
-	ft_memcpy(list, cmd->outfile_list, sizeof(char *) * count);
+	i = 0;
+	while (i < count)
+	{
+		list[i] = cmd->outfile_list[i];
+		i++;
+	}
 	list[count] = arena_strdup(arena, name);
 	list[count + 1] = NULL;
 	cmd->outfile_list = list;
