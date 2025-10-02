@@ -65,7 +65,7 @@ void	wait_kids(t_shell *shell, int *pids, int count)
 	i = 0;
 	while (i < count)
 	{
-		ignore();
+		ignore_signals();
 		command_exit_status(shell, pids[i]);
 		i++;
 	}

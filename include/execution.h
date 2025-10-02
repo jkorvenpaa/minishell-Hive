@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/30 14:44:04 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/09/30 15:45:48 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ void	execution(t_shell *shell, t_command	*command_list);
 void	init_signals();
 void	heredoc_signals();
 void	child_signals();
-void	ignore();
+void	ignore_signals();
 
 // Execution_utils
 void    command_exit_status(t_shell *shell, pid_t pid);
@@ -57,7 +57,7 @@ int		env_builtin(t_shell *shell, char *next_cmd);
 void	sort_env(t_shell *shell);
 
 // Prepare files
-int		handle_outfile(t_command *command);
+//int		handle_outfile(t_command *command);
 int		handle_infile(t_command *command);
 int		prepare_files(t_command	*command);
 

@@ -21,7 +21,7 @@ char	*file_name(t_shell *shell)
 	static unsigned int	count = 0;
 	char				*num;
 
-	while (count <= 16)
+	while (count < 16)
 	{
 		count++;
 		num = arena_itoa(shell->arena, count);
