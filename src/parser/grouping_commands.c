@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:44:09 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 16:52:49 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/02 12:37:16 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,11 +66,15 @@ static void	rdr_tk(t_mem_arena *a, t_command **lst, t_command **cmd, t_token *t)
 	}
 	handle_redir(a, *cmd, t);
 }
+/**
+ * Loops through the command list and assigns a position
+ * (FIRST, MIDDLE and LAST) to each of the commands.
+ */
 static void	command_position(t_command *head)
 {
-	int	count;
+	int			count;
 	t_command	*current;
-	int	i;
+	int			i;
 
 	count = 0;
 	current = head;
