@@ -3,16 +3,24 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/02 12:46:47 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/02 16:01:16 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*	NEEDS TO BE CHECKED/FIXED:
 
-echo hi out1>out2>out3 , should build all files(now builds the last only)
+-unset PATH doesn't work anymore: i think it might be because in find_command_path we use the 
+system's getenv() so it doesn't read it from our own env_list. It must be there for sure because
+i tried to do unset PATH and then env and it's deleted, so it's a problem of looking in the wrong place.
+Solution to try: replace char *path for t_env *node and do node = get_env_node(shell->env_list, "PATH") 
+and add safety check after of if (!node || !node->value) return NULL
+
+-heredoc temporary files are not being deleted after success :( maybe because now we only unlink if
+there's the signal. Solution to try: move it also to be after the command while loop in heredoc.c, before init_signals 
+so it also deletes when there's success.
 
 directory stuck
 
