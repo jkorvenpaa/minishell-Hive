@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 10:50:23 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/30 14:53:51 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/02 12:46:10 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ void	exit_builtin(t_shell *shell, t_command *command)
 	if (e == 0) 
 		e = shell->exit_status;
 	printf("exit\n");
+	close (shell->fd_in);
 	free_arena(shell->env_arena);
 	if (shell->arena)
 		free_arena(shell->arena);

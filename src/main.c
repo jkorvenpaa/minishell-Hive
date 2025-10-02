@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 13:59:36 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/02 12:46:47 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,7 @@ void	exit_shell(t_shell *shell)
 	rl_clear_history();
 	e = shell->exit_status;
 	printf("exit\n");
+	close (shell->fd_in);
 	free_arena(shell->env_arena);
 	if (shell->arena)
 		free_arena(shell->arena);

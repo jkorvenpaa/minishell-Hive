@@ -1,13 +1,13 @@
 #include "minishell.h"
 #include "execution.h"
 
-int	handle_outfile(t_command *command)
+int		handle_last_outfile(char *outfile, int append)
 {
 	int	fd;
 
-	if (command->append == 1)
+	if (append == 1)
 	{
-		fd = open(command->outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		fd = open(outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
 		if (fd < 0)
 		{
 			perror("outfile open failed");
@@ -18,13 +18,40 @@ int	handle_outfile(t_command *command)
 	}
 	else
 	{
-		fd = open(command->outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
 		if (fd < 0)
 		{
 			perror("outfile open failed");
 			return (1);
 		}
 		dup2(fd, STDOUT_FILENO);
+		close(fd);
+	}
+	return (0);
+}
+
+int		handle_outfile(char *outfile, int append)
+{
+	int	fd;
+
+	if (append == 1)
+	{
+		fd = open(outfile, O_WRONLY | O_CREAT | O_APPEND, 0644);
+		if (fd < 0)
+		{
+			perror("outfile open failed");
+			return (1);
+		}
+		close(fd);
+	}
+	else
+	{
+		fd = open(outfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+		if (fd < 0)
+		{
+			perror("outfile open failed");
+			return (1);
+		}
 		close(fd);
 	}
 	return (0);
@@ -45,7 +72,7 @@ int	handle_infile(t_command *command)
 	return (0);
 }
 
-int	prepare_files(t_command	*command) // t_shell *shell
+int	prepare_files(t_command	*command)
 {
 	int	res;
 	int	i;
@@ -54,25 +81,12 @@ int	prepare_files(t_command	*command) // t_shell *shell
 	res = 0;
 	if (command->infile)
 		res = handle_infile(command);
-	if (command->outfile)
-		res = handle_outfile(command);
-	return (res);
-}
-
-/*int	prepare_files(t_command	*command) // t_shell *shell
-{
-	int	res;
-	int	i;
-
-	i = 0;
-	res = 0;
-	if (command->infile)
-		res = handle_infile(command);
-	while (command->outfile_list[i])
+	while (command->outfile_list && command->outfile_list[i])
 	{
-		//printf("%s\n", command->outfile[i]);
 		res = handle_outfile(command->outfile_list[i], command->append);
 		i++;
 	}
+	if (command->outfile)
+		res = handle_last_outfile(command->outfile, command->append);
 	return (res);
-}*/
+}
