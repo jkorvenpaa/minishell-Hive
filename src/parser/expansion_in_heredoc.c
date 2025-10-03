@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/30 11:27:19 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 15:03:33 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:25:48 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	*expand_in_heredoc(char *token_value, t_expansion *data)
  * If it's unquoted, performs expansion (but doesn't remove quotes).
  * Returns the result.
  */
-char	*hd_line_exp(t_mem_arena *ar, char *line, t_expansion *dt, int hd_quot)
+char	*hd_exp(t_mem_arena *ar, char *line, t_expansion *dt, int hd_quot)
 {
 	char	*result;
 

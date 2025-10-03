@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/03 10:20:00 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:47:48 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ bool	is_built_in(t_command *command)
 		return (true);
 	else if (ft_strncmp(cmd, "pwd", 3) == 0 && ft_strlen(cmd) == 3)
 		return (true);
-	else if (ft_strncmp(cmd, "export", 6) == 0&& ft_strlen(cmd) == 6)
+	else if (ft_strncmp(cmd, "export", 6) == 0 && ft_strlen(cmd) == 6)
 		return (true);
 	else if (ft_strncmp(cmd, "unset", 5) == 0 && ft_strlen(cmd) == 5)
 		return (true);
@@ -59,7 +59,7 @@ void	execute_built_in(t_command *command, t_shell *shell)
 
 char	*find_command_path(t_command *command, t_shell *shell)
 {
-	t_env 	*node;
+	t_env	*node;
 	char	**folder;
 	char	*final_path;
 	int		i;
@@ -68,7 +68,7 @@ char	*find_command_path(t_command *command, t_shell *shell)
 		return (arena_strdup(shell->arena, command->argv[0]));
 	i = 0;
 	node = get_env_node(shell->env_list, "PATH");
-	if (!node  || !node->value)
+	if (!node || !node->value)
 		return (NULL);
 	folder = arena_split(shell, node->value, ':');
 	if (!folder)

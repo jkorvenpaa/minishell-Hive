@@ -6,12 +6,11 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/03 10:19:53 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 13:38:23 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	execute_child_command(t_command *command, t_shell *shell)
 {
@@ -24,7 +23,7 @@ void	execute_child_command(t_command *command, t_shell *shell)
 		exit(EXIT_FAILURE);
 	}
 	if (!command->argv || !command->argv[0] || command->argv[0][0] == '\0')
-	{	
+	{
 		close(shell->fd_in);
 		command_error(command->argv[0]);
 	}
@@ -95,13 +94,13 @@ int	command_loop(t_command *command, t_shell *shell)
 
 void	execution(t_shell *shell, t_command	*command)
 {
-	int	*pids;
-	int	i;
-	int	count;
-	t_command *cmd_head;
+	int			*pids;
+	int			i;
+	int			count;
+	t_command	*cmd_head;
 
 	count = cmd_count(command);
-	pids = arena_alloc(shell->arena, sizeof(int) *count);
+	pids = arena_alloc(shell->arena, sizeof(int) * count);
 	i = 0;
 	cmd_head = command;
 	while (command)
@@ -122,4 +121,3 @@ void	execution(t_shell *shell, t_command	*command)
 	wait_kids(shell, pids, i);
 	unlink_infile(cmd_head);
 }
-

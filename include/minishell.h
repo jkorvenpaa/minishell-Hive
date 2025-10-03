@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/03 12:11:46 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:26:02 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,7 +177,7 @@ char							*expand_value(char *token_val,
 									t_expansion *data);
 char							*handle_exp_char(t_expansion *data, char *res,
 									char *token_val, int *i);
-char							*hd_line_exp(t_mem_arena *ar, char *line,
+char							*hd_exp(t_mem_arena *ar, char *line,
 									t_expansion *dt, int hd_quot);
 
 // Environment list functions

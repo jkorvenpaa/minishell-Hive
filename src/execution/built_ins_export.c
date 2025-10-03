@@ -62,10 +62,10 @@ static int	valid_export_name(char *next_cmd)
 int	export_values(t_command *cmd, t_shell *shell)
 {
 	t_env	*new;
-	int i;
-	char *name;
-	int len;
-	
+	int		i;
+	char	*name;
+	int		len;
+
 	i = 1;
 	while (cmd->argv[i])
 	{

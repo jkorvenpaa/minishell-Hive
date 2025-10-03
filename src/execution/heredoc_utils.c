@@ -1,4 +1,3 @@
-
 #include "minishell.h"
 
 //remove heredoc files after command is executed

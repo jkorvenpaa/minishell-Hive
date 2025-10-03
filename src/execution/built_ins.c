@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 10:50:23 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/03 10:20:16 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 12:35:48 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	echo(t_command *command)
 	while (command->argv[i])
 	{
 		printf("%s", command->argv[i]);
-		if (command->argv[i+1])
+		if (command->argv[i + 1])
 			printf(" ");
 		i++;
 	}
@@ -38,9 +38,9 @@ int	echo(t_command *command)
 
 int	cd(t_shell *shell, char	*next)
 {
-	t_env *temp;
-	char 	*dir;
-	
+	t_env	*temp;
+	char	*dir;
+
 	if (!next)
 	{
 		temp = get_env_node(shell->env_list, "HOME");
@@ -93,40 +93,44 @@ int	unset(char *next_cmd, t_shell *shell)
 	node = ft_memset(node, 0, sizeof(t_env));
 	return (0);
 }
+
 int	exit_isdigit(char *num)
 {
-	int i = 0;
-	
+	int	i;
+
+	i = 0;
 	while (num[i] == '-' || num[i] == '+')
 		i++;
-	while(num[i])
+	while (num[i])
 	{
-		if(ft_isdigit(num[i])==0)
-			return(0);
+		if (ft_isdigit(num[i]) == 0)
+			return (0);
 		i++;
 	}
-	return(1);
+	return (1);
 }
+
 void	exit_builtin(t_shell *shell, t_command *command)
 {
-	int	e = 0;
+	int	e;
 
+	e = 0;
 	if (command->argv[1])
 	{
-	if (exit_isdigit(command->argv[1]) == 1)
-	{	
-		if (!command->argv[2])
-			e = ft_atoi(command->argv[1]);
-		else
+		if (exit_isdigit(command->argv[1]) == 1)
 		{
-			printf("exit: too many arguments\n");
-			return ;
+			if (!command->argv[2])
+				e = ft_atoi(command->argv[1]);
+			else
+			{
+				printf("exit: too many arguments\n");
+				return ;
+			}
 		}
+		else
+			printf("exit: %s: numeric argument required\n", command->argv[1]);
 	}
-	else
-		printf("exit: %s: numeric argument required\n", command->argv[1]);
-	}
-	if (e == 0) 
+	if (e == 0)
 		e = shell->exit_status;
 	printf("exit\n");
 	close (shell->fd_in);

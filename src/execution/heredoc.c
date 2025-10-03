@@ -14,7 +14,7 @@ void	store_to_file(t_shell *shell, t_command *cmd, int fd)
 	while (1)
 	{
 		if (g_sig == SIGINT)
-			return;
+			return ;
 		line = readline("> ");
 		if (!line)
 			break ;
@@ -22,11 +22,10 @@ void	store_to_file(t_shell *shell, t_command *cmd, int fd)
 		free (line);
 		if (ft_strncmp(exp, cmd->heredoc, ft_strlen(cmd->heredoc) + 1) == 0)
 			break ;
-		exp = hd_line_exp(shell->arena, exp, &shell->expansion, cmd->heredoc_quoted);
+		exp = hd_exp(shell->arena, exp, &shell->expansion, cmd->heredoc_quoted);
 		ft_putstr_fd(exp, fd);
 		ft_putstr_fd("\n", fd);
 	}
-	
 }
 
 //Checks if command has a heredoc, creates a file to command->infile if so
@@ -61,7 +60,7 @@ int	handle_heredoc(t_shell *shell, t_command *command)
 			{
 				unlink_infile(command);
 				g_sig = 0;
-				return(1);
+				return (1);
 			}
 		}
 		command = command->next;
