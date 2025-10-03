@@ -6,12 +6,11 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/03 09:42:22 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 10:19:53 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include "execution.h"
 
 
 void	execute_child_command(t_command *command, t_shell *shell)

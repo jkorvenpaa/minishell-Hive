@@ -1,5 +1,4 @@
 #include "minishell.h"
-#include "execution.h"
 
 int		handle_last_outfile(char *outfile, int append)
 {

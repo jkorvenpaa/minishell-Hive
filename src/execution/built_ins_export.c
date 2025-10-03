@@ -1,5 +1,4 @@
 #include "minishell.h"
-#include "execution.h"
 
 t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd)
 {

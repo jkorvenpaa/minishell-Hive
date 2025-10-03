@@ -1,5 +1,4 @@
 # include "minishell.h"
-# include "execution.h"
 
 volatile sig_atomic_t g_sig;
 

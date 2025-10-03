@@ -3,7 +3,6 @@
 // display prompt > in read loop;
 
 #include "minishell.h"
-#include "execution.h"
 
 void	store_to_file(t_shell *shell, t_command *cmd, int fd)
 {

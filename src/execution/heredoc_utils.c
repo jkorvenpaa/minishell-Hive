@@ -1,6 +1,5 @@
 
 #include "minishell.h"
-#include "execution.h"
 
 //remove heredoc files after command is executed
 void	unlink_infile(t_command *command)
