@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/03 13:47:48 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:15:32 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ char	**env_to_array(t_shell *shell)
 	i = 0;
 	head = shell->env_list;
 	len = env_len(shell->env_list);
-	env_array = arena_alloc(shell->arena, len + 1);
+	env_array = arena_alloc(shell->arena, sizeof(char *) * (len + 1));
 	while (head)
 	{
 		temp = ar_strjoin(shell->arena, head->name, "=");

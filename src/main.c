@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/03 14:52:12 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:21:43 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,10 @@ Fixed:
 To have in mind:
 -We have some still reachable memory when running some commands coming from init_shell and arena_init, unsure what
 to do with those (is still reachable memory okay to have?)
+-Opening ./minishell inside minishell still causes weird behaviour -> i think it works now??? (i just changed
+the allocation of env_to_array, we weren't allocating enough space for pointers)
+-Peter found a thing that doing  cat << lim << lim1 and then ctrl+d should first exit from the heredoc twice and
+then on the third exit minishell. Now ours only exits once and then exits minishell on the second ctrl+d
 */
 
 #include "minishell.h"
