@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/03 16:21:43 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 16:29:37 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,14 +22,16 @@ THINGS TO REMEMBER TO SAY TO JENNI ON MONDAY
 Norminette is basically almost done, just some functions with more than 25 and comments in execution that i didn't
 want to touch of course. And also need to add headers in some files. And also comment in arena.h about the 
 #define (didn't touch it because not sure)
+
 Fixed:
 -I changed the getenv function in the find command path to be the getenv_node. Unset wasn't working
 -The heredoc temporary files weren't being deleted when normal success, i added in execution.c to track the beginning of the list
+-Opening ./minishell inside minishell was causing weird behaviour -> i think it works now??? i just changed
+the allocation of env_to_array, we weren't allocating enough space for pointers
+
 To have in mind:
 -We have some still reachable memory when running some commands coming from init_shell and arena_init, unsure what
 to do with those (is still reachable memory okay to have?)
--Opening ./minishell inside minishell still causes weird behaviour -> i think it works now??? (i just changed
-the allocation of env_to_array, we weren't allocating enough space for pointers)
 -Peter found a thing that doing  cat << lim << lim1 and then ctrl+d should first exit from the heredoc twice and
 then on the third exit minishell. Now ours only exits once and then exits minishell on the second ctrl+d
 */
