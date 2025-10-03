@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/02 12:52:00 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/03 09:42:22 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,12 @@ void	execution(t_shell *shell, t_command	*command)
 	int	*pids;
 	int	i;
 	int	count;
+	t_command *cmd_head;
 
 	count = cmd_count(command);
 	pids = arena_alloc(shell->arena, sizeof(int) *count);
 	i = 0;
+	cmd_head = command;
 	while (command)
 	{
 		if (command->argv)
@@ -119,6 +121,6 @@ void	execution(t_shell *shell, t_command	*command)
 		command = command->next;
 	}
 	wait_kids(shell, pids, i);
-	unlink_infile(command);
+	unlink_infile(cmd_head);
 }
 

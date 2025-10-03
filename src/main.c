@@ -6,31 +6,29 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/02 16:01:16 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 10:17:30 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*	NEEDS TO BE CHECKED/FIXED:
 
--unset PATH doesn't work anymore: i think it might be because in find_command_path we use the 
-system's getenv() so it doesn't read it from our own env_list. It must be there for sure because
-i tried to do unset PATH and then env and it's deleted, so it's a problem of looking in the wrong place.
-Solution to try: replace char *path for t_env *node and do node = get_env_node(shell->env_list, "PATH") 
-and add safety check after of if (!node || !node->value) return NULL
-
--heredoc temporary files are not being deleted after success :( maybe because now we only unlink if
-there's the signal. Solution to try: move it also to be after the command while loop in heredoc.c, before init_signals 
-so it also deletes when there's success.
 
 directory stuck
 
 signals \n
 
+THINGS TO REMEMBER TO SAY TO JENNI ON MONDAY
+
+Fixed:
+-I changed the getenv function in the find command path to be the getenv_node. Unset wasn't working
+-The heredoc temporary files weren't being deleted when normal success, i added in execution.c to track the beginning of the list
+To have in mind:
+-We have some still reachable memory when running some commands coming from init_shell and arena_init, unsure what
+to do with those (is still reachable memory okay to have?)
 */
 
 
 #include "minishell.h"
-#include "execution.h"
 
 t_shell	*init_shell(char const **envp)
 {

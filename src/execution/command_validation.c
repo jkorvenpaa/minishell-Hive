@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_validation.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/30 14:46:23 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/03 09:44:02 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	execute_built_in(t_command *command, t_shell *shell)
 
 char	*find_command_path(t_command *command, t_shell *shell)
 {
-	char	*path;
+	t_env 	*node;
 	char	**folder;
 	char	*final_path;
 	int		i;
@@ -68,8 +68,10 @@ char	*find_command_path(t_command *command, t_shell *shell)
 	if (ft_strchr(command->argv[0], '/'))
 		return (arena_strdup(shell->arena, command->argv[0]));
 	i = 0;
-	path = getenv("PATH");
-	folder = arena_split(shell, path, ':');
+	node = get_env_node(shell->env_list, "PATH");
+	if (!node  || !node->value)
+		return (NULL);
+	folder = arena_split(shell, node->value, ':');
 	if (!folder)
 		return (NULL);
 	while (folder[i])
