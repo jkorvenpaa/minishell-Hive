@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:35:29 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 15:48:39 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:40:22 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ static t_token	*new_word_token(t_mem_arena *arena, char *s, int start, int len)
 	char	*word;
 	t_token	*token;
 
-	word = ar_substr(arena, s, start, len);
+	word = a_substr(arena, s, start, len);
 	if (!word)
 		return (NULL);
 	token = create_token_node(arena, word, WORD);

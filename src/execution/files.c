@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int		handle_last_outfile(char *outfile, int append)
+static int		handle_last_outfile(char *outfile, int append)
 {
 	int	fd;
 
@@ -29,7 +29,7 @@ int		handle_last_outfile(char *outfile, int append)
 	return (0);
 }
 
-int		handle_outfile(char *outfile, int append)
+static int		handle_outfile(char *outfile, int append)
 {
 	int	fd;
 
@@ -56,7 +56,7 @@ int		handle_outfile(char *outfile, int append)
 	return (0);
 }
 
-int	handle_infile(t_command *command)
+static int	handle_infile(t_command *command)
 {
 	int	fd;
 

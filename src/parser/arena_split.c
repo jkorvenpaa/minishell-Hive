@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   arena_split.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/23 16:55:03 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/30 14:47:28 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:41:09 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ static void	*ft_findword(t_shell *shell, char **array, char const *s, char c)
 		end = start;
 		while (s[end] != c && s[end])
 			end++;
-		array[i] = ar_substr(shell->arena, s, start, end - start);
+		array[i] = a_substr(shell->arena, s, start, end - start);
 		if (!array[i])
 			return (NULL);
 		i++;

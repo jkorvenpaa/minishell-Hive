@@ -12,7 +12,7 @@ void	sig_handler(int sig)
 	rl_redisplay();
 }
 
-void	init_signals()
+void	init_signals(void)
 {
 	struct sigaction sa_int;
 
@@ -38,7 +38,7 @@ void	hd_handler(int sig)
 	//rl_redisplay();
 }
 
-void	heredoc_signals()
+void	heredoc_signals(void)
 {
 	struct sigaction sa_hd;
 
@@ -55,7 +55,7 @@ void	ignore_handler(int sig)
 	(void) sig;
 	ft_putstr_fd("\n", STDOUT_FILENO);
 }
-void	ignore_signals()
+void	ignore_signals(void)
 {	
 	struct sigaction sa_ig;
 
@@ -67,7 +67,7 @@ void	ignore_signals()
 	sigaction(SIGINT, &sa_ig, NULL);
 }
 
-void	child_signals()
+void	child_signals(void)
 {
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_IGN);

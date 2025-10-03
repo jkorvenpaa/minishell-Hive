@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/29 11:50:07 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 14:45:29 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:38:18 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*arena_strdup(t_mem_arena *arena, const char *str)
 	return (dest);
 }
 
-char	*ar_substr(t_mem_arena *ar, char const *s, unsigned int st, size_t len)
+char	*a_substr(t_mem_arena *a, char const *s, unsigned int st, size_t l)
 {
 	size_t	i;
 	size_t	j;
@@ -43,15 +43,15 @@ char	*ar_substr(t_mem_arena *ar, char const *s, unsigned int st, size_t len)
 		return (NULL);
 	slen = ft_strlen(s);
 	if (st >= slen)
-		return (arena_strdup(ar, ""));
-	if (len > slen - st)
-		len = slen - st;
-	substr = arena_alloc(ar, len + 1);
+		return (arena_strdup(a, ""));
+	if (l > slen - st)
+		l = slen - st;
+	substr = arena_alloc(a, l + 1);
 	if (!substr)
 		return (NULL);
 	i = st;
 	j = 0;
-	while (s[i] && j < len)
+	while (s[i] && j < l)
 	{
 		substr[j] = s[i];
 		i++;

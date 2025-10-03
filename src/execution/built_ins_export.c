@@ -9,7 +9,7 @@ t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd)
 	i = ft_strlen(next_cmd);
 	equal = ft_strchr(next_cmd, '=');
 	e = equal - next_cmd; //position of = sign
-	new->value = ar_substr(shell->env_arena, next_cmd, e + 1, i - e);
+	new->value = a_substr(shell->env_arena, next_cmd, e + 1, i - e);
 	if (!new->value)
 		return (NULL);
 	return (new);
@@ -29,10 +29,10 @@ t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd)
 	new = arena_alloc(shell->env_arena, sizeof(t_env));
 	if (!new)
 		return (NULL);
-	new->name = ar_substr(shell->env_arena, next_cmd, 0, e);
+	new->name = a_substr(shell->env_arena, next_cmd, 0, e);
 	if (!new->name)
 		return (NULL);
-	new->value = ar_substr(shell->env_arena, next_cmd, e + 1, i - e);
+	new->value = a_substr(shell->env_arena, next_cmd, e + 1, i - e);
 	if (!new->value)
 		new->value = arena_strdup(shell->env_arena, "");
 	new->next = NULL;
@@ -70,7 +70,7 @@ int	export_values(t_command *cmd, t_shell *shell)
 	while (cmd->argv[i])
 	{
 		len = ft_strchr(cmd->argv[i], '=') - cmd->argv[i];
-		name = ar_substr(shell->arena, cmd->argv[i], 0, len);
+		name = a_substr(shell->arena, cmd->argv[i], 0, len);
 		if (valid_export_name(cmd->argv[i]) == 1) // invalid input for export
 			return (1);
 		new = get_env_node(shell->env_list, name); // if already in env list

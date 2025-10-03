@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 14:16:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 14:43:08 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:16:39 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,10 +98,7 @@ static int	process_char(t_mem_arena *ar, char *input, int i, t_tokenizer *d)
 	double_quote = 0;
 	get_curr_quote_state(input, i, &single_quote, &double_quote);
 	if (is_unquoted_operator(input, i, single_quote, double_quote))
-	{
-		ret_val = solve_opr_tkn(ar, input, i, d);
-		return (ret_val);
-	}
+		return (solve_opr_tkn(ar, input, i, d));
 	if (is_unquoted_boundary(input, i, single_quote, double_quote))
 	{
 		if (!save_token(ar, &d->token_list, &d->current_token, d->was_quoted))

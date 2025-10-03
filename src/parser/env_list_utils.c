@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:34:00 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 15:55:12 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:39:42 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	fill_env_var(t_mem_arena *env_a, t_env *new_env, const char *env_s)
 	equal_sign = ft_strchr(env_s, '=');
 	if (equal_sign)
 	{
-		new_env->name = ar_substr(env_a, env_s, 0, equal_sign - env_s);
+		new_env->name = a_substr(env_a, env_s, 0, equal_sign - env_s);
 		new_env->value = arena_strdup(env_a, equal_sign + 1);
 	}
 	else

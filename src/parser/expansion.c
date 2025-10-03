@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 14:24:32 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 14:47:19 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:40:04 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*get_variable_name(t_mem_arena *env_arena, const char *input, int *len)
 	while (input[i] && (ft_isalnum(input[i]) || input[i] == '_'))
 		i++;
 	*len = i;
-	return (ar_substr(env_arena, input, 0, i));
+	return (a_substr(env_arena, input, 0, i));
 }
 
 /**

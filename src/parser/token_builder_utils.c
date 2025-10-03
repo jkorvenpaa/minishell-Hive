@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/29 10:57:01 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 14:11:38 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 11:39:14 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	*extract_operator_str(t_mem_arena *arena, char *input, int i, int len)
 {
 	char	*token;
 
-	token = ar_substr(arena, input, i, len);
+	token = a_substr(arena, input, i, len);
 	return (token);
 }
 
