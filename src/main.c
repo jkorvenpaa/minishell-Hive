@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/03 14:01:27 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/03 14:52:12 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,37 +80,41 @@ void	exit_shell(t_shell *shell)
 	exit(e);
 }
 
+static void	shell_loop(t_shell *shell)
+{
+	char				*input;
+	t_parser_context	data;
+	t_command			*command_list;
+
+	init_signals();
+	dup2(shell->fd_in, STDIN_FILENO);
+	input = readline("minishell$ ");
+	if (!input)
+		exit_shell(shell);
+	if (ft_strlen(input) < ARG_MAX)
+	{
+		data = init_parser_context_from_shell(shell);
+		command_list = run_parser(input, &data, shell);
+		if (command_list && handle_heredoc(shell, command_list) == 0)
+		{
+			add_history(input);
+			execution(shell, command_list);
+		}
+		arena_reset(shell->arena);
+	}
+	else
+		printf("ARG_MAX exceeded\n");
+	free(input);
+}
+
 int	main(int argc, char **argv, char const **envp)
 {
 	t_shell				*shell;
-	t_command			*command_list;
-	t_parser_context	data;
-	char				*input;
 
 	(void) argv;
 	(void) argc;
 	shell = init_shell(envp);
 	while (1)
-	{
-		init_signals();
-		dup2(shell->fd_in, STDIN_FILENO);
-		input = readline("minishell$ ");
-		if (input == NULL)
-			exit_shell(shell);
-		if (ft_strlen(input) < ARG_MAX)
-		{
-			data = init_parser_context_from_shell(shell);
-			command_list = run_parser(input, &data, shell);
-			if (command_list && handle_heredoc(shell, command_list) == 0)
-			{
-				add_history(input);
-				execution(shell, command_list);
-			}
-			arena_reset(shell->arena);
-		}
-		else
-			printf("ARG_MAX exceeded\n");
-		free(input);
-	}
+		shell_loop(shell);
 	return (0);
 }
