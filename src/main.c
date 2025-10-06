@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/06 16:06:20 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/06 16:17:13 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,9 @@ To have in mind:
 -We have some still reachable memory when running some commands coming from init_shell and arena_init, unsure what
 to do with those (is still reachable memory okay to have?)
 -Creating directory inside directory and then removing the first one, and doing pwd doesnt give anything
-and in bash it gives the full path (even though it doesnt exist) -> i tried to fix it, couldnt solve it
+and in bash it gives the full path (even though it doesnt exist) -> i tried to fix it, couldnt solve it.
+Talked with Hieu and maybe adding char *working_directory in shell struct would work?? initialize it to null and
+use it then in pwd. 
 -Peter found a thing that doing  cat << lim << lim1 and then ctrl+d should first exit from the heredoc twice and
 then on the third exit minishell. Now ours only exits once and then exits minishell on the second ctrl+d
 */
