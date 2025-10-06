@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/03 16:29:37 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/06 16:06:20 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@ the allocation of env_to_array, we weren't allocating enough space for pointers
 To have in mind:
 -We have some still reachable memory when running some commands coming from init_shell and arena_init, unsure what
 to do with those (is still reachable memory okay to have?)
+-Creating directory inside directory and then removing the first one, and doing pwd doesnt give anything
+and in bash it gives the full path (even though it doesnt exist) -> i tried to fix it, couldnt solve it
 -Peter found a thing that doing  cat << lim << lim1 and then ctrl+d should first exit from the heredoc twice and
 then on the third exit minishell. Now ours only exits once and then exits minishell on the second ctrl+d
 */

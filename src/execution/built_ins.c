@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 10:50:23 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/03 12:35:48 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/06 16:01:49 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ int	pwd(void)
 	if (!cmd)
 		return (1); //check status
 	printf("%s\n", cmd);
+	free(cmd); // getcwd allocates memory (same as readline)
 	return (0);
 }
 

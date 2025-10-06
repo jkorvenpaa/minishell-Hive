@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:34:00 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/03 11:39:42 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/06 15:24:17 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
  * the new node becomes the head. Otherwise, it's appended to the
  * end of the list.
  */
-static void	append_env_to_list(t_env **head, t_env *new_node)
+void	append_env_to_list(t_env **head, t_env *new_node) //changed it to non static to see if it works
 {
 	t_env	*temp;
 
