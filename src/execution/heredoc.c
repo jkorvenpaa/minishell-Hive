@@ -27,12 +27,47 @@ void	store_to_file(t_shell *shell, t_command *cmd, int fd)
 		ft_putstr_fd("\n", fd);
 	}
 }
+int	open_file(t_shell *shell, t_command *command, char *file)
+{
+	int fd;
+
+	fd = open(file, O_WRONLY | O_APPEND | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		perror("open hd_file failed");
+		return (-1);
+	}
+	store_to_file(shell, command, fd);
+	command->infile = file;
+	close(fd);
+	return (0);
+}
+//finds an unique filename, until 16 heredoc files.
+char	*file_name(t_shell *shell)
+{
+	char	*file_name;
+	int		count;
+	char	*num;
+
+	count = 0;
+	while (count < 16)
+	{
+		count++;
+		num = arena_itoa(shell->arena, count);
+		if (!num)
+			return (NULL);
+		file_name = ar_strjoin(shell->arena, "hd_temp_file", num);
+		file_name = ar_strjoin(shell->arena, file_name, ".txt");
+		if (access(file_name, F_OK) != 0)
+			return (file_name);
+	}
+	return (NULL);
+}
 
 //Checks if command has a heredoc, creates a file to command->infile if so
 int	handle_heredoc(t_shell *shell, t_command *command)
 {
 	char	*file;
-	int		fd;
 
 	heredoc_signals();
 	g_sig = 0;
@@ -42,30 +77,16 @@ int	handle_heredoc(t_shell *shell, t_command *command)
 		{
 			file = file_name(shell);
 			if (!file)
-			{
-				perror ("hd_file failed");
-				//init_signals();
 				return (1);
-			}
-			fd = open(file, O_WRONLY | O_APPEND | O_CREAT | O_TRUNC, 0644);
-			if (fd < 0)
-			{
-				perror("open hd_file failed");
-				//init_signals();
+			if(open_file(shell, command, file) != 0)
 				return (1);
-			}
-			store_to_file(shell, command, fd);
-			command->infile = file;
-			close(fd);
 			if (g_sig == SIGINT)
 			{
 				unlink_infile(command);
-				//g_sig = 0;
 				return (1);
 			}
 		}
 		command = command->next;
 	}
-	//init_signals();
 	return (0);
 }
