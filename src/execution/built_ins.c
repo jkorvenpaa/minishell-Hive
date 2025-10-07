@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 10:50:23 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/06 16:01:49 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/07 10:21:36 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,33 @@ int	echo(t_command *command)
 	return (0);
 }
 
+static void	get_working_directory(t_shell *shell, const char *path)
+{
+	char	*cwd;
+	char	*new_path;
+	char	*temp;
+
+	cwd = getcwd(NULL, 0);
+	if (cwd)
+	{
+		shell->working_dir = arena_strdup(shell->env_arena, cwd);
+		free (cwd);
+		return ;
+	}
+	if (shell->working_dir)
+		printf("cd: error retrieving current directory: getcwd: "
+			"cannot access parent directories: "
+			"No such file or directory\n");
+	if (path[0] == '/')
+		new_path = arena_strdup(shell->env_arena, path);
+	else
+	{
+		temp = ar_strjoin(shell->env_arena, shell->working_dir, "/");
+		new_path = ar_strjoin(shell->env_arena, temp, path);
+	}
+	shell->working_dir = new_path;
+}
+
 int	cd(t_shell *shell, char	*next)
 {
 	t_env	*temp;
@@ -58,16 +85,24 @@ int	cd(t_shell *shell, char	*next)
 		printf("cd: %s: No such file or directory\n", next);
 		return (1);
 	}
+	get_working_directory(shell, dir);
 	return (0);
 }
 
-int	pwd(void)
+int	pwd(t_shell *shell)
 {
 	char	*cmd;
 
 	cmd = getcwd(NULL, 0);
 	if (!cmd)
+	{
+		if (shell->working_dir)
+		{
+			printf("%s\n", shell->working_dir);
+			return (0);
+		}
 		return (1); //check status
+	}
 	printf("%s\n", cmd);
 	free(cmd); // getcwd allocates memory (same as readline)
 	return (0);

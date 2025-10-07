@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/06 12:41:57 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/07 09:40:17 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	execute_built_in(t_command *command, t_shell *shell)
 	else if (ft_strncmp(cmd, "cd", 2) == 0)
 		shell->exit_status = cd(shell, next_cmd);
 	else if (ft_strncmp(cmd, "pwd", 3) == 0)
-		shell->exit_status = pwd();
+		shell->exit_status = pwd(shell);
 	else if (ft_strncmp(cmd, "export", 6) == 0)
 		shell->exit_status = export(command, shell);
 	else if (ft_strncmp(cmd, "unset", 5) == 0)

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/06 16:01:15 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/07 09:39:29 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**arena_split(t_shell *shell, char const *s, char c);
 // Built-ins
 int		echo(t_command *command);
 int		cd(t_shell *shell, char	*next);
-int		pwd(void);
+int		pwd(t_shell *shell);
 void	exit_builtin(t_shell *shell, t_command *command);
 
 int		export(t_command *cmd, t_shell *shell);

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/06 12:40:19 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/07 09:28:40 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct s_shell
 	t_env		*env_list;
 	t_expansion	expansion;
 	int			fd_in;
+	char		*working_dir;
 }	t_shell;
 
 void							execution(t_shell *shell,
