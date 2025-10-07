@@ -4,8 +4,12 @@ volatile sig_atomic_t	g_sig;
 
 void	sig_handler(int sig)
 {
+	if (g_sig == 0)
+		ft_putstr_fd("\n", STDOUT_FILENO);
+	//else
+		//g_sig = 0;
 	(void) sig;
-	ft_putstr_fd("\n", STDOUT_FILENO);
+	//ft_putstr_fd("\n", STDOUT_FILENO);
 	rl_replace_line("", 1);
 	rl_on_new_line();
 	rl_redisplay();
@@ -15,7 +19,7 @@ void	init_signals(void)
 {
 	struct sigaction	sa_int;
 
-	g_sig = 0;
+	//g_sig = 0;
 	signal(SIGQUIT, SIG_IGN);
 	ft_memset(&sa_int, 0, sizeof(sa_int));
 	sa_int.sa_handler = sig_handler;

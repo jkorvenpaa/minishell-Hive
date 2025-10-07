@@ -35,6 +35,7 @@ int	handle_heredoc(t_shell *shell, t_command *command)
 	int		fd;
 
 	heredoc_signals();
+	g_sig = 0;
 	while (command)
 	{
 		if (command->heredoc)
@@ -43,14 +44,14 @@ int	handle_heredoc(t_shell *shell, t_command *command)
 			if (!file)
 			{
 				perror ("hd_file failed");
-				init_signals();
+				//init_signals();
 				return (1);
 			}
 			fd = open(file, O_WRONLY | O_APPEND | O_CREAT | O_TRUNC, 0644);
 			if (fd < 0)
 			{
 				perror("open hd_file failed");
-				init_signals();
+				//init_signals();
 				return (1);
 			}
 			store_to_file(shell, command, fd);
@@ -59,12 +60,12 @@ int	handle_heredoc(t_shell *shell, t_command *command)
 			if (g_sig == SIGINT)
 			{
 				unlink_infile(command);
-				g_sig = 0;
+				//g_sig = 0;
 				return (1);
 			}
 		}
 		command = command->next;
 	}
-	init_signals();
+	//init_signals();
 	return (0);
 }

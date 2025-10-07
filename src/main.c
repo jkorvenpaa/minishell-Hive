@@ -3,19 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/07 10:20:37 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/07 12:06:53 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 /*	NEEDS TO BE CHECKED/FIXED:
 
-
-directory stuck
-
-signals \n
 
 THINGS TO REMEMBER TO SAY TO JENNI ON MONDAY
 
@@ -106,9 +102,10 @@ static void	shell_loop(t_shell *shell)
 	{
 		data = init_parser_context_from_shell(shell);
 		command_list = run_parser(input, &data, shell);
+		add_history(input);
 		if (command_list && handle_heredoc(shell, command_list) == 0)
 		{
-			add_history(input);
+			g_sig = 0;
 			execution(shell, command_list);
 		}
 		arena_reset(shell->arena);
