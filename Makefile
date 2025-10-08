@@ -6,13 +6,13 @@
 #    By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/06 09:24:38 by nmascaro          #+#    #+#              #
-#    Updated: 2025/09/30 14:52:49 by nmascaro         ###   ########.fr        #
+#    Updated: 2025/10/08 11:15:46 by nmascaro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = minishell
 CC = cc
-CFLAGS = -Wall -Wextra -Werror -g #REMOVE -G FLAG!!!!!!!!!!!!!
+CFLAGS = -Wall -Wextra -Werror
 SRCS = src/main.c src/parser/token_builder.c src/parser/token_builder_utils.c src/parser/token_logic.c \
 	src/parser/token_list_utils.c src/parser/parser.c src/parser/grouping_commands.c \
 	src/parser/grouping_commands_utils.c src/parser/input_validation.c \
@@ -31,7 +31,7 @@ OBJS = $(SRCS:.c=.o)
 LIBFT_DIR = libft
 LIBFT = $(LIBFT_DIR)/libft.a
 INCLUDES = -I$(LIBFT_DIR) -Iinclude
-READLINE = -lreadline #library where the readline() functions are
+READLINE = -lreadline
 
 all: $(NAME)
 
