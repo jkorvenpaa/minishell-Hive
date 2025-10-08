@@ -9,6 +9,7 @@ void	store_to_file(t_shell *shell, t_command *cmd, int fd)
 	char	*line;
 	char	*exp;
 
+	heredoc_signals();
 	if (cmd->heredoc_quoted == 1)
 		cmd->heredoc = remove_quotes(shell->arena, cmd->heredoc);
 	while (1)
@@ -69,8 +70,7 @@ int	handle_heredoc(t_shell *shell, t_command *command)
 {
 	char	*file;
 
-	heredoc_signals();
-	g_sig = 0;
+	//heredoc_signals();
 	while (command)
 	{
 		if (command->heredoc)
@@ -82,11 +82,14 @@ int	handle_heredoc(t_shell *shell, t_command *command)
 				return (1);
 			if (g_sig == SIGINT)
 			{
+				ft_putstr_fd("\n", STDOUT_FILENO);
 				unlink_infile(command);
+				hd_exit_signals();
 				return (1);
 			}
 		}
 		command = command->next;
 	}
+	//hd_exit_signals();
 	return (0);
 }

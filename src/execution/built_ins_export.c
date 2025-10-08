@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+// update env value
 t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd)
 {
 	char	*equal;
@@ -8,13 +9,14 @@ t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd)
 
 	i = ft_strlen(next_cmd);
 	equal = ft_strchr(next_cmd, '=');
-	e = equal - next_cmd; //position of = sign
+	e = equal - next_cmd;
 	new->value = a_substr(shell->env_arena, next_cmd, e + 1, i - e);
 	if (!new->value)
 		return (NULL);
 	return (new);
 }
 
+// create new env node
 t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd)
 {
 	t_env	*temp;
@@ -25,7 +27,7 @@ t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd)
 	temp = shell->env_list;
 	i = ft_strlen(next_cmd);
 	equal = ft_strchr(next_cmd, '=');
-	e = equal - next_cmd; //position of = sign
+	e = equal - next_cmd;
 	new = arena_alloc(shell->env_arena, sizeof(t_env));
 	if (!new)
 		return (NULL);
@@ -42,6 +44,7 @@ t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd)
 	return (new);
 }
 
+// export contains only alphanumeric or _
 static int	valid_export_name(char *next_cmd)
 {
 	int	i;
@@ -59,6 +62,7 @@ static int	valid_export_name(char *next_cmd)
 	return (0);
 }
 
+//checks update an env node or create a new node
 int	export_values(t_command *cmd, t_shell *shell)
 {
 	t_env	*new;
@@ -71,13 +75,13 @@ int	export_values(t_command *cmd, t_shell *shell)
 	{
 		len = ft_strchr(cmd->argv[i], '=') - cmd->argv[i];
 		name = a_substr(shell->arena, cmd->argv[i], 0, len);
-		if (valid_export_name(cmd->argv[i]) == 1) // invalid input for export
+		if (valid_export_name(cmd->argv[i]) == 1)
 			return (1);
-		new = get_env_node(shell->env_list, name); // if already in env list
+		new = get_env_node(shell->env_list, name);
 		if (new == NULL)
-			new = new_env(new, shell, cmd->argv[i]); //if not make a new
+			new = new_env(new, shell, cmd->argv[i]);
 		else
-			new = update_env(new, shell, cmd->argv[i]); // if yes, update value
+			new = update_env(new, shell, cmd->argv[i]);
 		if (!new)
 			return (1);
 		i++;
@@ -85,11 +89,12 @@ int	export_values(t_command *cmd, t_shell *shell)
 	return (0);
 }
 
+// prints the env_list sorted if no argv[1], else exports the value
 int	export(t_command *cmd, t_shell *shell)
 {
 	t_env	*temp;
 
-	if (!cmd->argv[1]) // just print the list
+	if (!cmd->argv[1] && shell->env_list)
 	{
 		sort_env(shell);
 		temp = shell->env_list;

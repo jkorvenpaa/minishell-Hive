@@ -47,7 +47,8 @@ void	command_exit_status(t_shell *shell, pid_t pid)
 	int	child_status;
 	int	sig;
 
-	child_status = 0;
+	sig = 0;
+	//child_status = 0;
 	waitpid(pid, &child_status, 0);
 	if (WIFEXITED(child_status))
 		shell->exit_status = WEXITSTATUS(child_status);
@@ -55,7 +56,7 @@ void	command_exit_status(t_shell *shell, pid_t pid)
 	{
 		sig = WTERMSIG(child_status);
 		shell->exit_status = sig + 128;
-		g_sig = 1;
+		//g_sig = 1;
 	}
 }
 
@@ -66,7 +67,6 @@ void	wait_kids(t_shell *shell, int *pids, int count, t_command *command)
 	i = 0;
 	while (i < count)
 	{
-		ignore_signals();
 		command_exit_status(shell, pids[i]);
 		i++;
 	}

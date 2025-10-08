@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/07 14:07:11 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:28:58 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	init_signals(void);
 void	heredoc_signals(void);
 void	child_signals(void);
 void	ignore_signals(void);
+void	hd_exit_signals(void);
 
 // Execution_utils
 void	command_exit_status(t_shell *shell, pid_t pid);

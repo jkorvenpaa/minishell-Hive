@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/07 14:08:42 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:43:32 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	execute_child_command(t_command *command, t_shell *shell)
 void	child_pipe_handler(t_command *command, int pipe_fd, int fd[2])
 {
 	child_signals();
+	//ft_putstr_fd("child\n", 1);
 	if (pipe_fd != -1)
 	{
 		if (dup2(pipe_fd, STDIN_FILENO) == -1)
@@ -97,6 +98,7 @@ void	execution(t_shell *shell, t_command	*command)
 	pids = arena_alloc(shell->arena, sizeof(int) * count);
 	i = 0;
 	cmd_head = command;
+	ignore_signals();
 	while (command)
 	{
 		if (command->argv)
@@ -112,5 +114,6 @@ void	execution(t_shell *shell, t_command	*command)
 		}
 		command = command->next;
 	}
+	init_signals();
 	wait_kids(shell, pids, i, cmd_head);
 }
