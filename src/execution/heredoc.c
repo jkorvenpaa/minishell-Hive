@@ -90,6 +90,6 @@ int	handle_heredoc(t_shell *shell, t_command *command)
 		}
 		command = command->next;
 	}
-	//hd_exit_signals();
+	hd_exit_signals();
 	return (0);
 }
