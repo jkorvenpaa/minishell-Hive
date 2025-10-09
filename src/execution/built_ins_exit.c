@@ -30,7 +30,7 @@ int	exit_arguments(t_command *command)
 	}
 	else
 		printf("exit: %s: numeric argument required\n", command->argv[1]);
-	return(0);
+	return (0);
 }
 
 void	exit_builtin(t_shell *shell, t_command *command)

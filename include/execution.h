@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/08 17:28:58 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:41:21 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	ignore_signals(void);
 void	hd_exit_signals(void);
 
 // Execution_utils
-void	command_exit_status(t_shell *shell, pid_t pid);
+void	command_exit_status(t_shell *shell, pid_t last_pid);
 void	execve_error(char *command_name);
 void	command_error(t_shell *shell, char *command_name);
 int		cmd_count(t_command *command);

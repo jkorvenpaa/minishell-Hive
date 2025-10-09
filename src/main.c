@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/08 18:11:49 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/09 15:04:58 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,6 @@ static void	shell_loop(t_shell *shell)
 	t_parser_context	data;
 	t_command			*command_list;
 
-	//if(g_sig == 0)
-		//init_signals();
-	//ft_putstr_fd("init_handler\n", 1);
 	dup2(shell->fd_in, STDIN_FILENO);
 	input = readline("minishell$ ");
 	if (!input)
@@ -107,7 +104,9 @@ static void	shell_loop(t_shell *shell)
 		add_history(input);
 		if (command_list && handle_heredoc(shell, command_list) == 0)
 		{
+			ignore_signals();
 			execution(shell, command_list);
+			init_signals();
 		}
 		arena_reset(shell->arena);
 	}

@@ -1,5 +1,6 @@
 #include "minishell.h"
 
+// creates the last outfile if not created + redirects stdout to that file
 static int	handle_last_outfile(char *outfile, int append)
 {
 	int	fd;
@@ -29,6 +30,7 @@ static int	handle_last_outfile(char *outfile, int append)
 	return (0);
 }
 
+// creates outfiles if not created
 static int	handle_outfile(char *outfile, int append)
 {
 	int	fd;
@@ -56,6 +58,7 @@ static int	handle_outfile(char *outfile, int append)
 	return (0);
 }
 
+// redirects stdin to infile
 static int	handle_infile(t_command *command)
 {
 	int	fd;
@@ -71,6 +74,7 @@ static int	handle_infile(t_command *command)
 	return (0);
 }
 
+//checks if command has infiles or outfiles
 int	prepare_files(t_command	*command)
 {
 	int	res;

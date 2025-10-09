@@ -5,7 +5,6 @@ volatile sig_atomic_t	g_sig;
 void	sig_handler(int sig)
 {
 	(void) sig;
-
 	ft_putstr_fd("\n", STDOUT_FILENO);
 	rl_replace_line("", 1);
 	rl_on_new_line();
