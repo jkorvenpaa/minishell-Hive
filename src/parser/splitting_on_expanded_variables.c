@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:35:29 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/03 11:40:22 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:46:33 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static t_token	*new_word_token(t_mem_arena *arena, char *s, int start, int len)
 /**
  * Splits the value of a token into multiple tokens, one for each word.
  * Returns the head of the new list of word tokens, or NULL if allocation fails.
+ * Sets a flag to detect if splitting happened, for later checking ambiguous
+ * redirect.
  */
 static t_token	*split_token_words(t_mem_arena *arena, t_token *token)
 {
@@ -42,16 +44,21 @@ static t_token	*split_token_words(t_mem_arena *arena, t_token *token)
 	int		end;
 	t_token	*head;
 	t_token	*new_token;
+	int		first;
 
 	start = 0;
 	head = NULL;
+	first = 1;
 	while (get_next_word(token->value, &start, &end))
 	{
 		new_token = new_word_token(arena, token->value, start, end - start);
 		if (!new_token)
 			return (head);
+		if (first)
+			new_token->was_split = 1;
 		append_token_to_list(&head, new_token);
 		start = end;
+		first = 0;
 	}
 	return (head);
 }
@@ -60,7 +67,7 @@ static t_token	*split_token_words(t_mem_arena *arena, t_token *token)
  * Replaces a single token in a linked list with a list of tokens.
  * Inserts the new list of tokens (split_tokens) in place of the original
  * current token in the linked list. It also updates the previous token,
- * and connects the end of the new list to the remainder of the original one. hol
+ * and connects the end of the new list to the remainder of the original one.
  */
 static void	new_lst(t_token **head, t_token **prv, t_token *cr, t_token *spl_tk)
 {

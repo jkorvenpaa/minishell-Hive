@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 09:39:28 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/01 14:17:35 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:23:14 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ t_token	*create_token_node(t_mem_arena *arena, char *word, t_token_type type)
 		return (NULL);
 	node->type = type;
 	node->was_quoted = 0;
+	node->was_split = 0;
 	node->next = NULL;
 	return (node);
 }

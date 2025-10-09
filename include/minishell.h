@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/07 09:28:40 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/09 10:22:39 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,7 @@ typedef struct s_token
 	char			*value;
 	t_token_type	type;
 	int				was_quoted;
+	int				was_split;
 	struct s_token	*next;
 }	t_token;
 
