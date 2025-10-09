@@ -6,7 +6,7 @@
 #    By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/06 09:24:38 by nmascaro          #+#    #+#              #
-#    Updated: 2025/10/08 11:15:46 by nmascaro         ###   ########.fr        #
+#    Updated: 2025/10/09 13:15:54 by nmascaro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,8 @@ SRCS = src/main.c src/parser/token_builder.c src/parser/token_builder_utils.c sr
 	src/parser/arena_utils.c src/parser/arena.c \
 	src/execution/execution.c \
 	src/execution/command_validation.c src/execution/built_ins.c \
-	src/execution/built_ins_export.c src/execution/built_ins_env.c \
+	src/execution/built_ins_exit.c src/execution/built_ins_export.c \
+	src/execution/built_ins_env.c \
 	src/execution/files.c src/execution/execution_utils.c \
 	src/parser/arena_split.c src/execution/signals.c \
 	src/execution/heredoc.c src/execution/heredoc_utils.c

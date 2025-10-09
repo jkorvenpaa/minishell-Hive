@@ -1,7 +1,8 @@
 #include "minishell.h"
 
-void	command_error(char *command_name)
+void	command_error(t_shell *shell, char *command_name)
 {
+	close(shell->fd_in);
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(command_name, 2);
 	ft_putendl_fd(": command not found", 2);
@@ -46,26 +47,29 @@ void	command_exit_status(t_shell *shell, pid_t pid)
 	int	child_status;
 	int	sig;
 
-	waitpid(pid, &child_status, 0);
+	(void) pid;
+	sig = 0;
+	
+	waitpid(-1, &child_status, 0);
 	if (WIFEXITED(child_status))
 		shell->exit_status = WEXITSTATUS(child_status);
 	else if (WIFSIGNALED(child_status))
 	{
 		sig = WTERMSIG(child_status);
 		shell->exit_status = sig + 128;
-		g_sig = 1;
+		ft_putstr_fd("\n", STDOUT_FILENO);
 	}
 }
 
-void	wait_kids(t_shell *shell, int *pids, int count)
-{
+void	wait_kids(t_shell *shell, int *pids, int count, t_command *command)
+{	
 	int	i;
 
 	i = 0;
 	while (i < count)
 	{
-		ignore_signals();
 		command_exit_status(shell, pids[i]);
 		i++;
 	}
+	unlink_infile(command);
 }

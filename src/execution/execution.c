@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/06 12:42:01 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/09 13:11:41 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,10 +23,7 @@ void	execute_child_command(t_command *command, t_shell *shell)
 		exit(EXIT_FAILURE);
 	}
 	if (!command->argv || !command->argv[0] || command->argv[0][0] == '\0')
-	{
-		close(shell->fd_in);
-		command_error(command->argv[0]);
-	}
+		command_error(shell, command->argv[0]);
 	if (is_built_in(command) == true)
 	{
 		execute_built_in(command, shell);
@@ -35,10 +32,7 @@ void	execute_child_command(t_command *command, t_shell *shell)
 	}
 	path = find_command_path(command, shell);
 	if (!path)
-	{
-		close(shell->fd_in);
-		command_error(command->argv[0]);
-	}
+		command_error(shell, command->argv[0]);
 	close(shell->fd_in);
 	env_array = env_to_array(shell);
 	execve(path, command->argv, env_array);
@@ -47,6 +41,8 @@ void	execute_child_command(t_command *command, t_shell *shell)
 
 void	child_pipe_handler(t_command *command, int pipe_fd, int fd[2])
 {
+	child_signals();
+	//ft_putstr_fd("child\n", 1);
 	if (pipe_fd != -1)
 	{
 		if (dup2(pipe_fd, STDIN_FILENO) == -1)
@@ -73,7 +69,6 @@ int	command_loop(t_command *command, t_shell *shell)
 	pid = fork();
 	if (pid == 0)
 	{
-		child_signals();
 		child_pipe_handler(command, pipe_fd, fd);
 		execute_child_command(command, shell);
 	}
@@ -103,6 +98,7 @@ void	execution(t_shell *shell, t_command	*command)
 	pids = arena_alloc(shell->arena, sizeof(int) * count);
 	i = 0;
 	cmd_head = command;
+	ignore_signals();
 	while (command)
 	{
 		if (command->argv)
@@ -118,6 +114,6 @@ void	execution(t_shell *shell, t_command	*command)
 		}
 		command = command->next;
 	}
-	wait_kids(shell, pids, i);
-	unlink_infile(cmd_head);
+	wait_kids(shell, pids, i, cmd_head);
+	init_signals();
 }

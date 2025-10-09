@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   command_validation.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/15 14:43:04 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/07 09:40:17 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/08 12:26:35 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,10 +82,10 @@ char	*find_command_path(t_command *command, t_shell *shell)
 		if (!final_path)
 			return (NULL);
 		if (access(final_path, X_OK) == 0)
-			return (final_path);//found the command path
+			return (final_path);
 		i++;
 	}
-	return (NULL);//path not found
+	return (NULL);
 }
 
 int	env_len(t_env *env_list)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/07 09:39:29 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/08 17:28:58 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,13 +30,14 @@ void	init_signals(void);
 void	heredoc_signals(void);
 void	child_signals(void);
 void	ignore_signals(void);
+void	hd_exit_signals(void);
 
 // Execution_utils
 void	command_exit_status(t_shell *shell, pid_t pid);
 void	execve_error(char *command_name);
-void	command_error(char *command_name);
+void	command_error(t_shell *shell, char *command_name);
 int		cmd_count(t_command *command);
-void	wait_kids(t_shell *shell, int *pids, int count);
+void	wait_kids(t_shell *shell, int *pids, int count, t_command *command);
 
 bool	is_built_in(t_command *command);
 void	execute_built_in(t_command *command, t_shell *shell);

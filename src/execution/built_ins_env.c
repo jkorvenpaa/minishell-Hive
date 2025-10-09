@@ -1,12 +1,12 @@
 #include "minishell.h"
 
+// prints env list
 int	env_builtin(t_shell *shell, char *next_cmd)
 {
 	t_env	*temp;
 
 	if (next_cmd)
 		return (0);
-	//sort_env(shell);
 	temp = shell->env_list;
 	while (temp)
 	{
@@ -16,17 +16,20 @@ int	env_builtin(t_shell *shell, char *next_cmd)
 	return (0);
 }
 
+// second loop of bubble sort
 static int	sort_loop(t_shell *shell, int swap, t_env *node, t_env *prev)
 {
 	t_env	*temp;
+	int		len;
 
 	while (node->next)
 	{
-		if (ft_strncmp(node->name, node->next->name, ft_strlen(node->name)) > 0)
+		len = ft_strlen((node->name + 1));
+		if (ft_strncmp(node->name, node->next->name, len) > 0)
 		{
-			temp = node->next;// new first
-			node->next = temp->next;//move the firstpoint to point to seconds next
-			temp->next = node; //move the secondpoint to point to first
+			temp = node->next;
+			node->next = temp->next;
+			temp->next = node;
 			if (prev)
 				prev->next = temp;
 			else
@@ -43,6 +46,7 @@ static int	sort_loop(t_shell *shell, int swap, t_env *node, t_env *prev)
 	return (swap);
 }
 
+// first loop of bubble sort for alphabetical env
 void	sort_env(t_shell *shell)
 {
 	int		swap;

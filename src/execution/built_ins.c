@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 10:50:23 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/07 10:21:36 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/08 18:08:22 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,10 +101,10 @@ int	pwd(t_shell *shell)
 			printf("%s\n", shell->working_dir);
 			return (0);
 		}
-		return (1); //check status
+		return (1);
 	}
 	printf("%s\n", cmd);
-	free(cmd); // getcwd allocates memory (same as readline)
+	free(cmd);
 	return (0);
 }
 
@@ -116,6 +116,8 @@ int	unset(char *next_cmd, t_shell *shell)
 	node = get_env_node(shell->env_list, next_cmd);
 	if (!node)
 		return (0);
+	if (ft_strncmp(node->name, "PWD", 4) == 0)
+		return (1);
 	temp = shell->env_list;
 	if (temp == node)
 	{
@@ -128,51 +130,4 @@ int	unset(char *next_cmd, t_shell *shell)
 	temp->next = node->next;
 	node = ft_memset(node, 0, sizeof(t_env));
 	return (0);
-}
-
-int	exit_isdigit(char *num)
-{
-	int	i;
-
-	i = 0;
-	while (num[i] == '-' || num[i] == '+')
-		i++;
-	while (num[i])
-	{
-		if (ft_isdigit(num[i]) == 0)
-			return (0);
-		i++;
-	}
-	return (1);
-}
-
-void	exit_builtin(t_shell *shell, t_command *command)
-{
-	int	e;
-
-	e = 0;
-	if (command->argv[1])
-	{
-		if (exit_isdigit(command->argv[1]) == 1)
-		{
-			if (!command->argv[2])
-				e = ft_atoi(command->argv[1]);
-			else
-			{
-				printf("exit: too many arguments\n");
-				return ;
-			}
-		}
-		else
-			printf("exit: %s: numeric argument required\n", command->argv[1]);
-	}
-	if (e == 0)
-		e = shell->exit_status;
-	printf("exit\n");
-	close (shell->fd_in);
-	free_arena(shell->env_arena);
-	if (shell->arena)
-		free_arena(shell->arena);
-	free(shell);
-	exit(e);
 }
