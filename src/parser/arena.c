@@ -6,13 +6,11 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/01 15:37:05 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/03 16:25:27 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:15:00 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-//EXIT PROGRAM GRACEFULLY IF NULL;
 
 //init area before using, returns arena
 t_mem_arena	*arena_init(void)

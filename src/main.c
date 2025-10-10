@@ -3,38 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/09 15:04:58 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:09:06 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-/*	NEEDS TO BE CHECKED/FIXED:
-
-
-THINGS TO REMEMBER TO SAY TO JENNI ON MONDAY
-
-Norminette is basically almost done, just some functions with more than 25 and comments in execution that i didn't
-want to touch of course. And also need to add headers in some files. And also comment in arena.h about the 
-#define (didn't touch it because not sure)
-
-Fixed:
--I changed the getenv function in the find command path to be the getenv_node. Unset wasn't working
--The heredoc temporary files weren't being deleted when normal success, i added in execution.c to track the beginning of the list
--Opening ./minishell inside minishell was causing weird behaviour -> i think it works now??? i just changed
-the allocation of env_to_array, we weren't allocating enough space for pointers
--Creating directory inside directory and then removing the first one, and doing pwd doesnt give anything
-and in bash it gives the full path (even though it doesnt exist) -> FIXED! i tried to fix it, couldnt solve it.
-Talked with Hieu and maybe adding char *working_directory in shell struct would work?? initialize it to null and
-use it then in pwd. 
-
-To have in mind:
--We have some still reachable memory when running some commands coming from init_shell and arena_init, unsure what
-to do with those (is still reachable memory okay to have?)
--Peter found a thing that doing  cat << lim << lim1 and then ctrl+d should first exit from the heredoc twice and
-then on the third exit minishell. Now ours only exits once and then exits minishell on the second ctrl+d
-*/
 
 #include "minishell.h"
 

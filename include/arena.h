@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 17:29:31 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/03 11:37:59 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:09:50 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 # include "minishell.h"
 
-# define A_SIZE (32 * 1024) // 32 KB (i think norminette doesnt want an operation it wants the value: 32768)
+# define A_SIZE 32768
 
 typedef struct s_mem_arena
 {

@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/10 11:00:10 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:07:03 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef struct s_env		t_env;
 
 //execution
 void	execution(t_shell *shell, t_command	*command_list);
-void    clean_child(t_shell *shell);
+void	clean_child(t_shell *shell);
 
 //signals
 void	init_signals(void);
