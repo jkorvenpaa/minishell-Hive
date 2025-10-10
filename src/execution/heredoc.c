@@ -1,15 +1,11 @@
-//create file to store stdin + validate file name-function
-//redirect input, store line by line to file until exact match to delimeter,
-// display prompt > in read loop;
-
 #include "minishell.h"
 
-void	store_to_file(t_shell *shell, t_command *cmd, int fd)
+//readline loop to store input line by line until delimeter is matched
+static void	store_to_file(t_shell *shell, t_command *cmd, int fd)
 {
 	char	*line;
 	char	*exp;
 
-	heredoc_signals();
 	if (cmd->heredoc_quoted == 1)
 		cmd->heredoc = remove_quotes(shell->arena, cmd->heredoc);
 	while (1)
@@ -28,9 +24,11 @@ void	store_to_file(t_shell *shell, t_command *cmd, int fd)
 		ft_putstr_fd("\n", fd);
 	}
 }
-int	open_file(t_shell *shell, t_command *command, char *file)
+
+//opens hd_file and sends to readline loop
+static int	open_file(t_shell *shell, t_command *command, char *file)
 {
-	int fd;
+	int	fd;
 
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
@@ -43,8 +41,9 @@ int	open_file(t_shell *shell, t_command *command, char *file)
 	close(fd);
 	return (0);
 }
-//finds an unique filename, until 16 heredoc files.
-char	*file_name(t_shell *shell)
+
+//finds and returns an unique filename, until 16 heredoc files.
+static char	*file_name(t_shell *shell)
 {
 	char	*file_name;
 	int		count;
@@ -65,12 +64,13 @@ char	*file_name(t_shell *shell)
 	return (NULL);
 }
 
-//Checks if command has a heredoc, creates a file to command->infile if so
+//main heredoc loop:
+//if commands include heredocs, creates a tempfile to store input
 int	handle_heredoc(t_shell *shell, t_command *command)
 {
 	char	*file;
 
-	//heredoc_signals();
+	heredoc_signals();
 	while (command)
 	{
 		if (command->heredoc)
@@ -78,7 +78,7 @@ int	handle_heredoc(t_shell *shell, t_command *command)
 			file = file_name(shell);
 			if (!file)
 				return (1);
-			if(open_file(shell, command, file) != 0)
+			if (open_file(shell, command, file) != 0)
 				return (1);
 			if (g_sig == SIGINT)
 			{

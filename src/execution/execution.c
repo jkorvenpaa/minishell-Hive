@@ -6,13 +6,25 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/09 15:59:29 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:00:26 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	execute_child_command(t_command *command, t_shell *shell)
+void	clean_child(t_shell *shell)
+{
+	close (shell->fd_in);
+	free_arena(shell->env_arena);
+	if (shell->arena)
+		free_arena(shell->arena);
+	free(shell);
+}
+
+// redirects input/output if infile and outfiles are present
+// if built_in, executes built_ins and exits child
+// execve for external commands
+static void	execute_child_command(t_command *command, t_shell *shell)
 {
 	char	*path;
 	char	**env_array;
@@ -20,6 +32,7 @@ void	execute_child_command(t_command *command, t_shell *shell)
 	if (prepare_files(command) != 0)
 	{
 		close(shell->fd_in);
+		clean_child(shell);
 		exit(EXIT_FAILURE);
 	}
 	if (!command->argv || !command->argv[0] || command->argv[0][0] == '\0')
@@ -27,7 +40,7 @@ void	execute_child_command(t_command *command, t_shell *shell)
 	if (is_built_in(command) == true)
 	{
 		execute_built_in(command, shell);
-		close(shell->fd_in);
+		clean_child(shell);
 		exit(EXIT_SUCCESS);
 	}
 	path = find_command_path(command, shell);
@@ -39,10 +52,12 @@ void	execute_child_command(t_command *command, t_shell *shell)
 	execve_error(command->argv[0]);
 }
 
-void	child_pipe_handler(t_command *command, int pipe_fd, int fd[2])
+// sets child signals 
+// redirects inputs if previous pipe
+// redirects output if next command exists 
+static void	child_pipe_handler(t_command *command, int pipe_fd, int fd[2])
 {
 	child_signals();
-	//ft_putstr_fd("child\n", 1);
 	if (pipe_fd != -1)
 	{
 		if (dup2(pipe_fd, STDIN_FILENO) == -1)
@@ -58,7 +73,12 @@ void	child_pipe_handler(t_command *command, int pipe_fd, int fd[2])
 	}
 }
 
-int	command_loop(t_command *command, t_shell *shell)
+// pipes if next command
+// forks and sends to child functions
+// handles parent's fd's
+// pipe_fd stores the previous fd
+// if pipe_fd = -1, there's no previous pipe
+static int	command_loop(t_command *command, t_shell *shell)
 {
 	static int		pipe_fd = -1;
 	pid_t			pid;
@@ -87,18 +107,21 @@ int	command_loop(t_command *command, t_shell *shell)
 	return (pid);
 }
 
+// main execution loops through commands:
+// if command is single built_in without redirections, executes built_in
+// else command_loop forks and returns childs pid
+// pids are stored into an array and used in wait_kids
 void	execution(t_shell *shell, t_command	*command)
 {
 	int			*pids;
 	int			i;
-	int			count;
 	t_command	*cmd_head;
 
-	count = cmd_count(command);
-	pids = arena_alloc(shell->arena, sizeof(int) * count);
+	pids = arena_alloc(shell->arena, sizeof(int) * (cmd_count(command)));
+	if (!pids)
+		return ;
 	i = 0;
 	cmd_head = command;
-	ignore_signals();
 	while (command)
 	{
 		if (command->argv)
@@ -115,5 +138,4 @@ void	execution(t_shell *shell, t_command	*command)
 		command = command->next;
 	}
 	wait_kids(shell, pids, i, cmd_head);
-	init_signals();
 }

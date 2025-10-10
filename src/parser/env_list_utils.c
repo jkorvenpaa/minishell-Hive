@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:34:00 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/09 13:16:39 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:00:49 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,20 @@ static int	fill_env_var(t_mem_arena *env_a, t_env *new_env, const char *env_s)
 	return (1);
 }
 
+// create head node if env is empty
+static t_env	*create_head(t_mem_arena *env_arena, t_env *head)
+{
+	char	*str;
+	t_env	*new_env;
+
+	new_env = arena_alloc(env_arena, sizeof(t_env));
+	str = getcwd(NULL, 0);
+	str = ar_strjoin(env_arena, "PWD=", str);
+	fill_env_var(env_arena, new_env, str);
+	append_env_to_list(&head, new_env);
+	return (head);
+}
+
 /**
  * Builds a linked list of environment variables from envp.
  * Iterates through envp, creates a t_env node for each string
@@ -85,13 +99,7 @@ t_env	*init_env_list(t_mem_arena *env_arena, const char **envp)
 		i++;
 	}
 	if (!head)
-	{
-		new_env = arena_alloc(env_arena, sizeof(t_env));
-		fill_env_var(env_arena, new_env, "PWD=/home/jkorvenp/Documents/minishell");
-		append_env_to_list(&head, new_env);
-	}
-
-
+		head = create_head(env_arena, head);
 	return (head);
 }
 

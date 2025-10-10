@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-int	exit_isdigit(char *num)
+static int	exit_isdigit(char *num)
 {
 	int	i;
 
@@ -16,7 +16,7 @@ int	exit_isdigit(char *num)
 	return (1);
 }
 
-int	exit_arguments(t_command *command)
+static int	exit_arguments(t_command *command)
 {
 	if (exit_isdigit(command->argv[1]) == 1)
 	{
@@ -30,7 +30,7 @@ int	exit_arguments(t_command *command)
 	}
 	else
 		printf("exit: %s: numeric argument required\n", command->argv[1]);
-	return(0);
+	return (0);
 }
 
 void	exit_builtin(t_shell *shell, t_command *command)

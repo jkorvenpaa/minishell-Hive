@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-//remove heredoc files after command is executed
+//remove heredoc tempfiles after command is executed or SIGINT
 void	unlink_infile(t_command *command)
 {
 	while (command)
