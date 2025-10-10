@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/09/15 13:34:00 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/10 11:00:49 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/10 11:03:17 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,16 @@ static int	fill_env_var(t_mem_arena *env_a, t_env *new_env, const char *env_s)
 // create head node if env is empty
 static t_env	*create_head(t_mem_arena *env_arena, t_env *head)
 {
+	char	*original_str;
 	char	*str;
 	t_env	*new_env;
 
 	new_env = arena_alloc(env_arena, sizeof(t_env));
-	str = getcwd(NULL, 0);
-	str = ar_strjoin(env_arena, "PWD=", str);
+	original_str = getcwd(NULL, 0);
+	str = ar_strjoin(env_arena, "PWD=", original_str);
 	fill_env_var(env_arena, new_env, str);
 	append_env_to_list(&head, new_env);
+	free(original_str);
 	return (head);
 }
 
