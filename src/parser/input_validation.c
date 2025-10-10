@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   input_validation.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:43:28 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/09/28 15:04:33 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/10 09:42:40 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	handle_unclosed_quotes(t_token *tokens)
  * - Pipes aren't followed by another pipe or a redirection operator.
  * Returns 1 if pipe usage is valid, 0 otherwise.
  */
-static int	validate_pipes(t_token *tokens)
+static int	validate_pipes(t_token *tokens, t_shell *shell)
 {
 	t_token	*curr;
 
@@ -60,6 +60,7 @@ static int	validate_pipes(t_token *tokens)
 	if (curr && curr->type == PIPE)
 	{
 		printf("syntax error near unexpected token `|'\n");
+		shell->exit_status = 2;
 		return (0);
 	}
 	while (curr)
@@ -71,6 +72,7 @@ static int	validate_pipes(t_token *tokens)
 				|| curr->next->type == APPEND || curr->next->type == HEREDOC)
 			{
 				printf("syntax error near unexpected token `|'\n");
+				shell->exit_status = 2;
 				return (0);
 			}
 		}
@@ -85,7 +87,7 @@ static int	validate_pipes(t_token *tokens)
  * token (filename).
  * Returns 1 if all redirections are valid, 0 otherwise.
  */
-static int	validate_redirections(t_token *tokens)
+static int	validate_redirections(t_token *tokens, t_shell *shell)
 {
 	t_token	*current;
 
@@ -98,6 +100,7 @@ static int	validate_redirections(t_token *tokens)
 			if (!current->next || current->next->type != WORD)
 			{
 				printf("syntax error: expected filename after redirection\n");
+				shell->exit_status = 2;
 				return (0);
 			}
 			current = current->next;
@@ -148,9 +151,9 @@ int	validate_syntax(t_token *tokens, t_shell *shell)
 		return (1);
 	if (!handle_unclosed_quotes(tokens))
 		return (0);
-	if (!validate_pipes(tokens))
+	if (!validate_pipes(tokens, shell))
 		return (0);
-	if (!validate_redirections(tokens))
+	if (!validate_redirections(tokens, shell))
 		return (0);
 	validate_heredoc_count(tokens, shell);
 	return (1);
