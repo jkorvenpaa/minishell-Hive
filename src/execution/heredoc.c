@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 //readline loop to store input line by line until delimeter is matched
-void	store_to_file(t_shell *shell, t_command *cmd, int fd)
+static void	store_to_file(t_shell *shell, t_command *cmd, int fd)
 {
 	char	*line;
 	char	*exp;
@@ -26,7 +26,7 @@ void	store_to_file(t_shell *shell, t_command *cmd, int fd)
 }
 
 //opens hd_file and sends to readline loop
-int	open_file(t_shell *shell, t_command *command, char *file)
+static int	open_file(t_shell *shell, t_command *command, char *file)
 {
 	int	fd;
 
@@ -43,7 +43,7 @@ int	open_file(t_shell *shell, t_command *command, char *file)
 }
 
 //finds and returns an unique filename, until 16 heredoc files.
-char	*file_name(t_shell *shell)
+static char	*file_name(t_shell *shell)
 {
 	char	*file_name;
 	int		count;

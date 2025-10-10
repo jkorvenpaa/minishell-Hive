@@ -6,16 +6,25 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/09 17:09:52 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/10 10:45:25 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+void	clean_child(t_shell *shell)
+{
+	close (shell->fd_in);
+	free_arena(shell->env_arena);
+	if (shell->arena)
+		free_arena(shell->arena);
+	free(shell);
+}
+
 // redirects input/output if infile and outfiles are present
 // if built_in, executes built_ins and exits child
 // execve for external commands
-void	execute_child_command(t_command *command, t_shell *shell)
+static void	execute_child_command(t_command *command, t_shell *shell)
 {
 	char	*path;
 	char	**env_array;
@@ -23,6 +32,7 @@ void	execute_child_command(t_command *command, t_shell *shell)
 	if (prepare_files(command) != 0)
 	{
 		close(shell->fd_in);
+		clean_child(shell);
 		exit(EXIT_FAILURE);
 	}
 	if (!command->argv || !command->argv[0] || command->argv[0][0] == '\0')
@@ -30,7 +40,7 @@ void	execute_child_command(t_command *command, t_shell *shell)
 	if (is_built_in(command) == true)
 	{
 		execute_built_in(command, shell);
-		close(shell->fd_in);
+		clean_child(shell);
 		exit(EXIT_SUCCESS);
 	}
 	path = find_command_path(command, shell);
@@ -45,7 +55,7 @@ void	execute_child_command(t_command *command, t_shell *shell)
 // sets child signals 
 // redirects inputs if previous pipe
 // redirects output if next command exists 
-void	child_pipe_handler(t_command *command, int pipe_fd, int fd[2])
+static void	child_pipe_handler(t_command *command, int pipe_fd, int fd[2])
 {
 	child_signals();
 	if (pipe_fd != -1)
@@ -68,7 +78,7 @@ void	child_pipe_handler(t_command *command, int pipe_fd, int fd[2])
 // handles parent's fd's
 // pipe_fd stores the previous fd
 // if pipe_fd = -1, there's no previous pipe
-int	command_loop(t_command *command, t_shell *shell)
+static int	command_loop(t_command *command, t_shell *shell)
 {
 	static int		pipe_fd = -1;
 	pid_t			pid;

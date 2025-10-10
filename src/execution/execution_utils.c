@@ -3,10 +3,10 @@
 // exits child if not a valid command
 void	command_error(t_shell *shell, char *command_name)
 {
-	close(shell->fd_in);
 	ft_putstr_fd("minishell: ", 2);
 	ft_putstr_fd(command_name, 2);
 	ft_putendl_fd(": command not found", 2);
+	clean_child(shell);
 	exit(127);
 }
 

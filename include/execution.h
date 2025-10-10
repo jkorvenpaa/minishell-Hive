@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/09 15:41:21 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/10 10:44:08 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,11 @@ typedef struct s_shell		t_shell;
 typedef struct s_command	t_command;
 typedef struct s_env		t_env;
 
+//execution
 void	execution(t_shell *shell, t_command	*command_list);
+void    clean_child(t_shell *shell);
+
+//signals
 void	init_signals(void);
 void	heredoc_signals(void);
 void	child_signals(void);
@@ -52,8 +56,6 @@ int		pwd(t_shell *shell);
 void	exit_builtin(t_shell *shell, t_command *command);
 
 int		export(t_command *cmd, t_shell *shell);
-t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd);
-t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd);
 int		unset(char *next_cmd, t_shell *shell);
 int		env_builtin(t_shell *shell, char *next_cmd);
 void	sort_env(t_shell *shell);
@@ -63,7 +65,6 @@ int		prepare_files(t_command	*command);
 
 // Heredocs
 int		handle_heredoc(t_shell *shell, t_command *command);
-char	*file_name(t_shell *shell);
 void	unlink_infile(t_command *command);
 
 #endif

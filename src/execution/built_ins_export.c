@@ -1,7 +1,7 @@
 #include "minishell.h"
 
 // update env value
-t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd)
+static t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd)
 {
 	char	*equal;
 	int		i;
@@ -17,7 +17,7 @@ t_env	*update_env(t_env *new, t_shell *shell, char *next_cmd)
 }
 
 // create new env node
-t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd)
+static t_env	*new_env(t_env *new, t_shell *shell, char *next_cmd)
 {
 	t_env	*temp;
 	char	*equal;
@@ -63,7 +63,7 @@ static int	valid_export_name(char *next_cmd)
 }
 
 //checks update an env node or create a new node
-int	export_values(t_command *cmd, t_shell *shell)
+static int	export_values(t_command *cmd, t_shell *shell)
 {
 	t_env	*new;
 	int		i;

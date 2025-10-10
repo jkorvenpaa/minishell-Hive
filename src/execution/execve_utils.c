@@ -2,7 +2,7 @@
 
 // loops folders and checks if access == 0: the command is found
 // else returns NULL
-char	*path_loop(t_shell *shell, t_command *command, char **folder)
+static char	*path_loop(t_shell *shell, t_command *command, char **folder)
 {
 	char	*final_path;
 	int		i;
@@ -43,7 +43,7 @@ char	*find_command_path(t_command *command, t_shell *shell)
 	return (final_path);
 }
 
-int	env_len(t_env *env_list)
+static int	env_len(t_env *env_list)
 {
 	int		len;
 	t_env	*temp;
