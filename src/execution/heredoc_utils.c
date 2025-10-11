@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   heredoc_utils.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 11:13:55 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/10 11:14:01 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/11 16:57:32 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	hd_handler(int sig)
 {
 	(void) sig;
 	g_sig = SIGINT;
+	ft_putstr_fd("\n", STDOUT_FILENO);
 	close(STDIN_FILENO);
 }
 
@@ -41,9 +42,11 @@ void	hd_exit_handler(int sig)
 {
 	(void) sig;
 	g_sig = 0;
-	rl_replace_line("", 1);
-	rl_on_new_line();
-	rl_redisplay();
+	
+	rl_replace_line("", 0);
+	rl_done = 1;
+	//rl_on_new_line();
+	//rl_redisplay();
 }
 
 void	hd_exit_signals(void)

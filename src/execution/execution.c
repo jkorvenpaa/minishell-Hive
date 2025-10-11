@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/10 11:00:26 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/11 15:52:19 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,6 +84,7 @@ static int	command_loop(t_command *command, t_shell *shell)
 	pid_t			pid;
 	int				fd[2];
 
+	ignore_signals();
 	if (command->next)
 		pipe(fd);
 	pid = fork();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/10 11:09:06 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/11 16:46:20 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ static void	shell_loop(t_shell *shell)
 	t_parser_context	data;
 	t_command			*command_list;
 
+	init_signals();
 	dup2(shell->fd_in, STDIN_FILENO);
 	input = readline("minishell$ ");
 	if (!input)
@@ -78,9 +79,7 @@ static void	shell_loop(t_shell *shell)
 		add_history(input);
 		if (command_list && handle_heredoc(shell, command_list) == 0)
 		{
-			ignore_signals();
 			execution(shell, command_list);
-			init_signals();
 		}
 		arena_reset(shell->arena);
 	}
@@ -96,7 +95,7 @@ int	main(int argc, char **argv, char const **envp)
 	(void) argv;
 	(void) argc;
 	shell = init_shell(envp);
-	init_signals();
+	//init_signals();
 	while (1)
 		shell_loop(shell);
 	return (0);
