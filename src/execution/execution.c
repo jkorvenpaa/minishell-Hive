@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/10 11:00:26 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:19:28 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ static void	execute_child_command(t_command *command, t_shell *shell)
 // sets child signals 
 // redirects inputs if previous pipe
 // redirects output if next command exists 
-static void	child_pipe_handler(t_command *command, int pipe_fd, int fd[2])
+static void	child_pipe_handler(t_command *c, int pipe_fd, int fd[2], t_shell *s)
 {
 	child_signals();
 	if (pipe_fd != -1)
@@ -64,13 +64,15 @@ static void	child_pipe_handler(t_command *command, int pipe_fd, int fd[2])
 			perror("dupfailSTDIN");
 		close(pipe_fd);
 	}
-	if (command->next)
+	if (c->next)
 	{
 		close(fd[0]);
 		if (dup2(fd[1], STDOUT_FILENO) == -1)
 			perror("dupfailSTDOUT");
 		close(fd[1]);
 	}
+	if (!c->argv && (c->infile || c->outfile))
+		handle_redirection_only(s, c);
 }
 
 // pipes if next command
@@ -89,7 +91,7 @@ static int	command_loop(t_command *command, t_shell *shell)
 	pid = fork();
 	if (pid == 0)
 	{
-		child_pipe_handler(command, pipe_fd, fd);
+		child_pipe_handler(command, pipe_fd, fd, shell);
 		execute_child_command(command, shell);
 	}
 	else
@@ -124,7 +126,7 @@ void	execution(t_shell *shell, t_command	*command)
 	cmd_head = command;
 	while (command)
 	{
-		if (command->argv)
+		if (command->argv || command->infile || command->outfile)
 		{
 			if (is_built_in(command) == true && command->position != LAST
 				&& !command->next && !command->infile && !command->outfile)

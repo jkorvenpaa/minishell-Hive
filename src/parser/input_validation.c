@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 14:43:28 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/10 09:42:40 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/13 10:43:31 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static int	handle_unclosed_quotes(t_token *tokens)
  * Validates correct pipe usage.
  * Ensures that:
  * - Input doesn't start or end with a pipe.
- * - Pipes aren't followed by another pipe or a redirection operator.
+ * - Pipes aren't followed by another pipe.
  * Returns 1 if pipe usage is valid, 0 otherwise.
  */
 static int	validate_pipes(t_token *tokens, t_shell *shell)
@@ -67,9 +67,7 @@ static int	validate_pipes(t_token *tokens, t_shell *shell)
 	{
 		if (curr->type == PIPE)
 		{
-			if (!curr->next || curr->next->type == PIPE
-				|| curr->next->type == RED_IN || curr->next->type == RED_OUT
-				|| curr->next->type == APPEND || curr->next->type == HEREDOC)
+			if (!curr->next || curr->next->type == PIPE)
 			{
 				printf("syntax error near unexpected token `|'\n");
 				shell->exit_status = 2;

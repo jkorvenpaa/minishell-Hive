@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 11:12:47 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/10 11:12:51 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/13 14:47:01 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ bool	is_built_in(t_command *command)
 {
 	char	*cmd;
 
+	if (!command->argv)
+		return (false);
 	cmd = command->argv[0];
 	if (ft_strncmp(cmd, "echo", 4) == 0 && ft_strlen(cmd) == 4)
 		return (true);

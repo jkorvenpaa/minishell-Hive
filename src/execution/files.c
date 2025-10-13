@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 11:13:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/10 11:13:51 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:22:46 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,4 +104,16 @@ int	prepare_files(t_command	*command)
 	if (command->outfile)
 		res = handle_last_outfile(command->outfile, command->append);
 	return (res);
+}
+
+// handles the case when command has no argv
+void	handle_redirection_only(t_shell *shell, t_command *command)
+{
+	if (prepare_files(command) != 0)
+	{
+		clean_child(shell);
+		exit(EXIT_FAILURE);
+	}
+	clean_child(shell);
+	exit(EXIT_SUCCESS);
 }

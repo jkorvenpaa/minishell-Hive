@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/10 11:07:03 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/13 15:22:24 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	execve_error(char *command_name);
 void	command_error(t_shell *shell, char *command_name);
 int		cmd_count(t_command *command);
 void	wait_kids(t_shell *shell, int *pids, int count, t_command *command);
+void	handle_redirection_only(t_shell *shell, t_command *command);
 
 bool	is_built_in(t_command *command);
 void	execute_built_in(t_command *command, t_shell *shell);
