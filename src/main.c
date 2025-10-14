@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 13:10:40 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/11 16:46:20 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/14 16:41:35 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,14 @@ static void	shell_loop(t_shell *shell)
 	t_parser_context	data;
 	t_command			*command_list;
 
-	init_signals();
-	dup2(shell->fd_in, STDIN_FILENO);
 	input = readline("minishell$ ");
 	if (!input)
 		exit_shell(shell);
+	if (g_sig == SIGINT)
+	{
+		shell->exit_status = 130;
+		g_sig = 0;
+	}
 	if (ft_strlen(input) < ARG_MAX)
 	{
 		data = init_parser_context_from_shell(shell);
@@ -81,6 +84,7 @@ static void	shell_loop(t_shell *shell)
 		{
 			execution(shell, command_list);
 		}
+		unlink_infile(command_list);
 		arena_reset(shell->arena);
 	}
 	else
@@ -95,8 +99,11 @@ int	main(int argc, char **argv, char const **envp)
 	(void) argv;
 	(void) argc;
 	shell = init_shell(envp);
-	//init_signals();
 	while (1)
+	{
+		init_signals();
+		dup2(shell->fd_in, STDIN_FILENO);
 		shell_loop(shell);
+	}
 	return (0);
 }
