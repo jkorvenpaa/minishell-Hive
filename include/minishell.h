@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/06 09:25:20 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/09 10:22:39 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:14:39 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,7 @@
 # include <sys/types.h>
 # include <stdbool.h>
 
-# ifndef GLOBAL_H
-#  define GLOBAL_H
-
 extern volatile sig_atomic_t	g_sig;
-
-# endif
 
 # define ARG_MAX 4096
 
@@ -67,6 +62,7 @@ typedef struct s_command
 	int					append;
 	char				*heredoc;
 	int					heredoc_quoted;
+	int					heredoc_error;
 	t_command_pos		position;
 	struct s_command	*next;
 }	t_command;

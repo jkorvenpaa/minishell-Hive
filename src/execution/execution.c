@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/13 15:19:28 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:09:14 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ static int	command_loop(t_command *command, t_shell *shell)
 	pid_t			pid;
 	int				fd[2];
 
+	ignore_signals();
 	if (command->next)
 		pipe(fd);
 	pid = fork();

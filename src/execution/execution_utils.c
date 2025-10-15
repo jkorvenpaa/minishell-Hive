@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 11:12:54 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/10 11:13:07 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/15 10:45:12 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ void	command_exit_status(t_shell *shell, pid_t last_pid)
 	else if (WIFSIGNALED(child_status))
 	{
 		sig = WTERMSIG(child_status);
-		ft_putstr_fd("\n", STDOUT_FILENO);
 		if (wpid == last_pid)
 			shell->exit_status = sig + 128;
 	}

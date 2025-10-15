@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 11:13:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/13 15:22:46 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:09:32 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,11 @@ static int	handle_infile(t_command *command)
 	fd = open(command->infile, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("infile open failed");
+		if (command->heredoc_error == 1)
+		{
+			return (2);
+		}
+		perror("minishell");
 		return (2);
 	}
 	dup2(fd, STDIN_FILENO);
