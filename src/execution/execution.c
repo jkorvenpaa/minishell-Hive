@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/15 12:09:14 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:12:14 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ static void	child_pipe_handler(t_command *c, int pipe_fd, int fd[2], t_shell *s)
 	}
 	if (!c->argv && (c->infile || c->outfile))
 		handle_redirection_only(s, c);
+	execute_child_command(c, s);
 }
 
 // pipes if next command
@@ -91,10 +92,7 @@ static int	command_loop(t_command *command, t_shell *shell)
 		pipe(fd);
 	pid = fork();
 	if (pid == 0)
-	{
 		child_pipe_handler(command, pipe_fd, fd, shell);
-		execute_child_command(command, shell);
-	}
 	else
 	{
 		if (pipe_fd != -1)
