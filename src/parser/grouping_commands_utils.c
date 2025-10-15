@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   grouping_commands_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:49:33 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/03 10:40:15 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:15:47 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ t_command	*create_command_node(t_mem_arena *arena)
 	node->append = 0;
 	node->heredoc = NULL;
 	node->heredoc_quoted = 0;
+	node->heredoc_error = 0;
 	node->position = MIDDLE;
 	node->next = NULL;
 	return (node);

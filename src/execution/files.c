@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   files.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 11:13:46 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/10 11:13:51 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:52:56 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,11 @@ static int	handle_infile(t_command *command)
 	fd = open(command->infile, O_RDONLY);
 	if (fd < 0)
 	{
-		perror("infile open failed");
+		if (command->heredoc_error == 1)
+		{
+			return (2);
+		}
+		perror("minishell");
 		return (2);
 	}
 	dup2(fd, STDIN_FILENO);

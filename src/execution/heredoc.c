@@ -6,7 +6,7 @@
 /*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 11:14:04 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/14 16:20:15 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/15 12:05:44 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ static int	store_to_file(t_shell *shell, t_command *cmd, int fd)
 	{
 		line = readline("> ");
 		if (!line)
-			ft_putstr_fd("warning: here-document delimited by end-of-file\n", 1);
+			ft_putstr_fd("warning: "
+				"here-document delimited by end-of-file\n", 1);
 		if (!line || g_sig == SIGINT)
 		{
 			free(line);
@@ -45,8 +46,7 @@ static int	store_to_file(t_shell *shell, t_command *cmd, int fd)
 static int	open_file(t_shell *shell, t_command *command, char *file)
 {
 	int	fd;
-
-	int error;
+	int	error;
 
 	heredoc_signals();
 	fd = open(file, O_WRONLY | O_APPEND | O_CREAT | O_TRUNC, 0644);
@@ -83,13 +83,24 @@ static char	*file_name(t_shell *shell)
 	return (NULL);
 }
 
+int	check_sigint(t_shell *shell, t_command *command)
+{
+	if (g_sig == SIGINT)
+	{
+		unlink_infile(command);
+		shell->exit_status = 130;
+		return (1);
+	}
+	return (0);
+}
+
 //main heredoc loop:
 //if commands include heredocs, creates a tempfile to store input
 int	handle_heredoc(t_shell *shell, t_command *command)
 {
 	char	*file;
-	int err;
-	
+	int		err;
+
 	while (command)
 	{
 		if (command->heredoc)
@@ -99,14 +110,15 @@ int	handle_heredoc(t_shell *shell, t_command *command)
 				return (1);
 			err = open_file(shell, command, file);
 			if (err != 0)
-				unlink_infile(command);
-			if (g_sig == SIGINT)
 			{
+				command->heredoc_error = 1;
 				unlink_infile(command);
-				shell->exit_status = 130;
-				return (1);
 			}
+			if (check_sigint(shell, command) == 1)
+				return (1);
 		}
+		else
+			err = 0;
 		command = command->next;
 	}
 	init_signals();

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/10 11:07:03 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/15 11:56:44 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	init_signals(void);
 void	heredoc_signals(void);
 void	child_signals(void);
 void	ignore_signals(void);
-void	hd_exit_signals(void);
+void	signal_exit(t_shell *shell);
 
 // Execution_utils
 void	command_exit_status(t_shell *shell, pid_t last_pid);
