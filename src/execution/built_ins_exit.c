@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   built_ins_exit.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 11:11:35 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/16 10:53:58 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/16 10:59:45 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ static int	exit_arguments(t_command *command)
 	int			overflow;
 	long long	num;
 
+	num = 0;
+	overflow = 0;
 	if (exit_isdigit(command->argv[1]) == 1)
 	{
 		if (ft_strncmp(command->argv[1], "-9223372036854775808", 21) == 0)
