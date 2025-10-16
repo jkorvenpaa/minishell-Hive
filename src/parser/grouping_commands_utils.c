@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   grouping_commands_utils.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
+/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/14 15:49:33 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/15 11:15:47 by jkorvenp         ###   ########.fr       */
+/*   Updated: 2025/10/16 11:20:46 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 

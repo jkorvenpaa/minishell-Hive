@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+         #
+#    By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2025/08/06 09:24:38 by nmascaro          #+#    #+#              #
-#    Updated: 2025/10/15 12:06:20 by jkorvenp         ###   ########.fr        #
+#    Updated: 2025/10/16 11:21:14 by nmascaro         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
