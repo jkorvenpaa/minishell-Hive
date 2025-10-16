@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 11:12:54 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/16 11:19:54 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/16 15:25:41 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	command_error(t_shell *shell, char *command_name)
 //sets exit codes if execve fails
 //ENOEXEC the file exists but can't be executed
 //ENOENT the file doesn't exist
-void	execve_error(char *command_name)
+void	execve_error(char *command_name, t_shell *shell)
 {
 	int	len;
 
@@ -35,9 +35,11 @@ void	execve_error(char *command_name)
 	{
 		ft_putstr_fd(command_name, 2);
 		ft_putendl_fd(": is a directory", 2);
+		clean_child(shell);
 		exit(126);
 	}
 	perror(command_name);
+	clean_child(shell);
 	if (errno == EACCES || errno == ENOEXEC)
 		exit(126);
 	if (errno == ENOENT)

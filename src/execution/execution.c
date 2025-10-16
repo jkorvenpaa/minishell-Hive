@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:56:42 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/15 12:12:14 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/16 15:21:29 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	execute_child_command(t_command *command, t_shell *shell)
 	close(shell->fd_in);
 	env_array = env_to_array(shell);
 	execve(path, command->argv, env_array);
-	execve_error(command->argv[0]);
+	execve_error(command->argv[0], shell);
 }
 
 // sets child signals 

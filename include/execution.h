@@ -6,7 +6,7 @@
 /*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/19 11:18:06 by jkorvenp          #+#    #+#             */
-/*   Updated: 2025/10/15 12:08:50 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/16 15:20:53 by nmascaro         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ void	signal_exit(t_shell *shell);
 
 // Execution_utils
 void	command_exit_status(t_shell *shell, pid_t last_pid);
-void	execve_error(char *command_name);
+void	execve_error(char *command_name, t_shell *shell);
 void	command_error(t_shell *shell, char *command_name);
 int		cmd_count(t_command *command);
 void	wait_kids(t_shell *shell, int *pids, int count, t_command *command);
