@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_utils.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: nmascaro <nmascaro@student.hive.fi>        +#+  +:+       +#+        */
+/*   By: jkorvenp <jkorvenp@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/10/10 11:12:54 by nmascaro          #+#    #+#             */
-/*   Updated: 2025/10/16 15:25:41 by nmascaro         ###   ########.fr       */
+/*   Updated: 2025/10/20 15:22:36 by jkorvenp         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,12 +86,15 @@ void	wait_kids(t_shell *shell, int *pids, int count, t_command *command)
 	int	last_pid;
 	int	i;
 
-	last_pid = pids[count - 1];
-	i = 0;
-	while (i < count)
+	if (count > 0)
 	{
-		command_exit_status(shell, last_pid);
-		i++;
+		last_pid = pids[count - 1];
+		i = 0;
+		while (i < count)
+		{
+			command_exit_status(shell, last_pid);
+			i++;
+		}
 	}
 	unlink_infile(command);
 }
